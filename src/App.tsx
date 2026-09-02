@@ -22,6 +22,7 @@ import {
 import profileImg from './assets/profile1.jpg';
 import stiLogo from './assets/sti-logo.png';
 import lagroLogo from './assets/lagro-logo.png';
+import centriveLogo from './assets/centrive-logo.png';
 
 // Project Screenshots
 import projEscholar from './assets/projects/escholar.png';
@@ -271,6 +272,11 @@ interface EducationItem {
   details: string;
   skills: string[];
   logo: string;
+  ojt?: {
+    company: string;
+    description: string;
+    logo: string;
+  };
 }
 
 export default function App() {
@@ -362,9 +368,14 @@ export default function App() {
       institution: 'Lagro High School',
       period: '2017 – 2023',
       honors: 'Graduated with High Honors',
-      details: 'Studied Junior High School (2017–2021) and completed Senior High School TVL-ICT track with High Honors (2021–2023). Author & Lead Developer of the automated "Classroom Attendance System with QR Code Recognition" presented in the TVL-ICT Research Congress 2023.',
-      skills: ['Junior & Senior High', 'Java Fundamentals', 'Algorithms', 'Research & Development', 'High Honors'],
-      logo: lagroLogo
+      details: 'Studied Junior High School (2017–2021) and completed Senior High School TVL-ICT track with High Honors (2021–2023). Completed On-the-Job Training (OJT) / Work Immersion at Centrive Technology. Author & Lead Developer of the automated "Classroom Attendance System with QR Code Recognition" presented in the TVL-ICT Research Congress 2023.',
+      skills: ['Centrive Tech OJT', 'Junior & Senior High', 'Java Fundamentals', 'Algorithms', 'Research & Development', 'High Honors'],
+      logo: lagroLogo,
+      ojt: {
+        company: 'Centrive Technology',
+        description: 'Completed Work Immersion / On-the-Job Training (OJT) practicum in practical coding and software workflows.',
+        logo: centriveLogo
+      }
     }
   ];
 
@@ -1161,6 +1172,32 @@ export default function App() {
                 <p className={`text-xs sm:text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                   {item.details}
                 </p>
+
+                {/* Industry Work Immersion / OJT Showcase */}
+                {item.ojt && (
+                  <div className={`mb-4 p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                    isDark ? 'bg-slate-950/60 border-slate-800/80' : 'bg-slate-50 border-slate-200 shadow-sm'
+                  }`}>
+                    <div className="flex items-center gap-3">
+                      <div className="h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                        <img src={item.ojt.logo} alt={item.ojt.company} className="h-6 w-auto object-contain" />
+                      </div>
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                            {item.ojt.company}
+                          </span>
+                          <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+                            Industry OJT
+                          </span>
+                        </div>
+                        <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                          {item.ojt.description}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <div className="flex flex-wrap gap-1.5">
                   {item.skills.map(s => (
