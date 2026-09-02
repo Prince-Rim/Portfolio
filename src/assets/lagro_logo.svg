@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <circle cx="50" cy="50" r="48" fill="#14532D" stroke="#CA8A04" stroke-width="3"/>
+  <circle cx="50" cy="50" r="38" fill="#166534" stroke="#FACC15" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <path d="M50 22 L72 34 L50 46 L28 34 Z" fill="#FACC15"/>
+  <polygon points="50,46 50,56 68,46 68,36" fill="#EAB308" opacity="0.8"/>
+  <circle cx="50" cy="64" r="10" fill="#DC2626" stroke="#FEF08A" stroke-width="1.5"/>
+  <path d="M50 56 Q54 62 50 70 Q46 62 50 56" fill="#FEF08A"/>
+  <text x="50" y="86" font-family="Arial, sans-serif" font-size="7.5" font-weight="bold" fill="#FEF08A" text-anchor="middle" letter-spacing="1">LAGRO HS 1978</text>
+</svg>
