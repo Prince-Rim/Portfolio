@@ -352,7 +352,7 @@ export default function App() {
     'Machine Learning & AI',
     'Database Management',
     'Enterprise ERP (SAP)',
-    'Information Technology'
+    'Cybersecurity'
   ];
 
   const education: EducationItem[] = [
