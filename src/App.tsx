@@ -42,6 +42,8 @@ import certNstp from './assets/certificates/cert1.jpg';
 import certResearch from './assets/certificates/cert9.png';
 import certRescue from './assets/certificates/cert10.png';
 import certPython from './assets/certificates/cert8.jpg';
+import certCanva from './assets/certificates/cert7.jpg';
+import certEgov from './assets/certificates/certegov.png';
 
 // Official Pixel-Perfect Brand SVG Icon Imports
 import jsIcon from './assets/icons/javascript.svg';
@@ -449,6 +451,14 @@ export default function App() {
 
   const certificates: Certificate[] = [
     {
+      title: 'eGov PH Hackathon 2026 Participation & Finalist Recognition',
+      issuer: 'Department of Information and Communications Technology (DICT)',
+      date: '2026',
+      image: certEgov,
+      description: 'Official Certificate of Recognition for developing eScholar — an AI-Powered Student Scholarship Finder and GovTech application portal presented at the nationwide eGov PH Hackathon 2026.',
+      category: 'Hackathon'
+    },
+    {
       title: 'Single Day Masterclass with Python',
       issuer: 'Athena Global Education / UniAthena',
       date: 'November 3, 2023',
@@ -495,6 +505,14 @@ export default function App() {
       image: certResearch,
       description: 'Author & Lead Developer of the automated QR Code Attendance System under the TVL-ICT Research Congress.',
       category: 'Academic'
+    },
+    {
+      title: 'Canva Graphic Design & Visual Communication Masterclass',
+      issuer: 'Canva & Tech Community',
+      date: '2023',
+      image: certCanva,
+      description: 'Digital visual design, presentation development, UI asset creation, and brand storytelling techniques.',
+      category: 'Design'
     },
     {
       title: 'Disaster Emergency Management & CPR Practicum Training',
