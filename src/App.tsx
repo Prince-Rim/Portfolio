@@ -768,13 +768,15 @@ export default function App() {
               </a>
 
               <a 
-                href="#contact" 
+                href="/resume.html" 
+                target="_blank"
+                rel="noopener noreferrer"
                 className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border font-semibold text-xs transition-all hover:scale-[1.02] backdrop-blur-sm ${
                   isDark ? 'bg-slate-900/40 border-slate-800 text-indigo-400 hover:border-indigo-500/40 hover:text-indigo-300' : 'bg-white border-slate-200 text-indigo-600 hover:border-indigo-300 shadow-sm'
                 }`}
               >
                 <Download className="w-3.5 h-3.5" />
-                Request CV
+                Download Resume
               </a>
             </div>
 
@@ -1423,6 +1425,7 @@ export default function App() {
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
           <p>© {new Date().getFullYear()} Justin Allen Azucena</p>
           <div className="flex items-center gap-4">
+            <a href="/resume.html" target="_blank" rel="noreferrer" className="hover:text-indigo-400">Resume</a>
             <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-indigo-400">GitHub</a>
             <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="hover:text-indigo-400">LinkedIn</a>
             <span className="cursor-pointer hover:text-indigo-400" onClick={copyDiscord}>Discord (spieler02.)</span>
