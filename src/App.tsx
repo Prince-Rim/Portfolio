@@ -396,7 +396,7 @@ export default function App() {
       title: 'LeKatsuMNL',
       category: 'Enterprise / AI',
       badge: 'Hybrid SSA-LSTM AI',
-      description: 'Enterprise sales and inventory management web application for restaurant operations utilizing a hybrid Sparrow Search Algorithm + Long Short-Term Memory neural network for predictive food demand forecasting.',
+      description: 'Enterprise sales and inventory management web application for restaurant operations utilizing a hybrid Single-Spectrum Analysis + Long Short-Term Memory neural network for predictive food demand forecasting.',
       tags: ['ASP.NET Core', 'C#', 'Razor Pages', 'LSTM AI', 'SQL Server'],
       image: projLekatsu,
       githubUrl: 'https://github.com/Prince-Rim/LeKatsuMNL',
