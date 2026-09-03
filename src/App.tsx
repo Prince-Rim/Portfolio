@@ -811,7 +811,7 @@ export default function App() {
                 I am a 4th-year <strong>Information Technology</strong> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a foundation built on computer systems, software architecture, and practical algorithm engineering.
               </p>
               <p>
-                My focus centers on developing <strong>AI-integrated full-stack web platforms</strong>, <strong>enterprise .NET backend solutions</strong>, and <strong>desktop database applications</strong>. Recognized as a <strong>Top 30 Finalist</strong> in the nationwide <strong>eGov PH Hackathon 2026</strong> for developing <em>eScholar</em>.
+                My focus centers on developing <strong>AI-integrated full-stack web platforms</strong>, <strong>enterprise .NET backend solutions</strong>, and <strong>desktop database applications</strong>. Recognized as a <strong>Top 30 Finalist</strong> in the nationwide <strong>eGov PH Hackathon 2026</strong> across 150 teams for developing <em>eScholar</em>.
               </p>
               <p>
                 Studied Junior High School and completed Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <strong>High Honors</strong>, where I pioneered and researched the automated QR Code Attendance Management System for the TVL-ICT research congress.
