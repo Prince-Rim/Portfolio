@@ -57,11 +57,11 @@
   animation: twinkle 6.5s ease-in-out infinite 2.5s;
 }
 
-/* Smooth Scroll Reveal Transitions */
+/* Smooth Natural Scroll Reveal Transitions */
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(28px);
-  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(24px);
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform;
 }
 
@@ -131,21 +131,5 @@
   animation: gentleFloat 4s ease-in-out infinite;
 }
 
-/* 3D Perspective & Staggered Scroll Card Reveals */
-.perspective-1000 {
-  perspective: 1000px;
-}
-
-.scroll-card-reveal {
-  opacity: 0;
-  transform: translateY(32px) scale(0.98);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
-}
-
-.is-visible .scroll-card-reveal {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
 
 

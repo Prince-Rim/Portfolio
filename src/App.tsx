@@ -507,115 +507,29 @@ interface Project {
   highlight?: boolean;
 }
 
-// Interactive 3D Perspective Card with Active Scroll-Driven Reveal & Cursor Spotlight
-function ProjectCard3D({ 
+// Clean Modern Project Card with macOS Browser Shell and Smooth Hover Micro-Interactions
+function ProjectCard({ 
   proj, 
-  idx, 
   isDark 
 }: { 
   proj: Project; 
-  idx: number; 
   isDark: boolean; 
 }) {
-  const cardRef = React.useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const [rotate, setRotate] = useState({ x: 0, y: 0 });
-  const [spotlight, setSpotlight] = useState({ x: 0, y: 0, opacity: 0 });
-
-  // Individual scroll observer for this card (triggers dynamically every time scrolling up & down!)
-  useEffect(() => {
-    const el = cardRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setIsVisible(entry.isIntersecting);
-      },
-      { 
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px' 
-      }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    // Smooth 3D tilt calculation (-7deg to 7deg)
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -7;
-    const rotateY = ((x - centerX) / centerX) * 7;
-
-    setRotate({ x: rotateX, y: rotateY });
-    setSpotlight({ x, y, opacity: 1 });
-  };
-
-  const handleMouseLeave = () => {
-    setRotate({ x: 0, y: 0 });
-    setSpotlight((prev) => ({ ...prev, opacity: 0 }));
-  };
-
-  // Staggered delay based on card position in row
-  const staggerDelay = (idx % 3) * 120;
-
   return (
     <div
-      ref={cardRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{
-        transform: isVisible 
-          ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) translateY(0px) scale(1)` 
-          : 'perspective(1000px) rotateX(14deg) rotateY(0deg) translateY(60px) scale(0.92)',
-        opacity: isVisible ? 1 : 0,
-        filter: isVisible ? 'blur(0px)' : 'blur(6px)',
-        transition: rotate.x !== 0 || rotate.y !== 0
-          ? 'transform 0.1s ease-out, filter 0.6s ease-out, opacity 0.6s ease-out'
-          : `transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}ms, opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}ms, filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}ms, box-shadow 0.3s ease`,
-        willChange: 'transform, opacity, filter'
-      }}
-      className={`rounded-3xl border p-5 sm:p-6 flex flex-col justify-between group relative overflow-hidden shadow-xl hover:shadow-2xl transition-colors duration-300 ${
+      className={`rounded-3xl border p-5 sm:p-6 flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
         proj.highlight
           ? isDark
-            ? 'bg-gradient-to-b from-[#111936] to-[#0a0f1d] border-indigo-500/50 shadow-indigo-950/40'
-            : 'bg-white border-indigo-300 shadow-indigo-100/80'
+            ? 'bg-gradient-to-b from-[#111936] to-[#0a0f1d] border-indigo-500/50 shadow-xl shadow-indigo-950/40 hover:border-indigo-400 hover:shadow-indigo-900/30'
+            : 'bg-white border-indigo-300 shadow-xl shadow-indigo-100 hover:border-indigo-400 hover:shadow-indigo-200'
           : isDark
-            ? 'bg-[#0a0f1d]/95 border-slate-800/90 hover:border-indigo-500/40 shadow-slate-950/50'
-            : 'bg-white border-slate-200 hover:border-indigo-300 shadow-sm'
+            ? 'bg-[#0a0f1d]/95 border-slate-800/90 hover:border-indigo-500/50 hover:shadow-indigo-950/30'
+            : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-indigo-100 shadow-sm'
       }`}
     >
-
-      {/* Interactive Cursor Spotlight Radial Glow */}
-      <div
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
-        style={{
-          opacity: spotlight.opacity,
-          background: `radial-gradient(420px circle at ${spotlight.x}px ${spotlight.y}px, ${
-            isDark ? 'rgba(99, 102, 241, 0.18)' : 'rgba(99, 102, 241, 0.1)'
-          }, transparent 60%)`
-        }}
-      />
-
-      {/* Border Spotlight Shine */}
-      <div
-        className="pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-300"
-        style={{
-          opacity: spotlight.opacity,
-          background: `radial-gradient(280px circle at ${spotlight.x}px ${spotlight.y}px, rgba(168, 85, 247, 0.4), transparent 70%)`
-        }}
-      />
-
-      <div className="relative z-10">
+      <div>
         {/* macOS Browser Mockup Top Bar & Screenshot Frame */}
         <div className="relative aspect-[16/10] w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800/90 mb-4 group/img shadow-md">
-          
           {/* macOS Window Controls Header */}
           <div className="absolute top-0 inset-x-0 h-6 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-2.5 flex items-center justify-between z-20">
             <div className="flex items-center gap-1.5">
@@ -623,7 +537,7 @@ function ProjectCard3D({
               <span className="w-2 h-2 rounded-full bg-yellow-500/80" />
               <span className="w-2 h-2 rounded-full bg-emerald-500/80" />
             </div>
-            <span className="text-[9px] font-mono text-slate-500 truncate max-w-[130px]">
+            <span className="text-[9px] font-mono text-slate-400 truncate max-w-[130px]">
               {proj.title.toLowerCase().replace(/\s+/g, '')}.app
             </span>
             <div className="w-6" />
@@ -632,9 +546,9 @@ function ProjectCard3D({
           <img 
             src={proj.image} 
             alt={proj.title} 
-            className="w-full h-full object-cover object-top pt-6 group-hover/img:scale-105 transition-transform duration-700 ease-out" 
+            className="w-full h-full object-cover object-top pt-6 group-hover/img:scale-105 transition-transform duration-500 ease-out" 
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d]/80 via-transparent to-transparent opacity-60 group-hover/img:opacity-30 transition-opacity" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d]/80 via-transparent to-transparent opacity-60 group-hover/img:opacity-20 transition-opacity" />
           
           {/* Top-Right Badge */}
           <span className="absolute top-8 right-2.5 px-2.5 py-0.5 rounded-md text-[9px] font-mono font-bold bg-slate-950/90 border border-indigo-500/40 text-indigo-300 backdrop-blur-md shadow-lg z-20">
@@ -659,7 +573,7 @@ function ProjectCard3D({
         </p>
       </div>
 
-      <div className="relative z-10">
+      <div>
         <div className="flex flex-wrap gap-1.5 mb-4">
           {proj.tags.map(t => (
             <span key={t} className={`text-[10px] px-2.5 py-0.5 rounded-md font-mono border transition-colors ${
@@ -704,6 +618,7 @@ function ProjectCard3D({
 
 
 interface Certificate {
+
   title: string;
   issuer: string;
   date: string;
@@ -1773,16 +1688,16 @@ export default function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 perspective-1000">
-            {filteredProjects.map((proj, idx) => (
-              <ProjectCard3D 
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {filteredProjects.map((proj) => (
+              <ProjectCard 
                 key={proj.title} 
                 proj={proj} 
-                idx={idx} 
                 isDark={isDark} 
               />
             ))}
           </div>
+
 
 
         </div>
@@ -1894,86 +1809,95 @@ export default function App() {
             </h2>
           </div>
 
-          <div className="space-y-6">
+          {/* Connected Education Timeline */}
+          <div className="relative pl-5 sm:pl-8 border-l-2 border-indigo-500/30 space-y-8 my-6">
             {education.map((item, idx) => (
-              <div 
-                key={idx}
-                className={`p-6 sm:p-8 rounded-3xl border transition-all hover:scale-[1.01] ${
-                  isDark ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-slate-700' : 'bg-white border-slate-200 shadow-sm'
-                }`}
-              >
-                <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
-                  
-                  {/* Clean School Logo Frame */}
-                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shrink-0 border border-slate-700/80 shadow-md bg-white flex items-center justify-center p-2 group-hover:scale-105 transition-transform">
-                    <img 
-                      src={item.logo} 
-                      alt={item.institution} 
-                      className="w-full h-full object-contain" 
-                    />
-                  </div>
-
-                  {/* Degree and Institution Details */}
-                  <div className="flex-1">
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1.5">
-                      <h3 className="text-lg font-bold text-indigo-400 leading-snug">
-                        {item.degree}
-                      </h3>
-                      <span className="text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 w-fit">
-                        {item.period}
-                      </span>
-                    </div>
-
-                    <div className="flex flex-wrap items-center gap-2 text-sm font-semibold mb-3 text-slate-300">
-                      <Building2 className="w-4 h-4 text-purple-400 shrink-0" />
-                      <span>{item.institution}</span>
-                      {item.honors && (
-                        <span className="text-xs font-bold text-amber-300 bg-amber-950/60 border border-amber-500/40 px-2.5 py-0.5 rounded-full">
-                          🏅 {item.honors}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+              <div key={idx} className="relative group">
+                {/* Glowing Timeline Node */}
+                <div className="absolute -left-[27px] sm:-left-[39px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-2 border-slate-950 shadow-md shadow-indigo-500/50 flex items-center justify-center group-hover:scale-125 group-hover:bg-indigo-400 transition-transform duration-300">
+                  <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
                 </div>
 
-                <p className={`text-xs sm:text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                  {item.details}
-                </p>
+                <div 
+                  className={`p-6 sm:p-8 rounded-3xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
+                    isDark 
+                      ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-indigo-500/40 hover:shadow-indigo-950/30' 
+                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-indigo-100 shadow-sm'
+                  }`}
+                >
+                  <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
+                    
+                    {/* Clean School Logo Frame */}
+                    <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shrink-0 border border-slate-700/80 shadow-md bg-white flex items-center justify-center p-2 group-hover:scale-105 transition-transform duration-300">
+                      <img 
+                        src={item.logo} 
+                        alt={item.institution} 
+                        className="w-full h-full object-contain" 
+                      />
+                    </div>
 
-                {/* Industry Work Immersion / OJT Showcase */}
-                {item.ojt && (
-                  <div className={`mb-4 p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                    isDark ? 'bg-slate-950/60 border-slate-800/80' : 'bg-slate-50 border-slate-200 shadow-sm'
-                  }`}>
-                    <div className="flex items-center gap-3">
-                      <div className="h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
-                        <img src={item.ojt.logo} alt={item.ojt.company} className="h-6 w-auto object-contain" />
+                    {/* Degree and Institution Details */}
+                    <div className="flex-1">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1.5">
+                        <h3 className="text-lg font-bold text-indigo-400 leading-snug group-hover:text-indigo-300 transition-colors">
+                          {item.degree}
+                        </h3>
+                        <span className="text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 w-fit">
+                          {item.period}
+                        </span>
                       </div>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
-                            {item.ojt.company}
+
+                      <div className="flex flex-wrap items-center gap-2 text-sm font-semibold mb-3 text-slate-300">
+                        <Building2 className="w-4 h-4 text-purple-400 shrink-0" />
+                        <span>{item.institution}</span>
+                        {item.honors && (
+                          <span className="text-xs font-bold text-amber-300 bg-amber-950/70 border border-amber-500/50 px-2.5 py-0.5 rounded-full shadow-sm shadow-amber-500/20">
+                            🏅 {item.honors}
                           </span>
-                          <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
-                            Industry OJT
-                          </span>
-                        </div>
-                        <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-                          {item.ojt.description}
-                        </p>
+                        )}
                       </div>
                     </div>
                   </div>
-                )}
 
-                <div className="flex flex-wrap gap-1.5">
-                  {item.skills.map(s => (
-                    <span key={s} className={`text-xs px-2.5 py-0.5 rounded-md font-mono border ${
-                      isDark ? 'bg-slate-950 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-700 border-slate-200'
+                  <p className={`text-xs sm:text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                    {item.details}
+                  </p>
+
+                  {/* Industry Work Immersion / OJT Showcase */}
+                  {item.ojt && (
+                    <div className={`mb-4 p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all duration-300 hover:border-indigo-500/40 ${
+                      isDark ? 'bg-slate-950/60 border-slate-800/80' : 'bg-slate-50 border-slate-200 shadow-sm'
                     }`}>
-                      {s}
-                    </span>
-                  ))}
+                      <div className="flex items-center gap-3">
+                        <div className="h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                          <img src={item.ojt.logo} alt={item.ojt.company} className="h-6 w-auto object-contain" />
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2">
+                            <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
+                              {item.ojt.company}
+                            </span>
+                            <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-indigo-500/10 text-indigo-400 border border-indigo-500/30">
+                              Industry OJT
+                            </span>
+                          </div>
+                          <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                            {item.ojt.description}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {item.skills.map(s => (
+                      <span key={s} className={`text-xs px-2.5 py-0.5 rounded-md font-mono border transition-colors ${
+                        isDark ? 'bg-slate-950 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-700 border-slate-200'
+                      }`}>
+                        {s}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
             ))}
@@ -2005,18 +1929,18 @@ export default function App() {
               <div
                 key={index}
                 onClick={() => setSelectedCert(cert)}
-                className={`group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-300 hover:scale-[1.03] hover:shadow-2xl flex flex-col justify-between ${
-                  isDark ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-purple-500/50' : 'bg-white border-slate-200 hover:border-purple-300 shadow-sm'
+                className={`group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col justify-between ${
+                  isDark ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-purple-500/50 hover:shadow-purple-950/30' : 'bg-white border-slate-200 hover:border-purple-300 hover:shadow-purple-100 shadow-sm'
                 }`}
               >
                 <div className="relative aspect-[16/11] bg-slate-900 overflow-hidden">
                   <img
                     src={cert.image}
                     alt={cert.title}
-                    className="w-full h-full object-cover object-center group-hover:scale-108 transition-transform duration-500"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-20 transition-opacity" />
-                  <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-900/90 border border-slate-700 text-purple-300 backdrop-blur-sm">
+                  <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-900/90 border border-slate-700 text-purple-300 backdrop-blur-sm shadow-md">
                     {cert.category}
                   </span>
                 </div>
@@ -2036,7 +1960,7 @@ export default function App() {
                     isDark ? 'border-slate-800 text-slate-500' : 'border-slate-100 text-slate-400'
                   }`}>
                     <span>{cert.date}</span>
-                    <span className="text-purple-400 font-bold inline-flex items-center gap-0.5">
+                    <span className="text-purple-400 font-bold inline-flex items-center gap-0.5 group-hover:translate-x-1 transition-transform duration-300">
                       Inspect
                       <ChevronRight className="w-3.5 h-3.5" />
                     </span>
@@ -2045,6 +1969,7 @@ export default function App() {
               </div>
             ))}
           </div>
+
         </div>
       </section>
 
