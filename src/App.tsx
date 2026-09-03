@@ -20,15 +20,9 @@ import {
   LayoutGrid,
   ArrowRight,
   SlidersHorizontal,
-  Layers,
-  Search,
-  Code2,
-  Cpu,
-  Database,
-  Palette,
-  Terminal,
-  Server
+  Search
 } from 'lucide-react';
+
 
 import profileImg from './assets/profile1.jpg';
 import stiLogo from './assets/sti-logo.png';
