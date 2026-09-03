@@ -1810,12 +1810,17 @@ export default function App() {
           </div>
 
           {/* Connected Education Timeline */}
-          <div className="relative pl-5 sm:pl-8 border-l-2 border-indigo-500/30 space-y-8 my-6">
+          <div className="relative pl-6 sm:pl-10 border-l-2 border-indigo-500/30 space-y-10 my-8">
             {education.map((item, idx) => (
               <div key={idx} className="relative group">
-                {/* Glowing Timeline Node */}
-                <div className="absolute -left-[27px] sm:-left-[39px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-2 border-slate-950 shadow-md shadow-indigo-500/50 flex items-center justify-center group-hover:scale-125 group-hover:bg-indigo-400 transition-transform duration-300">
-                  <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                {/* Timeline Milestone Year Node */}
+                <div className="flex items-center gap-2.5 mb-3 -ml-6 sm:-ml-10">
+                  <div className="w-5 h-5 rounded-full bg-indigo-600 border-4 border-slate-950 shadow-md shadow-indigo-500/60 flex items-center justify-center shrink-0 group-hover:scale-125 group-hover:bg-indigo-400 transition-transform duration-300">
+                    <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                  </div>
+                  <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-500/15 border border-indigo-500/40 text-indigo-300 backdrop-blur-md shadow-sm group-hover:border-indigo-400 group-hover:bg-indigo-500/25 transition-all">
+                    {item.period}
+                  </span>
                 </div>
 
                 <div 
@@ -1842,10 +1847,8 @@ export default function App() {
                         <h3 className="text-lg font-bold text-indigo-400 leading-snug group-hover:text-indigo-300 transition-colors">
                           {item.degree}
                         </h3>
-                        <span className="text-xs font-mono px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 w-fit">
-                          {item.period}
-                        </span>
                       </div>
+
 
                       <div className="flex flex-wrap items-center gap-2 text-sm font-semibold mb-3 text-slate-300">
                         <Building2 className="w-4 h-4 text-purple-400 shrink-0" />
