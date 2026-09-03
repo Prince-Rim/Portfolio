@@ -69,3 +69,65 @@
   opacity: 1;
   transform: translateY(0);
 }
+
+/* Floating Tech Stack Marquee Animations */
+@keyframes marqueeLeft {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marqueeRight {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
+
+@keyframes gentleFloat {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.animate-marquee-left {
+  display: flex;
+  width: max-content;
+  animation: marqueeLeft 38s linear infinite;
+}
+
+.animate-marquee-right {
+  display: flex;
+  width: max-content;
+  animation: marqueeRight 38s linear infinite;
+}
+
+.animate-marquee-left-fast {
+  display: flex;
+  width: max-content;
+  animation: marqueeLeft 30s linear infinite;
+}
+
+.animate-marquee-right-fast {
+  display: flex;
+  width: max-content;
+  animation: marqueeRight 32s linear infinite;
+}
+
+.pause-hover:hover,
+.group:hover .pause-on-group-hover {
+  animation-play-state: paused !important;
+}
+
+.animate-gentle-float {
+  animation: gentleFloat 4s ease-in-out infinite;
+}
+

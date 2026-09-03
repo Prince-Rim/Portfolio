@@ -16,7 +16,18 @@ import {
   ExternalLink,
   GitCommit,
   GitPullRequest,
-  Star
+  Star,
+  LayoutGrid,
+  ArrowRight,
+  SlidersHorizontal,
+  Layers,
+  Search,
+  Code2,
+  Cpu,
+  Database,
+  Palette,
+  Terminal,
+  Server
 } from 'lucide-react';
 
 import profileImg from './assets/profile1.jpg';
@@ -56,12 +67,24 @@ import reactIcon from './assets/icons/react.svg';
 import viteIcon from './assets/icons/vite.svg';
 import tailwindIcon from './assets/icons/tailwindcss.svg';
 import html5Icon from './assets/icons/html5.svg';
+import css3Icon from './assets/icons/css3.svg';
 import dotnetIcon from './assets/icons/dotnet.svg';
 import postgresIcon from './assets/icons/postgresql.svg';
 import mssqlIcon from './assets/icons/mssql.svg';
 import mysqlIcon from './assets/icons/mysql.svg';
 import sapIcon from './assets/icons/sap.svg';
 import gitIcon from './assets/icons/git.svg';
+import githubIcon from './assets/icons/github.svg';
+import figmaIcon from './assets/icons/figma.svg';
+import wordpressIcon from './assets/icons/wordpress.svg';
+import supabaseIcon from './assets/icons/supabase.svg';
+import vscodeIcon from './assets/icons/vscode.svg';
+import microsoftIcon from './assets/icons/microsoft.svg';
+import canvaIcon from './assets/icons/canva.svg';
+import framerIcon from './assets/icons/framer.svg';
+import laravelIcon from './assets/icons/laravel.svg';
+import postmanIcon from './assets/icons/postman.svg';
+
 
 // Social Icon SVGs
 function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
@@ -141,109 +164,280 @@ function StarField({ isDark }: { isDark: boolean }) {
 
 interface TechSkillItem {
   name: string;
-  category: string;
+  category: 'programming' | 'frontend' | 'backend' | 'database' | 'design' | 'microsoft' | 'tools';
   categoryLabel: string;
   iconSrc: string;
+  description?: string;
+  badge?: string;
 }
 
 const skillsData: TechSkillItem[] = [
+  // Programming Languages
   {
     name: 'JavaScript',
     category: 'programming',
     categoryLabel: 'Programming',
-    iconSrc: jsIcon
+    iconSrc: jsIcon,
+    description: 'Modern ES6+, Asynchronous JS, DOM APIs, and dynamic interactive client logic.',
+    badge: 'Core'
   },
   {
     name: 'TypeScript',
     category: 'programming',
     categoryLabel: 'Programming',
-    iconSrc: tsIcon
-  },
-  {
-    name: 'Java (OOP & Swing)',
-    category: 'programming',
-    categoryLabel: 'Programming',
-    iconSrc: javaIcon
-  },
-  {
-    name: 'C# / .NET Core',
-    category: 'programming',
-    categoryLabel: 'Programming',
-    iconSrc: csharpIcon
+    iconSrc: tsIcon,
+    description: 'Type-safe scalable development, Generics, interfaces, and clean design patterns.',
+    badge: 'Core'
   },
   {
     name: 'Python',
     category: 'programming',
     categoryLabel: 'Programming',
-    iconSrc: pythonIcon
+    iconSrc: pythonIcon,
+    description: 'Machine Learning, AI forecasting models, automation scripting, and backend services.',
+    badge: 'AI & Data'
+  },
+  {
+    name: 'C# / .NET',
+    category: 'programming',
+    categoryLabel: 'Programming',
+    iconSrc: csharpIcon,
+    description: 'Enterprise object-oriented engineering, LINQ, async architectures, and desktop GUI.',
+    badge: 'Enterprise'
+  },
+  {
+    name: 'Java (OOP & Swing)',
+    category: 'programming',
+    categoryLabel: 'Programming',
+    iconSrc: javaIcon,
+    description: 'Desktop software development, Java Swing, JDBC, collections, and algorithms.',
+    badge: 'Desktop'
   },
   {
     name: 'PHP',
     category: 'programming',
     categoryLabel: 'Programming',
-    iconSrc: phpIcon
+    iconSrc: phpIcon,
+    description: 'Server-side application logic, dynamic MVC engines, session auth, and APIs.',
+    badge: 'Web'
   },
+  {
+    name: 'HTML5',
+    category: 'frontend',
+    categoryLabel: 'Frontend',
+    iconSrc: html5Icon,
+    description: 'Semantic HTML markup, web accessibility standards, canvas, and audio elements.',
+    badge: 'Standard'
+  },
+  {
+    name: 'CSS3',
+    category: 'frontend',
+    categoryLabel: 'Frontend',
+    iconSrc: css3Icon,
+    description: 'Modern responsive layouts, Flexbox, Grid, keyframes, and sleek transitions.',
+    badge: 'Standard'
+  },
+
+  // Frontend Frameworks & Libraries
   {
     name: 'React 19',
     category: 'frontend',
     categoryLabel: 'Frontend',
-    iconSrc: reactIcon
+    iconSrc: reactIcon,
+    description: 'Modern component-driven UIs, hooks, state management, and optimized render cycles.',
+    badge: 'Preferred'
   },
   {
     name: 'Vite',
     category: 'frontend',
     categoryLabel: 'Frontend',
-    iconSrc: viteIcon
+    iconSrc: viteIcon,
+    description: 'Next-gen build tool with instant Hot Module Replacement (HMR) and rollup optimization.',
+    badge: 'Tooling'
   },
   {
     name: 'Tailwind CSS',
     category: 'frontend',
     categoryLabel: 'Frontend',
-    iconSrc: tailwindIcon
+    iconSrc: tailwindIcon,
+    description: 'Utility-first modern styling, dynamic dark theme systems, and responsive design.',
+    badge: 'Preferred'
   },
   {
-    name: 'HTML5 & CSS3',
+    name: 'Framer',
     category: 'frontend',
-    categoryLabel: 'Frontend',
-    iconSrc: html5Icon
+    categoryLabel: 'UI / Motion',
+    iconSrc: framerIcon,
+    description: 'Interactive motion prototypes, landing pages, and micro-animation orchestration.',
+    badge: 'Motion'
   },
+
+  // Backend & BaaS
   {
     name: 'ASP.NET Core',
     category: 'backend',
     categoryLabel: 'Backend',
-    iconSrc: dotnetIcon
+    iconSrc: dotnetIcon,
+    description: 'High-performance MVC architectures, Razor Pages, RESTful web services, and Identity.',
+    badge: 'Enterprise'
   },
+  {
+    name: 'Laravel',
+    category: 'backend',
+    categoryLabel: 'Backend',
+    iconSrc: laravelIcon,
+    description: 'Elegant PHP framework with Eloquent ORM, Blade templating, routing, and migrations.',
+    badge: 'MVC'
+  },
+  {
+    name: 'Supabase',
+    category: 'backend',
+    categoryLabel: 'BaaS & Cloud',
+    iconSrc: supabaseIcon,
+    description: 'Backend-as-a-Service with Postgres DB, Auth, Storage, Edge Functions & Realtime.',
+    badge: 'Cloud BaaS'
+  },
+
+  // Databases
   {
     name: 'PostgreSQL',
     category: 'database',
     categoryLabel: 'Database',
-    iconSrc: postgresIcon
+    iconSrc: postgresIcon,
+    description: 'Enterprise relational database with JSONB support, indexing, and ACID guarantees.',
+    badge: 'SQL'
   },
   {
     name: 'Microsoft SQL Server',
     category: 'database',
     categoryLabel: 'Database',
-    iconSrc: mssqlIcon
+    iconSrc: mssqlIcon,
+    description: 'T-SQL stored procedures, triggers, views, relational modeling, and SSMS administration.',
+    badge: 'Enterprise'
   },
   {
     name: 'MySQL',
     category: 'database',
     categoryLabel: 'Database',
-    iconSrc: mysqlIcon
+    iconSrc: mysqlIcon,
+    description: 'Relational data management, transactional integrity, and optimized query execution.',
+    badge: 'SQL'
+  },
+
+  // Design & Creative
+  {
+    name: 'Figma',
+    category: 'design',
+    categoryLabel: 'UI/UX Design',
+    iconSrc: figmaIcon,
+    description: 'Component design systems, wireframing, design tokens, and user flow prototyping.',
+    badge: 'Design'
   },
   {
-    name: 'SAP S/4HANA (SD, MM, FI)',
+    name: 'Canva',
+    category: 'design',
+    categoryLabel: 'Visual Design',
+    iconSrc: canvaIcon,
+    description: 'Graphic design assets, brand pitch presentations, social graphics, and visual media.',
+    badge: 'Design'
+  },
+
+  // Microsoft Ecosystem
+  {
+    name: 'VS Code',
+    category: 'microsoft',
+    categoryLabel: 'Microsoft Tool',
+    iconSrc: vscodeIcon,
+    description: 'Primary coding environment with extension toolchains, debuggers, and terminal workflows.',
+    badge: 'IDE'
+  },
+  {
+    name: 'Microsoft 365',
+    category: 'microsoft',
+    categoryLabel: 'Microsoft Tool',
+    iconSrc: microsoftIcon,
+    description: 'Advanced Excel data analysis, technical documentation in Word, and PowerPoint.',
+    badge: 'Office'
+  },
+
+  // Web & CMS
+  {
+    name: 'WordPress',
+    category: 'tools',
+    categoryLabel: 'CMS & Web',
+    iconSrc: wordpressIcon,
+    description: 'Content management, custom template development, plugin setups, and deployment.',
+    badge: 'CMS'
+  },
+
+  // Tools, ERP & DevOps
+  {
+    name: 'SAP S/4HANA',
     category: 'tools',
     categoryLabel: 'Enterprise ERP',
-    iconSrc: sapIcon
+    iconSrc: sapIcon,
+    description: 'Enterprise resource planning across SD, MM, PP, and FI modules using Global Bike.',
+    badge: 'Certified'
   },
   {
     name: 'Git & GitHub',
     category: 'tools',
     categoryLabel: 'Version Control',
-    iconSrc: gitIcon
+    iconSrc: gitIcon,
+    description: 'Distributed version control, collaborative PR reviews, branching workflows, and CI/CD.',
+    badge: 'DevOps'
+  },
+  {
+    name: 'Postman',
+    category: 'tools',
+    categoryLabel: 'API Testing',
+    iconSrc: postmanIcon,
+    description: 'RESTful API endpoint validation, automated test collections, and JSON payload inspection.',
+    badge: 'Testing'
   }
 ];
+
+// 3 Curated Floating Marquee Rows matching reference mockup
+const floatingRow1: TechSkillItem[] = [
+  { name: 'Vite', iconSrc: viteIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'React 19', iconSrc: reactIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'HTML5', iconSrc: html5Icon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'CSS3', iconSrc: css3Icon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'JavaScript', iconSrc: jsIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'TypeScript', iconSrc: tsIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Tailwind CSS', iconSrc: tailwindIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'Figma', iconSrc: figmaIcon, category: 'design', categoryLabel: 'Design' },
+  { name: 'Supabase', iconSrc: supabaseIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Framer', iconSrc: framerIcon, category: 'frontend', categoryLabel: 'Design' }
+];
+
+const floatingRow2: TechSkillItem[] = [
+  { name: 'MySQL', iconSrc: mysqlIcon, category: 'database', categoryLabel: 'Database' },
+  { name: 'PostgreSQL', iconSrc: postgresIcon, category: 'database', categoryLabel: 'Database' },
+  { name: 'Supabase', iconSrc: supabaseIcon, category: 'backend', categoryLabel: 'BaaS & Cloud' },
+  { name: 'PHP', iconSrc: phpIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Laravel', iconSrc: laravelIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Python', iconSrc: pythonIcon, category: 'programming', categoryLabel: 'AI & Data' },
+  { name: 'C# / .NET', iconSrc: csharpIcon, category: 'programming', categoryLabel: 'Enterprise' },
+  { name: 'ASP.NET Core', iconSrc: dotnetIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Java', iconSrc: javaIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Microsoft SQL', iconSrc: mssqlIcon, category: 'database', categoryLabel: 'Database' },
+  { name: 'Postman', iconSrc: postmanIcon, category: 'tools', categoryLabel: 'API Tool' }
+];
+
+const floatingRow3: TechSkillItem[] = [
+  { name: 'Figma', iconSrc: figmaIcon, category: 'design', categoryLabel: 'UI/UX Design' },
+  { name: 'Canva', iconSrc: canvaIcon, category: 'design', categoryLabel: 'Visual Design' },
+  { name: 'Git', iconSrc: gitIcon, category: 'tools', categoryLabel: 'Version Control' },
+  { name: 'GitHub', iconSrc: githubIcon, category: 'tools', categoryLabel: 'DevOps & Git' },
+  { name: 'WordPress', iconSrc: wordpressIcon, category: 'tools', categoryLabel: 'CMS & Web' },
+  { name: 'Microsoft 365', iconSrc: microsoftIcon, category: 'microsoft', categoryLabel: 'Productivity' },
+  { name: 'VS Code', iconSrc: vscodeIcon, category: 'microsoft', categoryLabel: 'IDE Editor' },
+  { name: 'SAP S/4HANA', iconSrc: sapIcon, category: 'tools', categoryLabel: 'Enterprise ERP' },
+  { name: 'Tailwind CSS', iconSrc: tailwindIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'React 19', iconSrc: reactIcon, category: 'frontend', categoryLabel: 'Frontend' }
+];
+
 
 interface Project {
   title: string;
@@ -284,11 +478,14 @@ interface EducationItem {
 export default function App() {
   const [theme, setTheme] = useState<'dark' | 'light'>('dark');
   const [activeTechCategory, setActiveTechCategory] = useState<string>('all');
+  const [techViewMode, setTechViewMode] = useState<'floating' | 'grid'>('floating');
+  const [techSearchQuery, setTechSearchQuery] = useState<string>('');
   const [activeProjectFilter, setActiveProjectFilter] = useState<string>('All');
   const [activeNavSection, setActiveNavSection] = useState<string>('hero');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
   const [discordCopied, setDiscordCopied] = useState(false);
+
 
   // Dynamic Bidirectional Intersection Observer for Scroll-in & Scroll-out Animations
   useEffect(() => {
@@ -532,9 +729,43 @@ export default function App() {
     }
   ];
 
-  const filteredSkills = activeTechCategory === 'all' 
-    ? skillsData 
-    : skillsData.filter(s => s.category === activeTechCategory);
+  const filteredSkills = useMemo(() => {
+    return skillsData.filter((tech) => {
+      const matchesCategory = 
+        activeTechCategory === 'all' ||
+        (activeTechCategory === 'microsoft' && (
+          tech.category === 'microsoft' ||
+          tech.name.toLowerCase().includes('microsoft') ||
+          tech.name.toLowerCase().includes('sql server') ||
+          tech.name.toLowerCase().includes('c#') ||
+          tech.name.toLowerCase().includes('asp.net') ||
+          tech.name.toLowerCase().includes('vs code')
+        )) ||
+        (activeTechCategory === 'design' && (
+          tech.category === 'design' || 
+          tech.name === 'Figma' || 
+          tech.name === 'Canva' || 
+          tech.name === 'Framer'
+        )) ||
+        (activeTechCategory === 'tools' && (
+          tech.category === 'tools' || 
+          tech.name === 'Git & GitHub' || 
+          tech.name === 'SAP S/4HANA' || 
+          tech.name === 'WordPress' || 
+          tech.name === 'Postman'
+        )) ||
+        tech.category === activeTechCategory;
+
+      const matchesSearch = 
+        !techSearchQuery ||
+        tech.name.toLowerCase().includes(techSearchQuery.toLowerCase()) ||
+        tech.categoryLabel.toLowerCase().includes(techSearchQuery.toLowerCase()) ||
+        (tech.description && tech.description.toLowerCase().includes(techSearchQuery.toLowerCase()));
+
+      return matchesCategory && matchesSearch;
+    });
+  }, [activeTechCategory, techSearchQuery]);
+
 
   const filteredProjects = activeProjectFilter === 'All'
     ? projects
@@ -845,77 +1076,398 @@ export default function App() {
       </section>
 
       {/* 02 - SKILLS & TECHNOLOGIES */}
-      <section id="skills" className={`py-20 px-6 border-y relative z-10 transition-colors ${
-        isDark ? 'bg-[#070b16]/90 border-slate-800/80' : 'bg-slate-100/60 border-slate-200'
+      <section id="skills" className={`py-20 px-6 border-y relative z-10 transition-colors overflow-hidden ${
+        isDark ? 'bg-[#070b16]/95 border-slate-800/80' : 'bg-slate-100/70 border-slate-200'
       }`}>
-        <div className="max-w-5xl mx-auto reveal-on-scroll">
+        <div className="max-w-6xl mx-auto reveal-on-scroll">
           
-          <div className="text-center mb-10">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-indigo-400 font-bold block mb-1">
-              TECHNICAL ARSENAL
-            </span>
-            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-              Skills & Technologies
-            </h2>
-            <p className={`text-xs sm:text-sm mt-2 max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
-              Languages, frameworks, tools, and enterprise platforms I use to build scalable systems.
-            </p>
-          </div>
-
-          {/* Filter Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-            {[
-              { id: 'all', label: 'All' },
-              { id: 'programming', label: 'Programming' },
-              { id: 'frontend', label: 'Frontend' },
-              { id: 'backend', label: 'Backend' },
-              { id: 'database', label: 'Database' },
-              { id: 'tools', label: 'Tools & ERP' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTechCategory(tab.id)}
-                className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-300 ${
-                  activeTechCategory === tab.id
-                    ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-105'
-                    : isDark
-                      ? 'bg-[#0a0f1d] text-slate-400 hover:text-white border border-slate-800'
-                      : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 shadow-sm'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Clean Tech Cards Grid with Official SVGs */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-            {filteredSkills.map((tech, idx) => (
-              <div
-                key={idx}
-                className={`p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-xl flex flex-col items-center text-center justify-center group ${
-                  isDark 
-                    ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-indigo-500/50 hover:shadow-indigo-950/20' 
-                    : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-indigo-100 shadow-sm'
-                }`}
-              >
-                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110 p-2.5 ${
-                  isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-slate-50 border border-slate-200 shadow-inner'
+          {/* Section Header with 'View All' Toggle */}
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-6 border-b pb-6 border-slate-800/60">
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className="text-[11px] font-mono uppercase tracking-widest text-indigo-400 font-bold block">
+                  TECHNICAL ARSENAL
+                </span>
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold ${
+                  isDark ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'
                 }`}>
-                  <img src={tech.iconSrc} alt={tech.name} className="w-8 h-8 object-contain" />
-                </div>
-                <h3 className="font-bold text-sm mb-1 group-hover:text-indigo-400 transition-colors">
-                  {tech.name}
-                </h3>
-                <span className="text-[10px] uppercase font-mono tracking-wider text-slate-500 font-semibold">
-                  {tech.categoryLabel}
+                  {skillsData.length} Tools & Stacks
                 </span>
               </div>
-            ))}
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                Technologies
+              </h2>
+              <p className={`text-xs sm:text-sm mt-1 max-w-xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                Languages, frameworks, databases, cloud BaaS, and enterprise platforms I actively engineer with.
+              </p>
+            </div>
+
+            {/* View Mode Toggle Button (Matching Reference Mockup "View All -> [Grid Icon]") */}
+            <div className="flex items-center gap-3 shrink-0">
+              {techViewMode === 'floating' ? (
+                <button
+                  onClick={() => setTechViewMode('grid')}
+                  className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer active:scale-95 ${
+                    isDark 
+                      ? 'bg-[#0a0f1d] hover:bg-indigo-950/50 border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/60 shadow-indigo-950/30' 
+                      : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-sm'
+                  }`}
+                  aria-label="View All Technologies Grid"
+                >
+                  <span className="font-medium">View All</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 text-indigo-400" />
+                  <LayoutGrid className="w-4 h-4 ml-0.5 opacity-75 group-hover:opacity-100" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => setTechViewMode('floating')}
+                  className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer active:scale-95 ${
+                    isDark 
+                      ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/40 hover:bg-indigo-600/30' 
+                      : 'bg-indigo-50 text-indigo-600 border-indigo-200 hover:bg-indigo-100'
+                  }`}
+                  aria-label="Switch to Floating Stream"
+                >
+                  <SlidersHorizontal className="w-4 h-4 text-indigo-400 group-hover:rotate-180 transition-transform duration-300" />
+                  <span>Floating Stream</span>
+                </button>
+              )}
+            </div>
           </div>
+
+          {/* VIEW MODE 1: FLOATING / HOVERING MARQUEE STREAM */}
+          {techViewMode === 'floating' && (
+            <div className="relative -mx-6 sm:-mx-10 py-4">
+              
+              {/* Left & Right Ambient Gradient Fade Masks for Infinite Floating Illusion */}
+              <div className={`pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-40 z-20 bg-gradient-to-r ${
+                isDark ? 'from-[#070b16] via-[#070b16]/80 to-transparent' : 'from-slate-100 via-slate-100/80 to-transparent'
+              }`} />
+              <div className={`pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-40 z-20 bg-gradient-to-l ${
+                isDark ? 'from-[#070b16] via-[#070b16]/80 to-transparent' : 'from-slate-100 via-slate-100/80 to-transparent'
+              }`} />
+
+              <div className="flex flex-col gap-3.5 sm:gap-4.5 overflow-hidden">
+                
+                {/* Floating Row 1: Left Drift (Vite, React, HTML5, CSS3, JS, TS, Tailwind, Figma, Supabase, Framer...) */}
+                <div className="flex overflow-hidden group py-1">
+                  <div className="animate-marquee-left flex gap-3 sm:gap-4 pause-on-group-hover">
+                    {[...floatingRow1, ...floatingRow1, ...floatingRow1, ...floatingRow1].map((tech, idx) => (
+                      <div
+                        key={`r1-${idx}`}
+                        onClick={() => {
+                          setActiveTechCategory(tech.category);
+                          setTechViewMode('grid');
+                        }}
+                        className={`group/pill flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border transition-all duration-300 cursor-pointer select-none whitespace-nowrap shadow-sm hover:shadow-xl hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                          isDark
+                            ? 'bg-[#0a0f1d]/90 hover:bg-[#111933] border-slate-800/80 hover:border-indigo-500/80 hover:shadow-indigo-500/10 backdrop-blur-md'
+                            : 'bg-white/95 hover:bg-white border-slate-200/90 hover:border-indigo-400 hover:shadow-indigo-100/70 shadow-sm backdrop-blur-md'
+                        }`}
+                        title={`Click to inspect ${tech.name} in Arsenal`}
+                      >
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center p-0.5 transition-transform group-hover/pill:scale-110 ${
+                          isDark ? 'bg-slate-900/80' : 'bg-slate-50'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                        </div>
+                        <span className={`text-xs sm:text-sm font-semibold tracking-tight transition-colors ${
+                          isDark ? 'text-slate-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </span>
+                        <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark 
+                            ? 'bg-slate-800/90 text-slate-400 group-hover/pill:bg-indigo-950/60 group-hover/pill:text-indigo-300' 
+                            : 'bg-slate-100 text-slate-500 group-hover/pill:bg-indigo-50 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating Row 2: Right Drift (MySQL, PostgreSQL, Supabase, PHP, Laravel, Python, C#, ASP.NET, Java, MSSQL, Postman...) */}
+                <div className="flex overflow-hidden group py-1">
+                  <div className="animate-marquee-right flex gap-3 sm:gap-4 pause-on-group-hover">
+                    {[...floatingRow2, ...floatingRow2, ...floatingRow2, ...floatingRow2].map((tech, idx) => (
+                      <div
+                        key={`r2-${idx}`}
+                        onClick={() => {
+                          setActiveTechCategory(tech.category);
+                          setTechViewMode('grid');
+                        }}
+                        className={`group/pill flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border transition-all duration-300 cursor-pointer select-none whitespace-nowrap shadow-sm hover:shadow-xl hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                          isDark
+                            ? 'bg-[#0a0f1d]/90 hover:bg-[#111933] border-slate-800/80 hover:border-indigo-500/80 hover:shadow-indigo-500/10 backdrop-blur-md'
+                            : 'bg-white/95 hover:bg-white border-slate-200/90 hover:border-indigo-400 hover:shadow-indigo-100/70 shadow-sm backdrop-blur-md'
+                        }`}
+                        title={`Click to inspect ${tech.name} in Arsenal`}
+                      >
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center p-0.5 transition-transform group-hover/pill:scale-110 ${
+                          isDark ? 'bg-slate-900/80' : 'bg-slate-50'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                        </div>
+                        <span className={`text-xs sm:text-sm font-semibold tracking-tight transition-colors ${
+                          isDark ? 'text-slate-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </span>
+                        <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark 
+                            ? 'bg-slate-800/90 text-slate-400 group-hover/pill:bg-indigo-950/60 group-hover/pill:text-indigo-300' 
+                            : 'bg-slate-100 text-slate-500 group-hover/pill:bg-indigo-50 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating Row 3: Left Drift Fast (Figma, Canva, Git, GitHub, WordPress, Microsoft 365, VS Code, SAP, Tailwind, React...) */}
+                <div className="flex overflow-hidden group py-1">
+                  <div className="animate-marquee-left-fast flex gap-3 sm:gap-4 pause-on-group-hover">
+                    {[...floatingRow3, ...floatingRow3, ...floatingRow3, ...floatingRow3].map((tech, idx) => (
+                      <div
+                        key={`r3-${idx}`}
+                        onClick={() => {
+                          setActiveTechCategory(tech.category);
+                          setTechViewMode('grid');
+                        }}
+                        className={`group/pill flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border transition-all duration-300 cursor-pointer select-none whitespace-nowrap shadow-sm hover:shadow-xl hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                          isDark
+                            ? 'bg-[#0a0f1d]/90 hover:bg-[#111933] border-slate-800/80 hover:border-indigo-500/80 hover:shadow-indigo-500/10 backdrop-blur-md'
+                            : 'bg-white/95 hover:bg-white border-slate-200/90 hover:border-indigo-400 hover:shadow-indigo-100/70 shadow-sm backdrop-blur-md'
+                        }`}
+                        title={`Click to inspect ${tech.name} in Arsenal`}
+                      >
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center p-0.5 transition-transform group-hover/pill:scale-110 ${
+                          isDark ? 'bg-slate-900/80' : 'bg-slate-50'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                        </div>
+                        <span className={`text-xs sm:text-sm font-semibold tracking-tight transition-colors ${
+                          isDark ? 'text-slate-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </span>
+                        <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark 
+                            ? 'bg-slate-800/90 text-slate-400 group-hover/pill:bg-indigo-950/60 group-hover/pill:text-indigo-300' 
+                            : 'bg-slate-100 text-slate-500 group-hover/pill:bg-indigo-50 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Bottom Quick Navigation & Interaction Hint */}
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4 px-6 sm:px-10 text-xs">
+                <div className={`flex items-center gap-2 font-mono ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                  <span>Hover to pause drift • Click any pill to inspect</span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={`font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Quick Filters:</span>
+                  {[
+                    { id: 'programming', label: 'Languages' },
+                    { id: 'frontend', label: 'Frontend' },
+                    { id: 'backend', label: 'Backend' },
+                    { id: 'database', label: 'Databases' },
+                    { id: 'design', label: 'Design' },
+                    { id: 'microsoft', label: 'Microsoft' }
+                  ].map(q => (
+                    <button
+                      key={q.id}
+                      onClick={() => {
+                        setActiveTechCategory(q.id);
+                        setTechViewMode('grid');
+                      }}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                        isDark 
+                          ? 'bg-slate-900/80 hover:bg-indigo-950 text-slate-400 hover:text-indigo-300 border border-slate-800' 
+                          : 'bg-white hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 border border-slate-200 shadow-xs'
+                      }`}
+                    >
+                      {q.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* VIEW MODE 2: FULL CATEGORIZED GRID VIEW ('VIEW ALL') */}
+          {techViewMode === 'grid' && (
+            <div className="animate-in fade-in duration-300">
+              
+              {/* Category Filter Tabs & Quick Search */}
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                
+                {/* Filter Pills */}
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full md:w-auto">
+                  {[
+                    { id: 'all', label: 'All Arsenal' },
+                    { id: 'programming', label: 'Programming' },
+                    { id: 'frontend', label: 'Frontend' },
+                    { id: 'backend', label: 'Backend & APIs' },
+                    { id: 'database', label: 'Databases' },
+                    { id: 'design', label: 'Design & UI/UX' },
+                    { id: 'microsoft', label: 'Microsoft Tools' },
+                    { id: 'tools', label: 'Tools & ERP' }
+                  ].map(tab => {
+                    const count = tab.id === 'all' 
+                      ? skillsData.length 
+                      : tab.id === 'microsoft'
+                        ? skillsData.filter(s => s.category === 'microsoft' || s.name.includes('C#') || s.name.includes('ASP.NET') || s.name.includes('SQL Server') || s.name.includes('VS Code') || s.name.includes('Microsoft')).length
+                        : tab.id === 'design'
+                          ? skillsData.filter(s => s.category === 'design' || s.name === 'Figma' || s.name === 'Canva' || s.name === 'Framer').length
+                          : tab.id === 'tools'
+                            ? skillsData.filter(s => s.category === 'tools' || s.name === 'Git & GitHub' || s.name === 'SAP S/4HANA' || s.name === 'WordPress' || s.name === 'Postman').length
+                            : skillsData.filter(s => s.category === tab.id).length;
+
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTechCategory(tab.id)}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
+                          activeTechCategory === tab.id
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-105'
+                            : isDark
+                              ? 'bg-[#0a0f1d] text-slate-400 hover:text-white border border-slate-800'
+                              : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 shadow-sm'
+                        }`}
+                      >
+                        <span>{tab.label}</span>
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded-md font-mono ${
+                          activeTechCategory === tab.id 
+                            ? 'bg-white/20 text-white' 
+                            : isDark ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'
+                        }`}>
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Instant Search Bar */}
+                <div className="relative w-full md:w-64">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search stack, tool..."
+                    value={techSearchQuery}
+                    onChange={(e) => setTechSearchQuery(e.target.value)}
+                    className={`w-full pl-9 pr-8 py-2 rounded-xl text-xs border transition-colors outline-none ${
+                      isDark 
+                        ? 'bg-[#0a0f1d] border-slate-800 text-white placeholder-slate-500 focus:border-indigo-500' 
+                        : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-indigo-500 shadow-sm'
+                    }`}
+                  />
+                  {techSearchQuery && (
+                    <button
+                      onClick={() => setTechSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+              </div>
+
+              {/* Categorized Tech Cards Grid with Official SVGs & Descriptions */}
+              {filteredSkills.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {filteredSkills.map((tech, idx) => (
+                    <div
+                      key={idx}
+                      className={`p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-xl flex flex-col items-center text-center justify-between group relative ${
+                        isDark 
+                          ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-indigo-500/50 hover:shadow-indigo-950/30' 
+                          : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-indigo-100 shadow-sm'
+                      }`}
+                    >
+                      {tech.badge && (
+                        <span className={`absolute top-3 right-3 text-[9px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-900/60' : 'bg-indigo-50 text-indigo-700 border border-indigo-100'
+                        }`}>
+                          {tech.badge}
+                        </span>
+                      )}
+
+                      <div className="flex flex-col items-center pt-2">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110 p-2.5 ${
+                          isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-slate-50 border border-slate-200 shadow-inner'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-8 h-8 object-contain" />
+                        </div>
+                        <h3 className="font-bold text-sm mb-0.5 group-hover:text-indigo-400 transition-colors">
+                          {tech.name}
+                        </h3>
+                        <span className="text-[10px] uppercase font-mono tracking-wider text-slate-500 font-semibold mb-2">
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+
+                      {tech.description && (
+                        <p className={`text-[11px] leading-relaxed line-clamp-2 mt-1 ${
+                          isDark ? 'text-slate-400' : 'text-slate-600'
+                        }`}>
+                          {tech.description}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className={`p-12 text-center rounded-2xl border ${
+                  isDark ? 'bg-[#0a0f1d] border-slate-800 text-slate-400' : 'bg-white border-slate-200 text-slate-600'
+                }`}>
+                  <p className="text-sm">No technologies found matching &ldquo;{techSearchQuery}&rdquo; in this category.</p>
+                  <button
+                    onClick={() => {
+                      setTechSearchQuery('');
+                      setActiveTechCategory('all');
+                    }}
+                    className="mt-3 px-4 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-500 transition-colors"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              )}
+
+              {/* Back to Floating View Prompt */}
+              <div className="mt-10 text-center">
+                <button
+                  onClick={() => setTechViewMode('floating')}
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-300 ${
+                    isDark
+                      ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 shadow-sm'
+                  }`}
+                >
+                  <SlidersHorizontal className="w-4 h-4 text-indigo-400" />
+                  <span>Return to Interactive Floating Stream</span>
+                </button>
+              </div>
+
+            </div>
+          )}
 
         </div>
       </section>
+
 
       {/* 03 - PROJECTS SHOWCASE */}
       <section id="projects" className="py-20 px-6 relative z-10">
