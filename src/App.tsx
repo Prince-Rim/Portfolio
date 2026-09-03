@@ -114,8 +114,73 @@ const LINKEDIN_URL = "https://www.linkedin.com/in/justin-allen-azucena-1093b2299
 const GITHUB_USERNAME = "Prince-Rim";
 const GITHUB_URL = "https://github.com/Prince-Rim";
 
+// Smooth Typing Animation for Hero Title
+function TypewriterName() {
+  const titles = useMemo(() => [
+    'Justin Allen Azucena',
+    'a Full-Stack Developer',
+    'a .NET & React Engineer',
+    'Justin Allen Azucena'
+  ], []);
+
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [displayedText, setDisplayedText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [cursorVisible, setCursorVisible] = useState(true);
+
+  // Blinking cursor
+  useEffect(() => {
+    const cursorTimer = setInterval(() => {
+      setCursorVisible((v) => !v);
+    }, 530);
+    return () => clearInterval(cursorTimer);
+  }, []);
+
+  // Typing effect
+  useEffect(() => {
+    const currentTitle = titles[titleIndex];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (!isDeleting && displayedText === currentTitle) {
+      // Pause at full word before deleting (longer pause on primary name)
+      const pauseTime = titleIndex === 0 || titleIndex === titles.length - 1 ? 3200 : 2000;
+      timeout = setTimeout(() => setIsDeleting(true), pauseTime);
+    } else if (isDeleting && displayedText === '') {
+      // Finished deleting, move to next title
+      setIsDeleting(false);
+      setTitleIndex((prev) => (prev + 1) % titles.length);
+    } else {
+      // Typing or deleting character by character
+      const speed = isDeleting ? 40 : 85;
+      timeout = setTimeout(() => {
+        setDisplayedText((prev) => 
+          isDeleting 
+            ? currentTitle.slice(0, prev.length - 1)
+            : currentTitle.slice(0, prev.length + 1)
+        );
+      }, speed);
+    }
+
+    return () => clearTimeout(timeout);
+  }, [displayedText, isDeleting, titleIndex, titles]);
+
+  return (
+    <span className="inline-flex items-baseline relative">
+      <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">
+        {displayedText || '\u00A0'}
+      </span>
+      <span
+        className={`inline-block w-[3px] sm:w-[4px] h-[0.82em] ml-1.5 bg-gradient-to-b from-indigo-400 to-pink-400 rounded-full transition-opacity duration-150 ${
+          cursorVisible ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+    </span>
+  );
+}
+
 // Natural Starry Cosmic Background Component
 function StarField({ isDark }: { isDark: boolean }) {
+
   const stars = useMemo(() => {
     const starList = [];
     const seed = 42;
@@ -944,9 +1009,10 @@ export default function App() {
               <span>Full-Stack Software Engineer & Developer</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-tight">
-              Hi, I am <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400">Justin Allen Azucena</span>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-tight min-h-[1.25em]">
+              Hi, I am <TypewriterName />
             </h1>
+
 
             <p className={`text-sm sm:text-base leading-relaxed mb-6 max-w-xl font-normal ${
               isDark ? 'text-slate-300' : 'text-slate-600'
