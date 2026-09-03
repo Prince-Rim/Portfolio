@@ -70,6 +70,28 @@
   transform: translateY(0);
 }
 
+/* Alternating Education Slide-In (-> and <- going in) */
+.slide-in-from-left {
+  opacity: 0;
+  transform: translateX(-45px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.slide-in-from-right {
+  opacity: 0;
+  transform: translateX(45px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+  will-change: opacity, transform;
+}
+
+.is-visible .slide-in-from-left,
+.is-visible .slide-in-from-right {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
 /* Floating Tech Stack Marquee Animations */
 @keyframes marqueeLeft {
   0% {
