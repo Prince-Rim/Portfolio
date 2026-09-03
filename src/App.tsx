@@ -78,6 +78,8 @@ import canvaIcon from './assets/icons/canva.svg';
 import framerIcon from './assets/icons/framer.svg';
 import laravelIcon from './assets/icons/laravel.svg';
 import postmanIcon from './assets/icons/postman.svg';
+import unityIcon from './assets/icons/unity.svg';
+
 
 
 // Social Icon SVGs
@@ -364,7 +366,31 @@ const skillsData: TechSkillItem[] = [
     badge: 'CMS'
   },
 
-  // Tools, ERP & DevOps
+  // Tools, ERP, Game Dev & DevOps
+  {
+    name: 'Unity 3D',
+    category: 'tools',
+    categoryLabel: 'Game Engine',
+    iconSrc: unityIcon,
+    description: 'Interactive 3D/2D game development, C# engine scripting, physics simulations, and UI systems.',
+    badge: '3D Engine'
+  },
+  {
+    name: 'Git',
+    category: 'tools',
+    categoryLabel: 'Version Control',
+    iconSrc: gitIcon,
+    description: 'Distributed version control, local commit histories, branching models, stash, and rebasing.',
+    badge: 'VCS'
+  },
+  {
+    name: 'GitHub',
+    category: 'tools',
+    categoryLabel: 'DevOps & Git',
+    iconSrc: githubIcon,
+    description: 'Cloud repository hosting, Pull Requests, GitHub Actions CI/CD workflows, and open-source collaboration.',
+    badge: 'DevOps'
+  },
   {
     name: 'SAP S/4HANA',
     category: 'tools',
@@ -372,14 +398,6 @@ const skillsData: TechSkillItem[] = [
     iconSrc: sapIcon,
     description: 'Enterprise resource planning across SD, MM, PP, and FI modules using Global Bike.',
     badge: 'Certified'
-  },
-  {
-    name: 'Git & GitHub',
-    category: 'tools',
-    categoryLabel: 'Version Control',
-    iconSrc: gitIcon,
-    description: 'Distributed version control, collaborative PR reviews, branching workflows, and CI/CD.',
-    badge: 'DevOps'
   },
   {
     name: 'Postman',
@@ -402,6 +420,7 @@ const floatingRow1: TechSkillItem[] = [
   { name: 'Tailwind CSS', iconSrc: tailwindIcon, category: 'frontend', categoryLabel: 'Frontend' },
   { name: 'Figma', iconSrc: figmaIcon, category: 'design', categoryLabel: 'Design' },
   { name: 'Supabase', iconSrc: supabaseIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Unity 3D', iconSrc: unityIcon, category: 'tools', categoryLabel: 'Game Engine' },
   { name: 'Framer', iconSrc: framerIcon, category: 'frontend', categoryLabel: 'Design' }
 ];
 
@@ -427,10 +446,12 @@ const floatingRow3: TechSkillItem[] = [
   { name: 'WordPress', iconSrc: wordpressIcon, category: 'tools', categoryLabel: 'CMS & Web' },
   { name: 'Microsoft 365', iconSrc: microsoftIcon, category: 'microsoft', categoryLabel: 'Productivity' },
   { name: 'VS Code', iconSrc: vscodeIcon, category: 'microsoft', categoryLabel: 'IDE Editor' },
+  { name: 'Unity 3D', iconSrc: unityIcon, category: 'tools', categoryLabel: '3D Engine' },
   { name: 'SAP S/4HANA', iconSrc: sapIcon, category: 'tools', categoryLabel: 'Enterprise ERP' },
   { name: 'Tailwind CSS', iconSrc: tailwindIcon, category: 'frontend', categoryLabel: 'Frontend' },
   { name: 'React 19', iconSrc: reactIcon, category: 'frontend', categoryLabel: 'Frontend' }
 ];
+
 
 
 interface Project {
@@ -743,11 +764,14 @@ export default function App() {
         )) ||
         (activeTechCategory === 'tools' && (
           tech.category === 'tools' || 
-          tech.name === 'Git & GitHub' || 
+          tech.name === 'Git' || 
+          tech.name === 'GitHub' || 
+          tech.name === 'Unity 3D' || 
           tech.name === 'SAP S/4HANA' || 
           tech.name === 'WordPress' || 
           tech.name === 'Postman'
         )) ||
+
         tech.category === activeTechCategory;
 
       const matchesSearch = 
@@ -1326,8 +1350,9 @@ export default function App() {
                         : tab.id === 'design'
                           ? skillsData.filter(s => s.category === 'design' || s.name === 'Figma' || s.name === 'Canva' || s.name === 'Framer').length
                           : tab.id === 'tools'
-                            ? skillsData.filter(s => s.category === 'tools' || s.name === 'Git & GitHub' || s.name === 'SAP S/4HANA' || s.name === 'WordPress' || s.name === 'Postman').length
+                            ? skillsData.filter(s => s.category === 'tools' || s.name === 'Git' || s.name === 'GitHub' || s.name === 'Unity 3D' || s.name === 'SAP S/4HANA' || s.name === 'WordPress' || s.name === 'Postman').length
                             : skillsData.filter(s => s.category === tab.id).length;
+
 
                     return (
                       <button
