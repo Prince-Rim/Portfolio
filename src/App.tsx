@@ -360,7 +360,7 @@ export default function App() {
       degree: 'Bachelor of Science in Information Technology (4th Year)',
       institution: 'STI Academic Center Novaliches',
       period: '2023 – Present (Graduating 2026)',
-      honors: 'SAP Certified Candidate & Capstone Lead',
+      honors: 'SAP Certified & Capstone Lead Programmer',
       details: 'Focusing on enterprise business workflows, advanced full-stack web architectures, demand forecasting models, and GovTech API integrations.',
       skills: ['Full-Stack Web', 'Enterprise ERP (SAP)', 'Software Engineering', 'Applied AI'],
       logo: stiLogo
