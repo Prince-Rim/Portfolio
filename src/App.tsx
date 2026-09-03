@@ -114,16 +114,9 @@ const LINKEDIN_URL = "https://www.linkedin.com/in/justin-allen-azucena-1093b2299
 const GITHUB_USERNAME = "Prince-Rim";
 const GITHUB_URL = "https://github.com/Prince-Rim";
 
-// Smooth Typing Animation for Hero Title
+// Smooth Typing Animation for Hero Title (User Name only)
 function TypewriterName() {
-  const titles = useMemo(() => [
-    'Justin Allen Azucena',
-    'a Full-Stack Developer',
-    'a .NET & React Engineer',
-    'Justin Allen Azucena'
-  ], []);
-
-  const [titleIndex, setTitleIndex] = useState(0);
+  const name = "Justin Allen Azucena";
   const [displayedText, setDisplayedText] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
@@ -138,31 +131,28 @@ function TypewriterName() {
 
   // Typing effect
   useEffect(() => {
-    const currentTitle = titles[titleIndex];
     let timeout: ReturnType<typeof setTimeout>;
 
-    if (!isDeleting && displayedText === currentTitle) {
-      // Pause at full word before deleting (longer pause on primary name)
-      const pauseTime = titleIndex === 0 || titleIndex === titles.length - 1 ? 3200 : 2000;
-      timeout = setTimeout(() => setIsDeleting(true), pauseTime);
+    if (!isDeleting && displayedText === name) {
+      // Pause at full name before deleting
+      timeout = setTimeout(() => setIsDeleting(true), 4000);
     } else if (isDeleting && displayedText === '') {
-      // Finished deleting, move to next title
-      setIsDeleting(false);
-      setTitleIndex((prev) => (prev + 1) % titles.length);
+      // Finished deleting, brief pause before re-typing
+      timeout = setTimeout(() => setIsDeleting(false), 500);
     } else {
       // Typing or deleting character by character
-      const speed = isDeleting ? 40 : 85;
+      const speed = isDeleting ? 45 : 95;
       timeout = setTimeout(() => {
         setDisplayedText((prev) => 
           isDeleting 
-            ? currentTitle.slice(0, prev.length - 1)
-            : currentTitle.slice(0, prev.length + 1)
+            ? name.slice(0, prev.length - 1)
+            : name.slice(0, prev.length + 1)
         );
       }, speed);
     }
 
     return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting, titleIndex, titles]);
+  }, [displayedText, isDeleting]);
 
   return (
     <span className="inline-flex items-baseline relative">
@@ -170,13 +160,14 @@ function TypewriterName() {
         {displayedText || '\u00A0'}
       </span>
       <span
-        className={`inline-block w-[3px] sm:w-[4px] h-[0.82em] ml-1.5 bg-gradient-to-b from-indigo-400 to-pink-400 rounded-full transition-opacity duration-150 ${
+        className={`inline-block w-[3.5px] sm:w-[5px] h-[0.82em] ml-1.5 sm:ml-2 bg-gradient-to-b from-indigo-400 to-pink-400 rounded-full transition-opacity duration-150 ${
           cursorVisible ? 'opacity-100' : 'opacity-0'
         }`}
       />
     </span>
   );
 }
+
 
 // Natural Starry Cosmic Background Component
 function StarField({ isDark }: { isDark: boolean }) {
@@ -977,22 +968,41 @@ export default function App() {
       <section id="hero" className="relative pt-16 pb-16 md:pt-24 md:pb-24 px-6 overflow-hidden z-10">
         <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-14 text-center md:text-left reveal-on-scroll is-visible">
           
-          {/* Profile Card & Avatar */}
-          <div className="relative group shrink-0">
-            <div className="absolute -inset-1.5 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 rounded-3xl blur-lg opacity-60 group-hover:opacity-100 transition duration-500 animate-pulse-glow" />
-            <div className={`relative w-48 h-56 sm:w-56 sm:h-64 rounded-2xl overflow-hidden border shadow-2xl animate-float backdrop-blur-md ${
-              isDark ? 'bg-slate-950/80 border-indigo-500/40 shadow-indigo-950/50' : 'bg-white border-indigo-200 shadow-indigo-100'
+          {/* Profile Card & Avatar - Enhanced Modern Aesthetic Framing */}
+          <div className="relative group shrink-0 flex items-center justify-center my-4 md:my-0">
+            {/* Ambient Multi-Layer Glow */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/40 via-purple-500/30 to-pink-500/40 rounded-[2.5rem] blur-2xl opacity-60 group-hover:opacity-95 transition duration-700 animate-pulse-glow" />
+            
+            {/* Decorative Ambient Floating Accent Elements */}
+            <div className="absolute -top-3 -left-3 w-10 h-10 rounded-2xl bg-indigo-500/20 border border-indigo-400/40 backdrop-blur-md hidden sm:flex items-center justify-center shadow-lg -rotate-12 group-hover:rotate-0 transition-transform duration-500 z-20">
+              <Sparkles className="w-4 h-4 text-indigo-300 animate-pulse" />
+            </div>
+
+            {/* Main Profile Image Box */}
+            <div className={`relative w-52 h-64 sm:w-60 sm:h-72 lg:w-68 lg:h-80 rounded-[2rem] overflow-hidden border-2 shadow-2xl animate-float backdrop-blur-xl transition-all duration-500 ${
+              isDark 
+                ? 'bg-slate-950/90 border-indigo-500/40 shadow-indigo-950/80 hover:border-indigo-400/80 hover:shadow-indigo-900/50' 
+                : 'bg-white border-indigo-200/90 shadow-indigo-100 hover:border-indigo-300 hover:shadow-indigo-200'
             }`}>
               <img 
                 src={profileImg} 
                 alt="Justin Allen Azucena" 
-                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-transparent to-transparent" />
+              
+              {/* Subtle Inner Glass Overlay Gradients */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/10 pointer-events-none" />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/20 rounded-[2rem] pointer-events-none" />
+            </div>
+
+            {/* Top Right Floating Badge */}
+            <div className="absolute -top-2.5 -right-2 sm:-right-3 px-3 py-1 rounded-xl bg-slate-950/90 border border-indigo-500/50 text-indigo-300 text-[10px] font-mono font-bold backdrop-blur-xl shadow-xl flex items-center gap-1.5 z-20 group-hover:scale-105 transition-transform duration-300">
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
+              <span>BSIT &bull; 2026</span>
             </div>
             
             {/* Available for work Status Pill */}
-            <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-right-2 px-3.5 py-1.5 rounded-full bg-slate-950/90 border border-emerald-500/40 text-emerald-300 text-[11px] font-semibold backdrop-blur-xl shadow-xl flex items-center gap-2 font-mono">
+            <div className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:-right-2 px-3.5 py-1.5 rounded-full bg-slate-950/95 border border-emerald-500/50 text-emerald-300 text-[11px] font-semibold backdrop-blur-xl shadow-xl flex items-center gap-2 font-mono whitespace-nowrap z-20 group-hover:scale-105 transition-transform duration-300">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -1009,9 +1019,17 @@ export default function App() {
               <span>Full-Stack Software Engineer & Developer</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight mb-4 leading-tight min-h-[1.25em]">
-              Hi, I am <TypewriterName />
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+              <span className={`block text-xl sm:text-2xl lg:text-3xl font-bold mb-1 ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              }`}>
+                Hi, I am
+              </span>
+              <span className="block text-4xl sm:text-5xl lg:text-6xl font-black min-h-[1.2em]">
+                <TypewriterName />
+              </span>
             </h1>
+
 
 
             <p className={`text-sm sm:text-base leading-relaxed mb-6 max-w-xl font-normal ${
