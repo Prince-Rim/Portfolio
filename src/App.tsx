@@ -114,14 +114,13 @@ const LINKEDIN_URL = "https://www.linkedin.com/in/justin-allen-azucena-1093b2299
 const GITHUB_USERNAME = "Prince-Rim";
 const GITHUB_URL = "https://github.com/Prince-Rim";
 
-// Smooth Typing Animation for Hero Title (User Name only)
+// Smooth One-Shot Typing Animation for Hero Title (Types once on land)
 function TypewriterName() {
   const name = "Justin Allen Azucena";
   const [displayedText, setDisplayedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
   const [cursorVisible, setCursorVisible] = useState(true);
 
-  // Blinking cursor
+  // Blinking cursor line
   useEffect(() => {
     const cursorTimer = setInterval(() => {
       setCursorVisible((v) => !v);
@@ -129,30 +128,15 @@ function TypewriterName() {
     return () => clearInterval(cursorTimer);
   }, []);
 
-  // Typing effect
+  // One-time typing on initial landing
   useEffect(() => {
-    let timeout: ReturnType<typeof setTimeout>;
-
-    if (!isDeleting && displayedText === name) {
-      // Pause at full name before deleting
-      timeout = setTimeout(() => setIsDeleting(true), 4000);
-    } else if (isDeleting && displayedText === '') {
-      // Finished deleting, brief pause before re-typing
-      timeout = setTimeout(() => setIsDeleting(false), 500);
-    } else {
-      // Typing or deleting character by character
-      const speed = isDeleting ? 45 : 95;
-      timeout = setTimeout(() => {
-        setDisplayedText((prev) => 
-          isDeleting 
-            ? name.slice(0, prev.length - 1)
-            : name.slice(0, prev.length + 1)
-        );
-      }, speed);
+    if (displayedText.length < name.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(name.slice(0, displayedText.length + 1));
+      }, 85);
+      return () => clearTimeout(timeout);
     }
-
-    return () => clearTimeout(timeout);
-  }, [displayedText, isDeleting]);
+  }, [displayedText, name]);
 
   return (
     <span className="inline-flex items-baseline relative">
@@ -167,6 +151,7 @@ function TypewriterName() {
     </span>
   );
 }
+
 
 
 // Natural Starry Cosmic Background Component
@@ -994,22 +979,8 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-black/10 pointer-events-none" />
               <div className="absolute inset-0 ring-1 ring-inset ring-white/20 rounded-[2rem] pointer-events-none" />
             </div>
-
-            {/* Top Right Floating Badge */}
-            <div className="absolute -top-2.5 -right-2 sm:-right-3 px-3 py-1 rounded-xl bg-slate-950/90 border border-indigo-500/50 text-indigo-300 text-[10px] font-mono font-bold backdrop-blur-xl shadow-xl flex items-center gap-1.5 z-20 group-hover:scale-105 transition-transform duration-300">
-              <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-ping" />
-              <span>BSIT &bull; 2026</span>
-            </div>
-            
-            {/* Available for work Status Pill */}
-            <div className="absolute -bottom-3.5 left-1/2 -translate-x-1/2 md:translate-x-0 md:left-auto md:-right-2 px-3.5 py-1.5 rounded-full bg-slate-950/95 border border-emerald-500/50 text-emerald-300 text-[11px] font-semibold backdrop-blur-xl shadow-xl flex items-center gap-2 font-mono whitespace-nowrap z-20 group-hover:scale-105 transition-transform duration-300">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-              </span>
-              <span>Available for work</span>
-            </div>
           </div>
+
 
           {/* Hero Main Content */}
           <div className="flex-1 max-w-2xl">
