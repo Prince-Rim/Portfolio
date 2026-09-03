@@ -507,7 +507,7 @@ interface Project {
   highlight?: boolean;
 }
 
-// Interactive 3D Perspective Card with Cursor Spotlight & Parallax
+// Interactive 3D Perspective Card with Active Scroll-Driven Reveal & Cursor Spotlight
 function ProjectCard3D({ 
   proj, 
   idx, 
@@ -518,8 +518,28 @@ function ProjectCard3D({
   isDark: boolean; 
 }) {
   const cardRef = React.useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
   const [spotlight, setSpotlight] = useState({ x: 0, y: 0, opacity: 0 });
+
+  // Individual scroll observer for this card (triggers dynamically every time scrolling up & down!)
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { 
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px' 
+      }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
@@ -527,11 +547,11 @@ function ProjectCard3D({
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     
-    // Smooth 3D tilt calculation (-6deg to 6deg)
+    // Smooth 3D tilt calculation (-7deg to 7deg)
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -6;
-    const rotateY = ((x - centerX) / centerX) * 6;
+    const rotateX = ((y - centerY) / centerY) * -7;
+    const rotateY = ((x - centerX) / centerX) * 7;
 
     setRotate({ x: rotateX, y: rotateY });
     setSpotlight({ x, y, opacity: 1 });
@@ -542,17 +562,26 @@ function ProjectCard3D({
     setSpotlight((prev) => ({ ...prev, opacity: 0 }));
   };
 
+  // Staggered delay based on card position in row
+  const staggerDelay = (idx % 3) * 120;
+
   return (
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
-        transition: rotate.x === 0 && rotate.y === 0 ? 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' : 'transform 0.1s ease-out',
-        transitionDelay: `${(idx % 3) * 110}ms`
+        transform: isVisible 
+          ? `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg) translateY(0px) scale(1)` 
+          : 'perspective(1000px) rotateX(14deg) rotateY(0deg) translateY(60px) scale(0.92)',
+        opacity: isVisible ? 1 : 0,
+        filter: isVisible ? 'blur(0px)' : 'blur(6px)',
+        transition: rotate.x !== 0 || rotate.y !== 0
+          ? 'transform 0.1s ease-out, filter 0.6s ease-out, opacity 0.6s ease-out'
+          : `transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}ms, opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}ms, filter 0.85s cubic-bezier(0.16, 1, 0.3, 1) ${staggerDelay}ms, box-shadow 0.3s ease`,
+        willChange: 'transform, opacity, filter'
       }}
-      className={`scroll-card-reveal rounded-3xl border p-5 sm:p-6 flex flex-col justify-between group relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ${
+      className={`rounded-3xl border p-5 sm:p-6 flex flex-col justify-between group relative overflow-hidden shadow-xl hover:shadow-2xl transition-colors duration-300 ${
         proj.highlight
           ? isDark
             ? 'bg-gradient-to-b from-[#111936] to-[#0a0f1d] border-indigo-500/50 shadow-indigo-950/40'
@@ -562,6 +591,7 @@ function ProjectCard3D({
             : 'bg-white border-slate-200 hover:border-indigo-300 shadow-sm'
       }`}
     >
+
       {/* Interactive Cursor Spotlight Radial Glow */}
       <div
         className="pointer-events-none absolute inset-0 transition-opacity duration-300"
