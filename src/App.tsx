@@ -507,6 +507,172 @@ interface Project {
   highlight?: boolean;
 }
 
+// Interactive 3D Perspective Card with Cursor Spotlight & Parallax
+function ProjectCard3D({ 
+  proj, 
+  idx, 
+  isDark 
+}: { 
+  proj: Project; 
+  idx: number; 
+  isDark: boolean; 
+}) {
+  const cardRef = React.useRef<HTMLDivElement>(null);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const [spotlight, setSpotlight] = useState({ x: 0, y: 0, opacity: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    // Smooth 3D tilt calculation (-6deg to 6deg)
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -6;
+    const rotateY = ((x - centerX) / centerX) * 6;
+
+    setRotate({ x: rotateX, y: rotateY });
+    setSpotlight({ x, y, opacity: 1 });
+  };
+
+  const handleMouseLeave = () => {
+    setRotate({ x: 0, y: 0 });
+    setSpotlight((prev) => ({ ...prev, opacity: 0 }));
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{
+        transform: `perspective(1000px) rotateX(${rotate.x}deg) rotateY(${rotate.y}deg)`,
+        transition: rotate.x === 0 && rotate.y === 0 ? 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)' : 'transform 0.1s ease-out',
+        transitionDelay: `${(idx % 3) * 110}ms`
+      }}
+      className={`scroll-card-reveal rounded-3xl border p-5 sm:p-6 flex flex-col justify-between group relative overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-300 ${
+        proj.highlight
+          ? isDark
+            ? 'bg-gradient-to-b from-[#111936] to-[#0a0f1d] border-indigo-500/50 shadow-indigo-950/40'
+            : 'bg-white border-indigo-300 shadow-indigo-100/80'
+          : isDark
+            ? 'bg-[#0a0f1d]/95 border-slate-800/90 hover:border-indigo-500/40 shadow-slate-950/50'
+            : 'bg-white border-slate-200 hover:border-indigo-300 shadow-sm'
+      }`}
+    >
+      {/* Interactive Cursor Spotlight Radial Glow */}
+      <div
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        style={{
+          opacity: spotlight.opacity,
+          background: `radial-gradient(420px circle at ${spotlight.x}px ${spotlight.y}px, ${
+            isDark ? 'rgba(99, 102, 241, 0.18)' : 'rgba(99, 102, 241, 0.1)'
+          }, transparent 60%)`
+        }}
+      />
+
+      {/* Border Spotlight Shine */}
+      <div
+        className="pointer-events-none absolute -inset-px rounded-3xl transition-opacity duration-300"
+        style={{
+          opacity: spotlight.opacity,
+          background: `radial-gradient(280px circle at ${spotlight.x}px ${spotlight.y}px, rgba(168, 85, 247, 0.4), transparent 70%)`
+        }}
+      />
+
+      <div className="relative z-10">
+        {/* macOS Browser Mockup Top Bar & Screenshot Frame */}
+        <div className="relative aspect-[16/10] w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800/90 mb-4 group/img shadow-md">
+          
+          {/* macOS Window Controls Header */}
+          <div className="absolute top-0 inset-x-0 h-6 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-2.5 flex items-center justify-between z-20">
+            <div className="flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-red-500/80" />
+              <span className="w-2 h-2 rounded-full bg-yellow-500/80" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500/80" />
+            </div>
+            <span className="text-[9px] font-mono text-slate-500 truncate max-w-[130px]">
+              {proj.title.toLowerCase().replace(/\s+/g, '')}.app
+            </span>
+            <div className="w-6" />
+          </div>
+
+          <img 
+            src={proj.image} 
+            alt={proj.title} 
+            className="w-full h-full object-cover object-top pt-6 group-hover/img:scale-105 transition-transform duration-700 ease-out" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d]/80 via-transparent to-transparent opacity-60 group-hover/img:opacity-30 transition-opacity" />
+          
+          {/* Top-Right Badge */}
+          <span className="absolute top-8 right-2.5 px-2.5 py-0.5 rounded-md text-[9px] font-mono font-bold bg-slate-950/90 border border-indigo-500/40 text-indigo-300 backdrop-blur-md shadow-lg z-20">
+            {proj.badge}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <span className="text-[10px] font-mono font-bold tracking-wider text-indigo-400 uppercase">
+            {proj.category}
+          </span>
+        </div>
+
+        <h3 className="text-xl font-bold tracking-tight mb-2 group-hover:text-indigo-400 transition-colors">
+          {proj.title}
+        </h3>
+
+        <p className={`text-xs leading-relaxed mb-5 line-clamp-3 ${
+          isDark ? 'text-slate-400' : 'text-slate-600'
+        }`}>
+          {proj.description}
+        </p>
+      </div>
+
+      <div className="relative z-10">
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {proj.tags.map(t => (
+            <span key={t} className={`text-[10px] px-2.5 py-0.5 rounded-md font-mono border transition-colors ${
+              isDark ? 'bg-slate-950/90 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-700 border-slate-200'
+            }`}>
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div className={`pt-3 border-t flex items-center justify-between text-xs ${
+          isDark ? 'border-slate-800/80' : 'border-slate-100'
+        }`}>
+          {proj.githubUrl && (
+            <a
+              href={proj.githubUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 font-bold text-xs px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 transition-all shadow-md shadow-indigo-600/20 group/btn active:scale-95"
+            >
+              <GithubIcon className="w-3.5 h-3.5" />
+              <span>View Code</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
+            </a>
+          )}
+          {proj.liveUrl && (
+            <a
+              href={proj.liveUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-xs font-bold text-indigo-400 hover:underline flex items-center gap-1"
+            >
+              <ExternalLink className="w-3 h-3" />
+              Live Demo
+            </a>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
 interface Certificate {
   title: string;
   issuer: string;
@@ -1577,92 +1743,17 @@ export default function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 perspective-1000">
             {filteredProjects.map((proj, idx) => (
-              <div
-                key={idx}
-                className={`rounded-3xl border p-5 sm:p-6 flex flex-col justify-between transition-all duration-300 hover:translate-y-[-6px] hover:shadow-2xl group relative overflow-hidden ${
-                  proj.highlight
-                    ? isDark
-                      ? 'bg-gradient-to-b from-[#10172e] to-[#0a0f1d] border-indigo-500/40 shadow-xl shadow-indigo-950/30'
-                      : 'bg-white border-indigo-300 shadow-xl shadow-indigo-100'
-                    : isDark
-                      ? 'bg-[#0a0f1d]/95 border-slate-800/80 hover:border-slate-700'
-                      : 'bg-white border-slate-200 hover:border-slate-300 shadow-sm'
-                }`}
-              >
-                <div>
-                  {/* Real Project Screenshot Image */}
-                  <div className="relative aspect-[16/10] w-full bg-slate-950 rounded-2xl overflow-hidden border border-slate-800/90 mb-4 group/img">
-                    <img 
-                      src={proj.image} 
-                      alt={proj.title} 
-                      className="w-full h-full object-cover object-top group-hover/img:scale-106 transition-transform duration-500" 
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#0a0f1d] via-transparent to-transparent opacity-60 group-hover/img:opacity-30 transition-opacity" />
-                    <span className="absolute top-2.5 right-2.5 px-2.5 py-0.5 rounded-md text-[10px] font-mono font-bold bg-slate-950/85 border border-slate-700 text-indigo-300 backdrop-blur-md">
-                      {proj.badge}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center justify-between gap-2 mb-2">
-                    <span className="text-[10px] font-mono font-bold tracking-wider text-indigo-400 uppercase">
-                      {proj.category}
-                    </span>
-                  </div>
-
-                  <h3 className="text-xl font-bold tracking-tight mb-2 group-hover:text-indigo-400 transition-colors">
-                    {proj.title}
-                  </h3>
-
-                  <p className={`text-xs leading-relaxed mb-5 line-clamp-3 ${
-                    isDark ? 'text-slate-400' : 'text-slate-600'
-                  }`}>
-                    {proj.description}
-                  </p>
-                </div>
-
-                <div>
-                  <div className="flex flex-wrap gap-1.5 mb-4">
-                    {proj.tags.map(t => (
-                      <span key={t} className={`text-[10px] px-2.5 py-0.5 rounded-md font-mono border ${
-                        isDark ? 'bg-slate-950 text-slate-300 border-slate-800' : 'bg-slate-100 text-slate-700 border-slate-200'
-                      }`}>
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-
-                  <div className={`pt-3 border-t flex items-center justify-between text-xs ${
-                    isDark ? 'border-slate-800' : 'border-slate-100'
-                  }`}>
-                    {proj.githubUrl && (
-                      <a
-                        href={proj.githubUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-1.5 font-bold text-xs px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 transition-colors shadow-md shadow-indigo-600/20"
-                      >
-                        <GithubIcon className="w-3.5 h-3.5" />
-                        View Code
-                      </a>
-                    )}
-                    {proj.liveUrl && (
-                      <a
-                        href={proj.liveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="text-xs font-bold text-indigo-400 hover:underline flex items-center gap-1"
-                      >
-                        <ExternalLink className="w-3 h-3" />
-                        Live Demo
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <ProjectCard3D 
+                key={proj.title} 
+                proj={proj} 
+                idx={idx} 
+                isDark={isDark} 
+              />
             ))}
           </div>
+
 
         </div>
       </section>
