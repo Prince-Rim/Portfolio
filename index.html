@@ -2,8 +2,17 @@
 <html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicons & App Icons for Google Search and Browsers -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192x192.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/favicon-512x512.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Primary Meta Tags -->
     <title>Justin Allen Azucena | Full-Stack Software Engineer & Developer</title>
@@ -13,56 +22,87 @@
     <meta name="author" content="Justin Allen Azucena" />
     <meta name="robots" content="index, follow" />
     <meta name="google-site-verification" content="google80b75280b0d9bf02" />
+    <link rel="canonical" href="https://justinallenazucena.vercel.app/" />
+
+    <!-- Google Site Name & Web Application Naming -->
+    <meta name="application-name" content="Justin Allen Azucena" />
+    <meta name="apple-mobile-web-app-title" content="Justin Allen Azucena" />
+    <meta name="theme-color" content="#05070e" />
 
     <!-- Open Graph / Facebook / LinkedIn -->
     <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Justin Allen Azucena" />
+    <meta property="og:url" content="https://justinallenazucena.vercel.app/" />
     <meta property="og:title" content="Justin Allen Azucena | Full-Stack Software Engineer" />
     <meta property="og:description" content="Explore projects, technical stack, certificates, and academic journey of Justin Allen Azucena." />
-    <meta property="og:image" content="/profile1.jpg" />
+    <meta property="og:image" content="https://justinallenazucena.vercel.app/profile1.jpg" />
 
     <!-- Twitter / X -->
     <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://justinallenazucena.vercel.app/" />
     <meta property="twitter:title" content="Justin Allen Azucena | Full-Stack Software Engineer" />
     <meta property="twitter:description" content="Official portfolio of Justin Allen Azucena — Full-Stack Software Engineer & Developer." />
+    <meta property="twitter:image" content="https://justinallenazucena.vercel.app/profile1.jpg" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 
-    <!-- JSON-LD Structured Data Schema for Google Search -->
+    <!-- Schema.org WebSite Definition for Google Search Site Name -->
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
-        "@type": "Person",
+        "@type": "WebSite",
         "name": "Justin Allen Azucena",
-        "url": "https://github.com/Prince-Rim",
-        "image": "/profile1.jpg",
-        "jobTitle": "Full-Stack Software Engineer",
-        "worksFor": {
-          "@type": "EducationalOrganization",
-          "name": "STI Academic Center Novaliches"
-        },
-        "alumnusOf": [
-          {
+        "alternateName": [
+          "Justin Azucena",
+          "Justin Allen Azucena Portfolio",
+          "Prince-Rim"
+        ],
+        "url": "https://justinallenazucena.vercel.app/"
+      }
+    </script>
+
+    <!-- Schema.org Person & ProfilePage Schema for Google Search -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        "dateCreated": "2026-09-01T00:00:00+08:00",
+        "dateModified": "2026-09-03T19:25:00+08:00",
+        "mainEntity": {
+          "@type": "Person",
+          "name": "Justin Allen Azucena",
+          "alternateName": "Justin Azucena",
+          "url": "https://justinallenazucena.vercel.app/",
+          "image": "https://justinallenazucena.vercel.app/profile1.jpg",
+          "jobTitle": "Full-Stack Software Engineer",
+          "worksFor": {
             "@type": "EducationalOrganization",
             "name": "STI Academic Center Novaliches"
           },
-          {
-            "@type": "EducationalOrganization",
-            "name": "Lagro High School"
-          }
-        ],
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "Quezon City",
-          "addressCountry": "Philippines"
-        },
-        "email": "azucenajustinallen@gmail.com",
-        "sameAs": [
-          "https://github.com/Prince-Rim",
-          "https://www.linkedin.com/in/justin-allen-azucena-1093b2299/"
-        ]
+          "alumnusOf": [
+            {
+              "@type": "EducationalOrganization",
+              "name": "STI Academic Center Novaliches"
+            },
+            {
+              "@type": "EducationalOrganization",
+              "name": "Lagro High School"
+            }
+          ],
+          "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Quezon City",
+            "addressCountry": "Philippines"
+          },
+          "email": "azucenajustinallen@gmail.com",
+          "sameAs": [
+            "https://github.com/Prince-Rim",
+            "https://www.linkedin.com/in/justin-allen-azucena-1093b2299/"
+          ]
+        }
       }
     </script>
   </head>

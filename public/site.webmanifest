@@ -1,0 +1,20 @@
+{
+  "name": "Justin Allen Azucena | Full-Stack Software Engineer",
+  "short_name": "Justin Azucena",
+  "icons": [
+    {
+      "src": "/favicon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#05070e",
+  "background_color": "#05070e",
+  "display": "standalone",
+  "start_url": "/"
+}
