@@ -1,6 +1,13 @@
 @import "tailwindcss";
 
 @layer base {
+  html,
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    width: 100%;
+  }
+
   html {
     scroll-behavior: smooth;
   }
@@ -89,6 +96,17 @@
 .is-visible .slide-in-from-right {
   opacity: 1;
   transform: translateX(0);
+}
+
+@media (max-width: 640px) {
+  .slide-in-from-left,
+  .slide-in-from-right {
+    transform: translateY(20px);
+  }
+  .is-visible .slide-in-from-left,
+  .is-visible .slide-in-from-right {
+    transform: translateY(0);
+  }
 }
 
 

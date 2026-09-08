@@ -5,6 +5,8 @@ import {
   ChevronRight, 
   Send, 
   CheckCircle2, 
+  AlertCircle,
+  Loader2,
   Building2, 
   FolderGit2, 
   Mail, 
@@ -650,7 +652,9 @@ export default function App() {
   const [activeProjectFilter, setActiveProjectFilter] = useState<string>('All');
   const [activeNavSection, setActiveNavSection] = useState<string>('hero');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
+  const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [contactFeedback, setContactFeedback] = useState<string>('');
   const [discordCopied, setDiscordCopied] = useState(false);
 
 
@@ -941,10 +945,54 @@ export default function App() {
     ? projects
     : projects.filter(p => p.category.toLowerCase().includes(activeProjectFilter.toLowerCase()));
 
-  const handleContactSubmit = (e: React.FormEvent) => {
+  const handleContactSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    setTimeout(() => setFormSubmitted(false), 4000);
+    setContactStatus('loading');
+    setContactFeedback('');
+
+    const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || '6d4a21bd-1fab-46f5-b215-e3b60833c1fc';
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: contactData.name,
+          email: contactData.email,
+          message: contactData.message,
+          from_name: contactData.name,
+          subject: `Portfolio Inquiry from ${contactData.name}`
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.status === 200 && data.success) {
+        setContactStatus('success');
+        setContactFeedback('Message sent successfully! I will get back to you soon.');
+        setContactData({ name: '', email: '', message: '' });
+        setTimeout(() => {
+          setContactStatus('idle');
+          setContactFeedback('');
+        }, 5000);
+      } else {
+        setContactStatus('error');
+        setContactFeedback(data.message || 'Failed to send message. Please try again or email directly.');
+        setTimeout(() => {
+          setContactStatus('idle');
+        }, 6000);
+      }
+    } catch {
+      setContactStatus('error');
+      setContactFeedback('Network error. Please check your connection or reach out via email directly.');
+      setTimeout(() => {
+        setContactStatus('idle');
+      }, 6000);
+    }
   };
 
   const isDark = theme === 'dark';
@@ -960,7 +1008,7 @@ export default function App() {
   ];
 
   return (
-    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative ${
+    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative w-full overflow-x-hidden ${
       isDark ? 'bg-[#05070e] text-slate-100' : 'bg-[#f4f7fb] text-slate-900'
     }`}>
       
@@ -968,15 +1016,15 @@ export default function App() {
       <StarField isDark={isDark} />
 
       {/* Header */}
-      <header className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-300 ${
+      <header className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-300 w-full overflow-hidden ${
         isDark ? 'bg-[#05070e]/80 border-slate-800/80' : 'bg-white/80 border-slate-200/80'
       }`}>
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between relative z-10">
-          <a href="#" className="font-bold text-base tracking-tight flex items-center gap-2 group">
-            <span className="h-8 w-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md shadow-indigo-600/30 group-hover:scale-105 transition-transform">
+        <div className="max-w-6xl mx-auto px-3.5 sm:px-6 h-16 flex items-center justify-between relative z-10 w-full">
+          <a href="#" className="font-bold text-sm sm:text-base tracking-tight flex items-center gap-2 group min-w-0 shrink">
+            <span className="h-8 w-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md shadow-indigo-600/30 group-hover:scale-105 transition-transform shrink-0">
               JA
             </span>
-            <span className={`transition-colors font-bold ${isDark ? 'text-white group-hover:text-indigo-400' : 'text-slate-900 group-hover:text-indigo-600'}`}>
+            <span className={`transition-colors font-bold truncate ${isDark ? 'text-white group-hover:text-indigo-400' : 'text-slate-900 group-hover:text-indigo-600'}`}>
               Justin Allen Azucena
             </span>
           </a>
@@ -1004,10 +1052,10 @@ export default function App() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={toggleTheme}
-              className={`p-2 rounded-xl border transition-all text-xs ${
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all text-xs ${
                 isDark 
                   ? 'bg-slate-900 border-slate-800 text-amber-300 hover:border-slate-700' 
                   : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 shadow-sm'
@@ -1020,7 +1068,7 @@ export default function App() {
               href={GITHUB_URL} 
               target="_blank" 
               rel="noreferrer"
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all ${
                 isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-700 hover:text-slate-950 shadow-sm'
               }`}
               title="GitHub Profile"
@@ -1032,7 +1080,7 @@ export default function App() {
               href={LINKEDIN_URL} 
               target="_blank" 
               rel="noreferrer"
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all ${
                 isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-blue-400' : 'bg-white border-slate-200 text-slate-700 hover:text-blue-600 shadow-sm'
               }`}
               title="LinkedIn Profile"
@@ -1042,7 +1090,7 @@ export default function App() {
 
             <button
               onClick={copyDiscord}
-              className={`p-2 rounded-xl border transition-all ${
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all ${
                 isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-indigo-400' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 shadow-sm'
               }`}
               title="Discord (spieler02.)"
@@ -1321,7 +1369,7 @@ export default function App() {
 
           {/* VIEW MODE 1: FLOATING / HOVERING MARQUEE STREAM */}
           {techViewMode === 'floating' && (
-            <div className="relative -mx-6 sm:-mx-10 py-4">
+            <div className="relative -mx-6 sm:-mx-10 py-4 overflow-hidden">
               
               {/* Left & Right Ambient Gradient Fade Masks for Infinite Floating Illusion */}
               <div className={`pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-40 z-20 bg-gradient-to-r ${
@@ -1753,8 +1801,8 @@ export default function App() {
             </div>
 
             {/* Live Contribution SVG */}
-            <div className="overflow-x-auto pb-2 flex justify-center">
-              <div className="min-w-[720px] p-4 rounded-2xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center">
+            <div className="overflow-x-auto pb-2 w-full">
+              <div className="min-w-[720px] mx-auto p-4 rounded-2xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center">
                 <img
                   src={`https://ghchart.rshah.org/6366f1/${GITHUB_USERNAME}`}
                   alt="Justin Allen Azucena's GitHub Contribution Chart"
@@ -1797,7 +1845,7 @@ export default function App() {
       </section>
 
       {/* 05 - EDUCATION & ACADEMIC BACKGROUND WITH PROPORTIONAL CLEAN LOGOS */}
-      <section id="experience" className="py-20 px-6 relative z-10">
+      <section id="experience" className="py-20 px-6 relative z-10 overflow-hidden">
         <div className="max-w-4xl mx-auto reveal-on-scroll">
           
           <div className="text-center mb-12">
@@ -2043,46 +2091,82 @@ export default function App() {
 
           <form onSubmit={handleContactSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold mb-1 text-slate-300">Name</label>
+              <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Name</label>
               <input 
                 type="text" 
                 required
+                disabled={contactStatus === 'loading'}
+                value={contactData.name}
+                onChange={(e) => setContactData(prev => ({ ...prev, name: e.target.value }))}
                 placeholder="Justin / Recruiter" 
-                className={`w-full px-4 py-3 rounded-xl border text-xs focus:outline-none focus:border-indigo-500 transition-colors ${
+                className={`w-full px-4 py-3 rounded-xl border text-xs focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-60 ${
                   isDark ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
                 }`}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1 text-slate-300">Email</label>
+              <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email</label>
               <input 
                 type="email" 
                 required
+                disabled={contactStatus === 'loading'}
+                value={contactData.email}
+                onChange={(e) => setContactData(prev => ({ ...prev, email: e.target.value }))}
                 placeholder="you@domain.com" 
-                className={`w-full px-4 py-3 rounded-xl border text-xs focus:outline-none focus:border-indigo-500 transition-colors ${
+                className={`w-full px-4 py-3 rounded-xl border text-xs focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-60 ${
                   isDark ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
                 }`}
               />
             </div>
             <div>
-              <label className="block text-xs font-semibold mb-1 text-slate-300">Message</label>
+              <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message</label>
               <textarea 
                 rows={4} 
                 required
+                disabled={contactStatus === 'loading'}
+                value={contactData.message}
+                onChange={(e) => setContactData(prev => ({ ...prev, message: e.target.value }))}
                 placeholder="Your project inquiry or message..." 
-                className={`w-full px-4 py-3 rounded-xl border text-xs resize-none focus:outline-none focus:border-indigo-500 transition-colors ${
+                className={`w-full px-4 py-3 rounded-xl border text-xs resize-none focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-60 ${
                   isDark ? 'bg-slate-950 border-slate-800 text-white' : 'bg-slate-50 border-slate-300 text-slate-900'
                 }`}
               />
             </div>
+
+            {contactFeedback && (
+              <div className={`p-3 rounded-xl text-xs flex items-center gap-2 border transition-all ${
+                contactStatus === 'success' 
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
+                  : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
+              }`}>
+                {contactStatus === 'success' ? (
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                ) : (
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
+                )}
+                <span>{contactFeedback}</span>
+              </div>
+            )}
+
             <button
               type="submit"
-              className="w-full py-3.5 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30"
+              disabled={contactStatus === 'loading'}
+              className="w-full py-3.5 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 disabled:bg-indigo-700 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30"
             >
-              {formSubmitted ? (
+              {contactStatus === 'loading' ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  Sending Message...
+                </>
+              ) : contactStatus === 'success' ? (
                 <>
                   <CheckCircle2 className="w-4 h-4 text-green-300" />
                   Message Sent Successfully!
+                </>
+              ) : contactStatus === 'error' ? (
+                <>
+                  <AlertCircle className="w-4 h-4 text-rose-300" />
+                  Try Again
                 </>
               ) : (
                 <>
@@ -2101,7 +2185,7 @@ export default function App() {
       }`}>
         <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
           <p>© {new Date().getFullYear()} Justin Allen Azucena</p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
             <a href="/resume.html" target="_blank" rel="noreferrer" className="hover:text-indigo-400">Resume</a>
             <a href={GITHUB_URL} target="_blank" rel="noreferrer" className="hover:text-indigo-400">GitHub</a>
             <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className="hover:text-indigo-400">LinkedIn</a>
