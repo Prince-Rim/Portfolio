@@ -73,6 +73,10 @@ import gitIcon from './assets/icons/git.svg';
 import githubIcon from './assets/icons/github.svg';
 import figmaIcon from './assets/icons/figma.svg';
 import wordpressIcon from './assets/icons/wordpress.svg';
+import renderIcon from './assets/icons/render.svg';
+import vercelIcon from './assets/icons/vercel.svg';
+import netlifyIcon from './assets/icons/netlify.svg';
+import androidStudioIcon from './assets/icons/androidstudio.svg';
 import supabaseIcon from './assets/icons/supabase.svg';
 import vscodeIcon from './assets/icons/vscode.svg';
 import microsoftIcon from './assets/icons/microsoft.svg';
@@ -449,6 +453,42 @@ const skillsData: TechSkillItem[] = [
     iconSrc: postmanIcon,
     description: 'RESTful API endpoint validation, automated test collections, and JSON payload inspection.',
     badge: 'Testing'
+  },
+
+  // Cloud & Deployment Platforms
+  {
+    name: 'Render',
+    category: 'tools',
+    categoryLabel: 'Cloud & Hosting',
+    iconSrc: renderIcon,
+    description: 'Unified cloud hosting, automated Git deployments, Docker services, and managed PostgreSQL.',
+    badge: 'Cloud'
+  },
+  {
+    name: 'Vercel',
+    category: 'tools',
+    categoryLabel: 'Deployment & CI',
+    iconSrc: vercelIcon,
+    description: 'Frontend cloud platform, serverless edge functions, instant preview deployments, and analytics.',
+    badge: 'Hosting'
+  },
+  {
+    name: 'Netlify',
+    category: 'tools',
+    categoryLabel: 'Cloud & Hosting',
+    iconSrc: netlifyIcon,
+    description: 'Continuous web deployment, serverless functions, form handling, and global edge CDN distribution.',
+    badge: 'Jamstack'
+  },
+
+  // Mobile & Game Development
+  {
+    name: 'Android Studio',
+    category: 'tools',
+    categoryLabel: 'Mobile IDE',
+    iconSrc: androidStudioIcon,
+    description: 'Official Android IDE, Gradle build systems, emulator testing, Kotlin/Java layouts, and APK packaging.',
+    badge: 'IDE'
   }
 ];
 
@@ -456,6 +496,7 @@ const skillsData: TechSkillItem[] = [
 const floatingRow1: TechSkillItem[] = [
   { name: 'Vite', iconSrc: viteIcon, category: 'frontend', categoryLabel: 'Frontend' },
   { name: 'React 19', iconSrc: reactIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'Vercel', iconSrc: vercelIcon, category: 'tools', categoryLabel: 'Hosting' },
   { name: 'HTML5', iconSrc: html5Icon, category: 'frontend', categoryLabel: 'Frontend' },
   { name: 'CSS3', iconSrc: css3Icon, category: 'frontend', categoryLabel: 'Frontend' },
   { name: 'JavaScript', iconSrc: jsIcon, category: 'programming', categoryLabel: 'Programming' },
@@ -471,7 +512,9 @@ const floatingRow2: TechSkillItem[] = [
   { name: 'MySQL', iconSrc: mysqlIcon, category: 'database', categoryLabel: 'Database' },
   { name: 'PostgreSQL', iconSrc: postgresIcon, category: 'database', categoryLabel: 'Database' },
   { name: 'Supabase', iconSrc: supabaseIcon, category: 'backend', categoryLabel: 'BaaS & Cloud' },
+  { name: 'Render', iconSrc: renderIcon, category: 'tools', categoryLabel: 'Cloud' },
   { name: 'PHP', iconSrc: phpIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Netlify', iconSrc: netlifyIcon, category: 'tools', categoryLabel: 'Deployment' },
   { name: 'Laravel', iconSrc: laravelIcon, category: 'backend', categoryLabel: 'Backend' },
   { name: 'Python', iconSrc: pythonIcon, category: 'programming', categoryLabel: 'AI & Data' },
   { name: 'C# / .NET', iconSrc: csharpIcon, category: 'programming', categoryLabel: 'Enterprise' },
@@ -487,6 +530,7 @@ const floatingRow3: TechSkillItem[] = [
   { name: 'Git', iconSrc: gitIcon, category: 'tools', categoryLabel: 'Version Control' },
   { name: 'GitHub', iconSrc: githubIcon, category: 'tools', categoryLabel: 'DevOps & Git' },
   { name: 'WordPress', iconSrc: wordpressIcon, category: 'tools', categoryLabel: 'CMS & Web' },
+  { name: 'Android Studio', iconSrc: androidStudioIcon, category: 'tools', categoryLabel: 'Mobile IDE' },
   { name: 'Microsoft 365', iconSrc: microsoftIcon, category: 'microsoft', categoryLabel: 'Productivity' },
   { name: 'VS Code', iconSrc: vscodeIcon, category: 'microsoft', categoryLabel: 'IDE Editor' },
   { name: 'Unity 3D', iconSrc: unityIcon, category: 'tools', categoryLabel: '3D Engine' },
@@ -925,7 +969,11 @@ export default function App() {
           tech.name === 'Unity 3D' || 
           tech.name === 'SAP S/4HANA' || 
           tech.name === 'WordPress' || 
-          tech.name === 'Postman'
+          tech.name === 'Postman' ||
+          tech.name === 'Render' ||
+          tech.name === 'Vercel' ||
+          tech.name === 'Netlify' ||
+          tech.name === 'Android Studio'
         )) ||
 
         tech.category === activeTechCategory;
@@ -1515,7 +1563,8 @@ export default function App() {
                     { id: 'backend', label: 'Backend' },
                     { id: 'database', label: 'Databases' },
                     { id: 'design', label: 'Design' },
-                    { id: 'microsoft', label: 'Microsoft' }
+                    { id: 'microsoft', label: 'Microsoft' },
+                    { id: 'tools', label: 'Tools & Cloud' }
                   ].map(q => (
                     <button
                       key={q.id}
@@ -1555,7 +1604,7 @@ export default function App() {
                     { id: 'database', label: 'Databases' },
                     { id: 'design', label: 'Design & UI/UX' },
                     { id: 'microsoft', label: 'Microsoft Tools' },
-                    { id: 'tools', label: 'Tools & ERP' }
+                    { id: 'tools', label: 'Tools & Cloud' }
                   ].map(tab => {
                     const count = tab.id === 'all' 
                       ? skillsData.length 
@@ -1564,7 +1613,7 @@ export default function App() {
                         : tab.id === 'design'
                           ? skillsData.filter(s => s.category === 'design' || s.name === 'Figma' || s.name === 'Canva' || s.name === 'Framer').length
                           : tab.id === 'tools'
-                            ? skillsData.filter(s => s.category === 'tools' || s.name === 'Git' || s.name === 'GitHub' || s.name === 'Unity 3D' || s.name === 'SAP S/4HANA' || s.name === 'WordPress' || s.name === 'Postman').length
+                            ? skillsData.filter(s => s.category === 'tools' || s.name === 'Git' || s.name === 'GitHub' || s.name === 'Unity 3D' || s.name === 'SAP S/4HANA' || s.name === 'WordPress' || s.name === 'Postman' || s.name === 'Render' || s.name === 'Vercel' || s.name === 'Netlify' || s.name === 'Android Studio').length
                             : skillsData.filter(s => s.category === tab.id).length;
 
 
