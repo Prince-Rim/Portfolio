@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Sparkles, 
   X, 
+  Menu,
   ChevronRight, 
   Send, 
   CheckCircle2, 
@@ -24,6 +25,8 @@ import {
   SlidersHorizontal,
   Search
 } from 'lucide-react';
+
+import { GitHubContributionGraph } from './components/GitHubContributionGraph';
 
 
 import profileImg from './assets/profile1.jpg';
@@ -700,6 +703,7 @@ export default function App() {
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactFeedback, setContactFeedback] = useState<string>('');
   const [discordCopied, setDiscordCopied] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
 
   // Dynamic Bidirectional Intersection Observer for Scroll-in & Scroll-out Animations
@@ -1063,9 +1067,9 @@ export default function App() {
       {/* Natural Starry Cosmic Background */}
       <StarField isDark={isDark} />
 
-      {/* Header */}
-      <header className={`sticky top-0 z-40 backdrop-blur-xl border-b transition-colors duration-300 w-full overflow-hidden ${
-        isDark ? 'bg-[#05070e]/80 border-slate-800/80' : 'bg-white/80 border-slate-200/80'
+      {/* Header - Fixed persistently so it remains visible at all scroll positions */}
+      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-colors duration-300 w-full ${
+        isDark ? 'bg-[#05070e]/90 border-slate-800/80 shadow-lg shadow-black/20' : 'bg-white/90 border-slate-200/80 shadow-sm'
       }`}>
         <div className="max-w-6xl mx-auto px-3.5 sm:px-6 h-16 flex items-center justify-between relative z-10 w-full">
           <a href="#" className="font-bold text-sm sm:text-base tracking-tight flex items-center gap-2 group min-w-0 shrink">
@@ -1108,6 +1112,7 @@ export default function App() {
                   ? 'bg-slate-900 border-slate-800 text-amber-300 hover:border-slate-700' 
                   : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 shadow-sm'
               }`}
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
@@ -1152,9 +1157,56 @@ export default function App() {
             >
               Get In Touch
             </a>
+
+            {/* Mobile Menu Toggle Button */}
+            <button
+              onClick={() => setMobileMenuOpen(prev => !prev)}
+              className={`md:hidden p-1.5 sm:p-2 rounded-xl border transition-all ${
+                isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-700 hover:text-slate-950 shadow-sm'
+              }`}
+              aria-label="Toggle navigation menu"
+            >
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
+            </button>
           </div>
         </div>
+
+        {/* Mobile Dropdown Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className={`md:hidden border-t px-4 py-3 flex flex-col gap-2 transition-all ${
+            isDark ? 'bg-[#070b16] border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
+          }`}>
+            {navLinks.map((link) => {
+              const isActive = activeNavSection === link.id;
+              return (
+                <a
+                  key={link.id}
+                  href={`#${link.id}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
+                    isActive
+                      ? 'bg-indigo-600/10 text-indigo-400 font-bold'
+                      : isDark ? 'hover:bg-slate-900 hover:text-white' : 'hover:bg-slate-100 hover:text-slate-900'
+                  }`}
+                >
+                  <span>{link.label}</span>
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-indigo-400" />}
+                </a>
+              );
+            })}
+            <a
+              href="#contact"
+              onClick={() => setMobileMenuOpen(false)}
+              className="mt-1 w-full py-2 px-3 rounded-lg bg-indigo-600 text-white font-semibold text-xs text-center hover:bg-indigo-500 transition-colors"
+            >
+              Get In Touch
+            </a>
+          </div>
+        )}
       </header>
+
+      {/* Header spacer to prevent top content from hiding under fixed navbar */}
+      <div className="h-16 shrink-0 w-full" aria-hidden="true" />
 
       {/* Hero Section */}
       <section id="hero" className="relative pt-16 pb-16 md:pt-24 md:pb-24 px-6 overflow-hidden z-10">
@@ -1297,7 +1349,7 @@ export default function App() {
 
 
       {/* 01 - ABOUT ME */}
-      <section id="about" className="py-20 px-6 relative z-10">
+      <section id="about" className="py-20 px-6 relative z-10 scroll-mt-20">
         <div className="max-w-5xl mx-auto reveal-on-scroll">
           
           <div className="text-center mb-12">
@@ -1356,7 +1408,7 @@ export default function App() {
       </section>
 
       {/* 02 - SKILLS & TECHNOLOGIES */}
-      <section id="skills" className={`py-20 px-6 border-y relative z-10 transition-colors overflow-hidden ${
+      <section id="skills" className={`py-20 px-6 border-y relative z-10 transition-colors overflow-hidden scroll-mt-20 ${
         isDark ? 'bg-[#070b16]/95 border-slate-800/80' : 'bg-slate-100/70 border-slate-200'
       }`}>
         <div className="max-w-6xl mx-auto reveal-on-scroll">
@@ -1752,7 +1804,7 @@ export default function App() {
 
 
       {/* 03 - PROJECTS SHOWCASE */}
-      <section id="projects" className="py-20 px-6 relative z-10">
+      <section id="projects" className="py-20 px-6 relative z-10 scroll-mt-20">
         <div className="max-w-6xl mx-auto reveal-on-scroll">
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b pb-4 border-slate-800/80">
@@ -1801,13 +1853,13 @@ export default function App() {
       </section>
 
       {/* 04 - LIVE GITHUB ACTIVITY & CONTRIBUTION GRAPH */}
-      <section id="github-activity" className={`py-20 px-6 border-y relative z-10 transition-colors ${
+      <section id="github-activity" className={`py-20 px-6 border-y relative z-10 transition-colors scroll-mt-20 ${
         isDark ? 'bg-[#070b16]/90 border-slate-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
         <div className="max-w-6xl mx-auto reveal-on-scroll">
           
           <div className="text-center mb-12">
-            <span className="text-[11px] font-mono uppercase tracking-widest text-indigo-400 font-bold block mb-1">
+            <span className="text-[11px] font-mono uppercase tracking-widest text-emerald-400 font-bold block mb-1">
               OPEN SOURCE & CODE ACTIVITY
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
@@ -1824,7 +1876,7 @@ export default function App() {
           }`}>
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800/80">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-indigo-600/10 border border-indigo-500/30 text-indigo-400">
+                <div className="p-2.5 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
                   <GithubIcon className="w-6 h-6" />
                 </div>
                 <div>
@@ -1849,33 +1901,19 @@ export default function App() {
               </a>
             </div>
 
-            {/* Live Contribution SVG */}
-            <div className="overflow-x-auto pb-2 w-full">
-              <div className="min-w-[720px] mx-auto p-4 rounded-2xl bg-slate-950/60 border border-slate-800/60 flex items-center justify-center">
-                <img
-                  src={`https://ghchart.rshah.org/6366f1/${GITHUB_USERNAME}`}
-                  alt="Justin Allen Azucena's GitHub Contribution Chart"
-                  className="w-full max-w-4xl h-auto"
-                  loading="lazy"
-                />
-              </div>
+            {/* Live Contribution Graph with Authentic GitHub Palette */}
+            <div className="w-full">
+              <GitHubContributionGraph
+                username={GITHUB_USERNAME}
+                githubUrl={GITHUB_URL}
+                isDark={isDark}
+              />
             </div>
 
             <div className="flex flex-wrap items-center justify-between gap-3 mt-4 text-[11px] text-slate-400 font-mono">
-              <div className="flex items-center gap-2">
-                <span>Less</span>
-                <div className="flex gap-1">
-                  <span className="w-3 h-3 rounded-sm bg-slate-800" />
-                  <span className="w-3 h-3 rounded-sm bg-indigo-900" />
-                  <span className="w-3 h-3 rounded-sm bg-indigo-600" />
-                  <span className="w-3 h-3 rounded-sm bg-indigo-400" />
-                </div>
-                <span>More</span>
-              </div>
-
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1">
-                  <GitCommit className="w-3.5 h-3.5 text-indigo-400" />
+                  <GitCommit className="w-3.5 h-3.5 text-emerald-400" />
                   Verified Commits
                 </span>
                 <span className="flex items-center gap-1">
@@ -1887,6 +1925,11 @@ export default function App() {
                   Open Source
                 </span>
               </div>
+
+              <div className="flex items-center gap-1.5 text-[10px] text-emerald-400 font-semibold">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Synchronized with GitHub</span>
+              </div>
             </div>
           </div>
 
@@ -1894,7 +1937,7 @@ export default function App() {
       </section>
 
       {/* 05 - EDUCATION & ACADEMIC BACKGROUND WITH PROPORTIONAL CLEAN LOGOS */}
-      <section id="experience" className="py-20 px-6 relative z-10 overflow-hidden">
+      <section id="experience" className="py-20 px-6 relative z-10 overflow-hidden scroll-mt-20">
         <div className="max-w-4xl mx-auto reveal-on-scroll">
           
           <div className="text-center mb-12">
@@ -2009,7 +2052,7 @@ export default function App() {
       </section>
 
       {/* 06 - CERTIFICATES GALLERY */}
-      <section id="certificates" className={`py-20 px-6 border-t relative z-10 transition-colors ${
+      <section id="certificates" className={`py-20 px-6 border-t relative z-10 transition-colors scroll-mt-20 ${
         isDark ? 'bg-[#070b16]/90 border-slate-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
         <div className="max-w-6xl mx-auto reveal-on-scroll">
@@ -2122,7 +2165,7 @@ export default function App() {
       )}
 
       {/* 07 - CONTACT SECTION */}
-      <section id="contact" className="py-20 px-6 max-w-3xl mx-auto w-full relative z-10">
+      <section id="contact" className="py-20 px-6 max-w-3xl mx-auto w-full relative z-10 scroll-mt-20">
         <div className={`rounded-3xl border p-8 sm:p-12 shadow-2xl reveal-on-scroll ${
           isDark ? 'bg-[#0a0f1d]/95 border-slate-800/80' : 'bg-white border-slate-200 shadow-sm'
         }`}>
