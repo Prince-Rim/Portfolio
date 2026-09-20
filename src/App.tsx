@@ -1246,7 +1246,7 @@ export default function App() {
             {/* Status & Role Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold mb-4 backdrop-blur-md shadow-sm">
               <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-              <span>Full-Stack Software Engineer & Developer</span>
+              <span>Full-Stack Software Developer</span>
             </div>
 
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
