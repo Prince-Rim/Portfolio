@@ -33,7 +33,8 @@ const GITHUB_THEMES = {
     textColor: '#7d8590',
     headerColor: '#f0f6fc',
     tooltipBg: '#1c2128',
-    tooltipBorder: '#30363d'
+    tooltipBorder: '#30363d',
+    tooltipText: '#f0f6fc'
   },
   light: {
     level0: '#ebedf0',
@@ -44,11 +45,12 @@ const GITHUB_THEMES = {
     emptyBorder: 'rgba(27, 31, 35, 0.06)',
     filledBorder: 'rgba(27, 31, 35, 0.06)',
     cardBg: '#ffffff',
-    cardBorder: '#d0d7de',
-    textColor: '#57606a',
-    headerColor: '#1f2328',
-    tooltipBg: '#24292f',
-    tooltipBorder: '#d0d7de'
+    cardBorder: '#e2e8f0',
+    textColor: '#64748b',
+    headerColor: '#0f172a',
+    tooltipBg: '#0f172a',
+    tooltipBorder: '#334155',
+    tooltipText: '#ffffff'
   }
 };
 
@@ -304,7 +306,7 @@ export const GitHubContributionGraph: React.FC<Props> = ({ username, githubUrl, 
                 left: `${tooltip.x}px`,
                 top: `${tooltip.y}px`,
                 backgroundColor: colors.tooltipBg,
-                color: colors.headerColor,
+                color: colors.tooltipText,
                 border: `1px solid ${colors.tooltipBorder}`
               }}
             >
