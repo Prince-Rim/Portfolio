@@ -54,6 +54,8 @@ import certRescue from './assets/certificates/cert10.png';
 import certPython from './assets/certificates/cert8.jpg';
 import certCanva from './assets/certificates/cert7.jpg';
 import certEgov from './assets/certificates/certegov.png';
+import certEgovTop30 from './assets/certificates/certegov-top30.png';
+import certEgovAppearance from './assets/certificates/certegov-appearance.png';
 
 // Official Pixel-Perfect Brand SVG Icon Imports
 import jsIcon from './assets/icons/javascript.svg';
@@ -666,14 +668,21 @@ function ProjectCard({
 }
 
 
-interface Certificate {
+interface CertificateGalleryItem {
+  title: string;
+  image: string;
+  caption?: string;
+  date?: string;
+}
 
+interface Certificate {
   title: string;
   issuer: string;
   date: string;
   image: string;
   description: string;
   category: string;
+  gallery?: CertificateGalleryItem[];
 }
 
 interface EducationItem {
@@ -699,6 +708,7 @@ export default function App() {
   const [activeProjectFilter, setActiveProjectFilter] = useState<string>('All');
   const [activeNavSection, setActiveNavSection] = useState<string>('hero');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
+  const [activeCertDocIndex, setActiveCertDocIndex] = useState<number>(0);
   const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactFeedback, setContactFeedback] = useState<string>('');
@@ -867,12 +877,32 @@ export default function App() {
 
   const certificates: Certificate[] = [
     {
-      title: 'eGov PH Hackathon 2026 Participation & Finalist Recognition',
+      title: 'eGov PH Hackathon 2026 — Top 30 Finalist Recognition',
       issuer: 'Department of Information and Communications Technology (DICT)',
-      date: '2026',
-      image: certEgov,
-      description: 'Official Certificate of Recognition for developing eScholar — an AI-Powered Student Scholarship Finder and GovTech application portal presented at the nationwide eGov PH Hackathon 2026.',
-      category: 'Hackathon'
+      date: 'September 2026',
+      image: certEgovTop30,
+      description: 'Official Certificate of Recognition awarded by DICT Undersecretary David L. Almirol Jr. to Team Fakebitz for qualifying as one of the Top 30 Finalist Teams nationwide at the eGovPH Hackathon 2026 for developing eScholar. Includes verified individual Certificate of Appreciation and Certificate of Appearance for the ceremonial launch of eGovAI at The Manila Hotel.',
+      category: 'Hackathon',
+      gallery: [
+        {
+          title: 'Top 30 Finalist Recognition',
+          image: certEgovTop30,
+          caption: 'Official Certificate of Recognition — Top 30 Finalist Teams awarded to Team Fakebitz (Justin Allen Azucena) by DICT Undersecretary David L. Almirol Jr. on September 21, 2026.',
+          date: 'September 21, 2026'
+        },
+        {
+          title: 'Certificate of Appreciation',
+          image: certEgov,
+          caption: 'Certificate of Appreciation awarded to Justin Allen Azucena for invaluable contribution and active engagement in the eGovPH Hackathon 2026 held at SMX Convention Center Aura on July 22, 2026.',
+          date: 'July 22, 2026'
+        },
+        {
+          title: 'Certificate of Appearance',
+          image: certEgovAppearance,
+          caption: 'Certificate of Appearance certifying Justin Allen T. Azucena of FakeBitz - STI College Novaliches attending the Ceremonial Launching of eGovAI in eGovPH SuperApp at The Manila Hotel on September 21, 2026.',
+          date: 'September 21, 2026'
+        }
+      ]
     },
     {
       title: 'Single Day Masterclass with Python',
@@ -2073,7 +2103,10 @@ export default function App() {
             {certificates.map((cert, index) => (
               <div
                 key={index}
-                onClick={() => setSelectedCert(cert)}
+                onClick={() => {
+                  setSelectedCert(cert);
+                  setActiveCertDocIndex(0);
+                }}
                 className={`group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col justify-between ${
                   isDark ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-purple-500/50 hover:shadow-purple-950/30' : 'bg-white border-slate-200 hover:border-purple-300 hover:shadow-purple-100 shadow-sm'
                 }`}
@@ -2088,6 +2121,11 @@ export default function App() {
                   <span className="absolute top-3 right-3 px-2.5 py-0.5 rounded-md text-[10px] font-bold bg-slate-900/90 border border-slate-700 text-purple-300 backdrop-blur-sm shadow-md">
                     {cert.category}
                   </span>
+                  {cert.gallery && cert.gallery.length > 1 && (
+                    <span className="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-600/90 border border-purple-400/40 text-white backdrop-blur-sm shadow-md flex items-center gap-1">
+                      <span>{cert.gallery.length} Verified Docs</span>
+                    </span>
+                  )}
                 </div>
 
                 <div className="p-4 flex-1 flex flex-col justify-between">
@@ -2119,50 +2157,98 @@ export default function App() {
       </section>
 
       {/* Certificate Modal Lightbox */}
-      {selectedCert && (
-        <div 
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200"
-          onClick={() => setSelectedCert(null)}
-        >
+      {selectedCert && (() => {
+        const currentDoc = selectedCert.gallery && selectedCert.gallery.length > 0
+          ? selectedCert.gallery[activeCertDocIndex] || {
+              title: selectedCert.title,
+              image: selectedCert.image,
+              caption: selectedCert.description,
+              date: selectedCert.date
+            }
+          : {
+              title: selectedCert.title,
+              image: selectedCert.image,
+              caption: selectedCert.description,
+              date: selectedCert.date
+            };
+
+        return (
           <div 
-            className={`relative max-w-3xl w-full border rounded-3xl overflow-hidden shadow-2xl p-6 sm:p-8 ${
-              isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
-            }`}
-            onClick={e => e.stopPropagation()}
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200"
+            onClick={() => setSelectedCert(null)}
           >
-            <button
-              onClick={() => setSelectedCert(null)}
-              className="absolute top-5 right-5 p-2 rounded-full bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors z-10"
+            <div 
+              className={`relative max-w-3xl w-full border rounded-3xl overflow-hidden shadow-2xl p-6 sm:p-8 max-h-[92vh] flex flex-col ${
+                isDark ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
+              }`}
+              onClick={e => e.stopPropagation()}
             >
-              <X className="w-5 h-5" />
-            </button>
+              <button
+                onClick={() => setSelectedCert(null)}
+                className="absolute top-5 right-5 p-2 rounded-full bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors z-10"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            <div className="max-h-[60vh] overflow-hidden rounded-2xl bg-slate-950 flex items-center justify-center border border-slate-800 mb-6 shadow-inner">
-              <img
-                src={selectedCert.image}
-                alt={selectedCert.title}
-                className="max-h-[60vh] w-auto object-contain"
-              />
-            </div>
+              {/* Multi-document Tabs (if available) */}
+              {selectedCert.gallery && selectedCert.gallery.length > 1 && (
+                <div className="mb-4 pr-12">
+                  <div className="text-[10px] font-mono uppercase tracking-wider text-purple-400 font-bold mb-2 flex items-center gap-1.5">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Attached Official Records ({activeCertDocIndex + 1} of {selectedCert.gallery.length})</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedCert.gallery.map((doc, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setActiveCertDocIndex(idx)}
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
+                          activeCertDocIndex === idx
+                            ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30 ring-2 ring-purple-400/40'
+                            : isDark
+                              ? 'bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/60'
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+                        }`}
+                      >
+                        <span className={`w-1.5 h-1.5 rounded-full ${activeCertDocIndex === idx ? 'bg-white' : 'bg-purple-400'}`}></span>
+                        {doc.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
 
-            <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono">
-                  {selectedCert.category}
-                </span>
-                <span className="text-xs text-slate-400">Issued: {selectedCert.date}</span>
+              <div className="max-h-[52vh] overflow-hidden rounded-2xl bg-slate-950 flex items-center justify-center border border-slate-800 mb-5 shadow-inner">
+                <img
+                  src={currentDoc.image}
+                  alt={currentDoc.title || selectedCert.title}
+                  className="max-h-[52vh] w-auto object-contain transition-all duration-300"
+                />
               </div>
-              <h3 className="text-xl font-bold mb-1">
-                {selectedCert.title}
-              </h3>
-              <p className="text-sm font-semibold text-purple-400 mb-2">{selectedCert.issuer}</p>
-              <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
-                {selectedCert.description}
-              </p>
+
+              <div className="overflow-y-auto">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2.5 py-0.5 rounded-md text-xs font-semibold bg-purple-500/10 border border-purple-500/30 text-purple-400 font-mono">
+                    {selectedCert.category}
+                  </span>
+                  <span className="text-xs text-slate-400">
+                    Issued: {currentDoc.date || selectedCert.date}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold mb-1">
+                  {currentDoc.title && selectedCert.gallery && selectedCert.gallery.length > 1
+                    ? currentDoc.title
+                    : selectedCert.title}
+                </h3>
+                <p className="text-sm font-semibold text-purple-400 mb-2">{selectedCert.issuer}</p>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
+                  {currentDoc.caption || selectedCert.description}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
 
       {/* 07 - CONTACT SECTION */}
       <section id="contact" className="py-20 px-6 max-w-3xl mx-auto w-full relative z-10 scroll-mt-20">
