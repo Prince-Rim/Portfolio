@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
+  Sparkles, 
   X, 
   Menu,
   ChevronRight, 
@@ -19,11 +20,14 @@ import {
   GitCommit,
   GitPullRequest,
   Star,
+  LayoutGrid,
   ArrowRight,
+  SlidersHorizontal,
   Search
 } from 'lucide-react';
 
 import { GitHubContributionGraph } from './components/GitHubContributionGraph';
+
 
 import profileImg from './assets/profile1.jpg';
 import stiLogo from './assets/sti-logo.png';
@@ -53,7 +57,7 @@ import certEgov from './assets/certificates/certegov.png';
 import certEgovTop30 from './assets/certificates/certegov-top30.png';
 import certEgovAppearance from './assets/certificates/certegov-appearance.png';
 
-// Official Brand SVG Icon Imports
+// Official Pixel-Perfect Brand SVG Icon Imports
 import jsIcon from './assets/icons/javascript.svg';
 import tsIcon from './assets/icons/typescript.svg';
 import javaIcon from './assets/icons/java.svg';
@@ -87,8 +91,10 @@ import laravelIcon from './assets/icons/laravel.svg';
 import postmanIcon from './assets/icons/postman.svg';
 import unityIcon from './assets/icons/unity.svg';
 
+
+
 // Social Icon SVGs
-function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
+function GithubIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
@@ -97,7 +103,7 @@ function GithubIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
+function LinkedinIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -107,7 +113,7 @@ function LinkedinIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-function DiscordIcon({ className = "w-4 h-4" }: { className?: string }) {
+function DiscordIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M18.89 4.99a18.25 18.25 0 0 0-4.52-1.4 0.1 0.1 0 0 0-.1.05 12.78 12.78 0 0 0-.57 1.18 16.89 16.89 0 0 0-5.4 0 13.06 13.06 0 0 0-.58-1.18 0.1 0.1 0 0 0-.1-.05 18.25 18.25 0 0 0-4.52 1.4 0.1 0.1 0 0 0-.05.04C.9 9.94.3 14.75.7 19.5a0.1 0.1 0 0 0 .04.08 18.4 18.4 0 0 0 5.54 2.8 0.1 0.1 0 0 0 .11-.04 13.2 13.2 0 0 0 1.14-1.85 0.1 0.1 0 0 0-.06-.14 12.16 12.16 0 0 1-1.74-.83 0.1 0.1 0 0 1 0-.17c.12-.09.23-.18.34-.28a0.1 0.1 0 0 1 .1-.01 13.14 13.14 0 0 0 11.54 0 0.1 0.1 0 0 1 .1.01c.11.1.22.19.34.28a0.1 0.1 0 0 1 0 .17 11.83 11.83 0 0 1-1.74.83 0.1 0.1 0 0 0-.06.14 13.6 13.6 0 0 0 1.14 1.85 0.1 0.1 0 0 0 .11.04 18.35 18.35 0 0 0 5.55-2.8 0.1 0.1 0 0 0 .04-.08c.5-5.5-.8-10.3-2.4-14.47a0.1 0.1 0 0 0-.05-.04zM8.5 15.5c-1 0-1.8-0.9-1.8-2s0.8-2 1.8-2 1.8 0.9 1.8 2-0.8 2-1.8 2zm7 0c-1 0-1.8-0.9-1.8-2s0.8-2 1.8-2 1.8 0.9 1.8 2-0.8 2-1.8 2z" />
@@ -118,6 +124,112 @@ function DiscordIcon({ className = "w-4 h-4" }: { className?: string }) {
 const LINKEDIN_URL = "https://www.linkedin.com/in/justin-allen-azucena-1093b2299/";
 const GITHUB_USERNAME = "Prince-Rim";
 const GITHUB_URL = "https://github.com/Prince-Rim";
+
+// Smooth One-Shot Typing Animation for Hero Title (Types once on land)
+function TypewriterName({ isDark }: { isDark: boolean }) {
+  const name = "Justin Allen Azucena";
+  const [displayedText, setDisplayedText] = useState('');
+  const [cursorVisible, setCursorVisible] = useState(true);
+
+  // Blinking cursor line
+  useEffect(() => {
+    const cursorTimer = setInterval(() => {
+      setCursorVisible((v) => !v);
+    }, 530);
+    return () => clearInterval(cursorTimer);
+  }, []);
+
+  // One-time typing on initial landing
+  useEffect(() => {
+    if (displayedText.length < name.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(name.slice(0, displayedText.length + 1));
+      }, 85);
+      return () => clearTimeout(timeout);
+    }
+  }, [displayedText, name]);
+
+  return (
+    <span className="inline-flex items-baseline relative">
+      <span className={`bg-clip-text text-transparent ${
+        isDark 
+          ? 'bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-400'
+          : 'bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600'
+      }`}>
+        {displayedText || '\u00A0'}
+      </span>
+      <span
+        className={`inline-block w-[3.5px] sm:w-[5px] h-[0.82em] ml-1.5 sm:ml-2 rounded-full transition-opacity duration-150 ${
+          isDark 
+            ? 'bg-gradient-to-b from-indigo-400 to-pink-400'
+            : 'bg-gradient-to-b from-indigo-600 to-pink-600'
+        } ${cursorVisible ? 'opacity-100' : 'opacity-0'}`}
+      />
+    </span>
+  );
+}
+
+// Natural Starry Cosmic Background Component with Light Mode Ambient Mesh
+function StarField({ isDark }: { isDark: boolean }) {
+  const stars = useMemo(() => {
+    const starList = [];
+    const seed = 42;
+    for (let i = 0; i < 90; i++) {
+      const top = ((Math.sin(i * 99 + seed) + 1) / 2) * 100;
+      const left = ((Math.cos(i * 33 + seed) + 1) / 2) * 100;
+      const size = (i % 3 === 0) ? 2.5 : (i % 2 === 0) ? 1.8 : 1.2;
+      const opacity = (i % 4 === 0) ? 0.85 : (i % 3 === 0) ? 0.65 : 0.45;
+      const animClass = (i % 3 === 0) ? 'animate-twinkle-1' : (i % 2 === 0) ? 'animate-twinkle-2' : 'animate-twinkle-3';
+      starList.push({ id: i, top, left, size, opacity, animClass });
+    }
+    return starList;
+  }, []);
+
+  if (!isDark) {
+    return (
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Soft Ambient Mesh Glows for Light Mode Depth */}
+        <div className="absolute top-[-8%] left-[12%] w-[650px] h-[650px] rounded-full bg-indigo-200/35 blur-[140px] animate-pulse-glow" />
+        <div className="absolute top-[38%] right-[-8%] w-[600px] h-[600px] rounded-full bg-purple-200/30 blur-[150px] animate-pulse-glow" />
+        <div className="absolute bottom-[-10%] left-[8%] w-[580px] h-[580px] rounded-full bg-sky-200/30 blur-[130px] animate-pulse-glow" />
+        
+        {/* Subtle Engineering Grid Dot Pattern */}
+        <div 
+          className="absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage: `radial-gradient(#6366f1 1px, transparent 1px)`,
+            backgroundSize: '32px 32px'
+          }}
+        />
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+      {/* Deep Space Background Gradients */}
+      <div className="absolute top-[-10%] left-[20%] w-[600px] h-[600px] rounded-full bg-indigo-600/12 blur-[150px] animate-pulse-glow" />
+      <div className="absolute top-[40%] right-[-10%] w-[650px] h-[650px] rounded-full bg-purple-600/12 blur-[160px] animate-pulse-glow" />
+      <div className="absolute bottom-[-10%] left-[10%] w-[550px] h-[550px] rounded-full bg-blue-600/10 blur-[140px] animate-pulse-glow" />
+
+      {/* Natural Stars */}
+      {stars.map((star) => (
+        <div
+          key={star.id}
+          style={{
+            top: `${star.top}%`,
+            left: `${star.left}%`,
+            width: `${star.size}px`,
+            height: `${star.size}px`,
+            opacity: star.opacity,
+            boxShadow: star.size > 2 ? '0 0 6px 1px rgba(255, 255, 255, 0.8)' : '0 0 3px 0.5px rgba(255, 255, 255, 0.6)'
+          }}
+          className={`absolute rounded-full bg-white ${star.animClass}`}
+        />
+      ))}
+    </div>
+  );
+}
 
 interface TechSkillItem {
   name: string;
@@ -133,83 +245,57 @@ const skillsData: TechSkillItem[] = [
   {
     name: 'JavaScript',
     category: 'programming',
-    categoryLabel: 'Language',
+    categoryLabel: 'Programming',
     iconSrc: jsIcon,
-    description: 'Modern ES6+, Asynchronous JS, DOM APIs, and dynamic client logic.',
+    description: 'Modern ES6+, Asynchronous JS, DOM APIs, and dynamic interactive client logic.',
     badge: 'Core'
   },
   {
     name: 'TypeScript',
     category: 'programming',
-    categoryLabel: 'Language',
+    categoryLabel: 'Programming',
     iconSrc: tsIcon,
-    description: 'Type-safe scalable development, Generics, interfaces, and clean patterns.',
+    description: 'Type-safe scalable development, Generics, interfaces, and clean design patterns.',
     badge: 'Core'
   },
   {
     name: 'Python',
     category: 'programming',
-    categoryLabel: 'Language',
+    categoryLabel: 'Programming',
     iconSrc: pythonIcon,
-    description: 'Applied machine learning models, forecasting scripts, and backend automation.',
+    description: 'Machine Learning, AI forecasting models, automation scripting, and backend services.',
     badge: 'AI & Data'
   },
   {
     name: 'C# / .NET',
     category: 'programming',
-    categoryLabel: 'Language',
+    categoryLabel: 'Programming',
     iconSrc: csharpIcon,
-    description: 'Enterprise object-oriented engineering, LINQ, and robust backend logic.',
+    description: 'Enterprise object-oriented engineering, LINQ, async architectures, and desktop GUI.',
     badge: 'Enterprise'
   },
   {
-    name: 'Java (OOP)',
+    name: 'Java (OOP & Swing)',
     category: 'programming',
-    categoryLabel: 'Language',
+    categoryLabel: 'Programming',
     iconSrc: javaIcon,
-    description: 'Desktop software development, Swing GUI, JDBC, collections, and algorithms.',
+    description: 'Desktop software development, Java Swing, JDBC, collections, and algorithms.',
     badge: 'Desktop'
   },
   {
     name: 'PHP',
     category: 'programming',
-    categoryLabel: 'Language',
+    categoryLabel: 'Programming',
     iconSrc: phpIcon,
-    description: 'Server-side application logic, MVC structures, session auth, and APIs.',
+    description: 'Server-side application logic, dynamic MVC engines, session auth, and APIs.',
     badge: 'Web'
-  },
-
-  // Frontend
-  {
-    name: 'React 19',
-    category: 'frontend',
-    categoryLabel: 'Frontend',
-    iconSrc: reactIcon,
-    description: 'Component architecture, modern hooks, state management, and optimized render cycles.',
-    badge: 'Preferred'
-  },
-  {
-    name: 'Vite',
-    category: 'frontend',
-    categoryLabel: 'Frontend',
-    iconSrc: viteIcon,
-    description: 'Fast modern build tool with instant HMR and Rollup production bundling.',
-    badge: 'Build Tool'
-  },
-  {
-    name: 'Tailwind CSS',
-    category: 'frontend',
-    categoryLabel: 'Frontend',
-    iconSrc: tailwindIcon,
-    description: 'Utility-first modern styling, responsive layouts, and dark theme systems.',
-    badge: 'Styling'
   },
   {
     name: 'HTML5',
     category: 'frontend',
     categoryLabel: 'Frontend',
     iconSrc: html5Icon,
-    description: 'Semantic markup, accessibility standards, audio APIs, and SEO fundamentals.',
+    description: 'Semantic HTML markup, web accessibility standards, canvas, and audio elements.',
     badge: 'Standard'
   },
   {
@@ -217,15 +303,41 @@ const skillsData: TechSkillItem[] = [
     category: 'frontend',
     categoryLabel: 'Frontend',
     iconSrc: css3Icon,
-    description: 'Responsive flexbox, CSS grid, transitions, and keyframe animations.',
+    description: 'Modern responsive layouts, Flexbox, Grid, keyframes, and sleek transitions.',
     badge: 'Standard'
+  },
+
+  // Frontend Frameworks & Libraries
+  {
+    name: 'React 19',
+    category: 'frontend',
+    categoryLabel: 'Frontend',
+    iconSrc: reactIcon,
+    description: 'Modern component-driven UIs, hooks, state management, and optimized render cycles.',
+    badge: 'Preferred'
+  },
+  {
+    name: 'Vite',
+    category: 'frontend',
+    categoryLabel: 'Frontend',
+    iconSrc: viteIcon,
+    description: 'Next-gen build tool with instant Hot Module Replacement (HMR) and rollup optimization.',
+    badge: 'Tooling'
+  },
+  {
+    name: 'Tailwind CSS',
+    category: 'frontend',
+    categoryLabel: 'Frontend',
+    iconSrc: tailwindIcon,
+    description: 'Utility-first modern styling, dynamic dark theme systems, and responsive design.',
+    badge: 'Preferred'
   },
   {
     name: 'Framer',
     category: 'frontend',
-    categoryLabel: 'Frontend',
+    categoryLabel: 'UI / Motion',
     iconSrc: framerIcon,
-    description: 'Interactive component motion and polished micro-interaction prototypes.',
+    description: 'Interactive motion prototypes, landing pages, and micro-animation orchestration.',
     badge: 'Motion'
   },
 
@@ -235,7 +347,7 @@ const skillsData: TechSkillItem[] = [
     category: 'backend',
     categoryLabel: 'Backend',
     iconSrc: dotnetIcon,
-    description: 'High-performance MVC architectures, Razor Pages, RESTful web services, and auth.',
+    description: 'High-performance MVC architectures, Razor Pages, RESTful web services, and Identity.',
     badge: 'Enterprise'
   },
   {
@@ -243,15 +355,15 @@ const skillsData: TechSkillItem[] = [
     category: 'backend',
     categoryLabel: 'Backend',
     iconSrc: laravelIcon,
-    description: 'PHP framework with Eloquent ORM, Blade templating, routing, and migrations.',
+    description: 'Elegant PHP framework with Eloquent ORM, Blade templating, routing, and migrations.',
     badge: 'MVC'
   },
   {
     name: 'Supabase',
     category: 'backend',
-    categoryLabel: 'Backend',
+    categoryLabel: 'BaaS & Cloud',
     iconSrc: supabaseIcon,
-    description: 'Backend-as-a-Service with Postgres, Auth, real-time subscriptions, and Storage.',
+    description: 'Backend-as-a-Service with Postgres DB, Auth, Storage, Edge Functions & Realtime.',
     badge: 'Cloud BaaS'
   },
 
@@ -261,15 +373,15 @@ const skillsData: TechSkillItem[] = [
     category: 'database',
     categoryLabel: 'Database',
     iconSrc: postgresIcon,
-    description: 'Relational database with JSONB support, indexing, and ACID compliance.',
+    description: 'Enterprise relational database with JSONB support, indexing, and ACID guarantees.',
     badge: 'SQL'
   },
   {
-    name: 'SQL Server',
+    name: 'Microsoft SQL Server',
     category: 'database',
     categoryLabel: 'Database',
     iconSrc: mssqlIcon,
-    description: 'T-SQL stored procedures, triggers, views, relational modeling, and SSMS.',
+    description: 'T-SQL stored procedures, triggers, views, relational modeling, and SSMS administration.',
     badge: 'Enterprise'
   },
   {
@@ -277,124 +389,183 @@ const skillsData: TechSkillItem[] = [
     category: 'database',
     categoryLabel: 'Database',
     iconSrc: mysqlIcon,
-    description: 'Relational data management, transactional integrity, and query tuning.',
+    description: 'Relational data management, transactional integrity, and optimized query execution.',
     badge: 'SQL'
   },
 
-  // Developer Tools & Cloud
+  // Design & Creative
+  {
+    name: 'Figma',
+    category: 'design',
+    categoryLabel: 'UI/UX Design',
+    iconSrc: figmaIcon,
+    description: 'Component design systems, wireframing, design tokens, and user flow prototyping.',
+    badge: 'Design'
+  },
+  {
+    name: 'Canva',
+    category: 'design',
+    categoryLabel: 'Visual Design',
+    iconSrc: canvaIcon,
+    description: 'Graphic design assets, brand pitch presentations, social graphics, and visual media.',
+    badge: 'Design'
+  },
+
+  // Microsoft Ecosystem
+  {
+    name: 'VS Code',
+    category: 'microsoft',
+    categoryLabel: 'Microsoft Tool',
+    iconSrc: vscodeIcon,
+    description: 'Primary coding environment with extension toolchains, debuggers, and terminal workflows.',
+    badge: 'IDE'
+  },
+  {
+    name: 'Microsoft 365',
+    category: 'microsoft',
+    categoryLabel: 'Microsoft Tool',
+    iconSrc: microsoftIcon,
+    description: 'Advanced Excel data analysis, technical documentation in Word, and PowerPoint.',
+    badge: 'Office'
+  },
+
+  // Web & CMS
+  {
+    name: 'WordPress',
+    category: 'tools',
+    categoryLabel: 'CMS & Web',
+    iconSrc: wordpressIcon,
+    description: 'Content management, custom template development, plugin setups, and deployment.',
+    badge: 'CMS'
+  },
+
+  // Tools, ERP, Game Dev & DevOps
+  {
+    name: 'Unity 3D',
+    category: 'tools',
+    categoryLabel: 'Game Engine',
+    iconSrc: unityIcon,
+    description: 'Interactive 3D/2D game development, C# engine scripting, physics simulations, and UI systems.',
+    badge: '3D Engine'
+  },
   {
     name: 'Git',
     category: 'tools',
-    categoryLabel: 'Tools',
+    categoryLabel: 'Version Control',
     iconSrc: gitIcon,
-    description: 'Distributed version control, branch management, stash, and rebasing workflows.',
+    description: 'Distributed version control, local commit histories, branching models, stash, and rebasing.',
     badge: 'VCS'
   },
   {
     name: 'GitHub',
     category: 'tools',
-    categoryLabel: 'Tools',
+    categoryLabel: 'DevOps & Git',
     iconSrc: githubIcon,
-    description: 'Pull requests, code review, GitHub Actions CI/CD, and repository management.',
+    description: 'Cloud repository hosting, Pull Requests, GitHub Actions CI/CD workflows, and open-source collaboration.',
     badge: 'DevOps'
-  },
-  {
-    name: 'VS Code',
-    category: 'tools',
-    categoryLabel: 'Tools',
-    iconSrc: vscodeIcon,
-    description: 'Primary code editor with custom extensions, debugger, and terminal integration.',
-    badge: 'IDE'
-  },
-  {
-    name: 'Postman',
-    category: 'tools',
-    categoryLabel: 'Tools',
-    iconSrc: postmanIcon,
-    description: 'API testing, automated test collections, and JSON endpoint verification.',
-    badge: 'Testing'
   },
   {
     name: 'SAP S/4HANA',
     category: 'tools',
-    categoryLabel: 'Tools',
+    categoryLabel: 'Enterprise ERP',
     iconSrc: sapIcon,
-    description: 'Enterprise resource planning across SD, MM, PP, and FI modules.',
-    badge: 'ERP Certified'
+    description: 'Enterprise resource planning across SD, MM, PP, and FI modules using Global Bike.',
+    badge: 'Certified'
+  },
+  {
+    name: 'Postman',
+    category: 'tools',
+    categoryLabel: 'API Testing',
+    iconSrc: postmanIcon,
+    description: 'RESTful API endpoint validation, automated test collections, and JSON payload inspection.',
+    badge: 'Testing'
+  },
+
+  // Cloud & Deployment Platforms
+  {
+    name: 'Render',
+    category: 'tools',
+    categoryLabel: 'Cloud & Hosting',
+    iconSrc: renderIcon,
+    description: 'Unified cloud hosting, automated Git deployments, Docker services, and managed PostgreSQL.',
+    badge: 'Cloud'
   },
   {
     name: 'Vercel',
     category: 'tools',
-    categoryLabel: 'Tools',
+    categoryLabel: 'Deployment & CI',
     iconSrc: vercelIcon,
-    description: 'Edge deployments, continuous preview pipelines, and static web hosting.',
+    description: 'Frontend cloud platform, serverless edge functions, instant preview deployments, and analytics.',
     badge: 'Hosting'
-  },
-  {
-    name: 'Render',
-    category: 'tools',
-    categoryLabel: 'Tools',
-    iconSrc: renderIcon,
-    description: 'Cloud hosting, containerized web services, and managed database hosting.',
-    badge: 'Cloud'
   },
   {
     name: 'Netlify',
     category: 'tools',
-    categoryLabel: 'Tools',
+    categoryLabel: 'Cloud & Hosting',
     iconSrc: netlifyIcon,
-    description: 'Continuous web deployment, serverless functions, and global CDN delivery.',
-    badge: 'Cloud'
+    description: 'Continuous web deployment, serverless functions, form handling, and global edge CDN distribution.',
+    badge: 'Jamstack'
   },
-  {
-    name: 'WordPress',
-    category: 'tools',
-    categoryLabel: 'Tools',
-    iconSrc: wordpressIcon,
-    description: 'Content management, custom templates, plugins, and site delivery.',
-    badge: 'CMS'
-  },
+
+  // Mobile & Game Development
   {
     name: 'Android Studio',
     category: 'tools',
-    categoryLabel: 'Tools',
+    categoryLabel: 'Mobile IDE',
     iconSrc: androidStudioIcon,
-    description: 'Android application development, Gradle configurations, and emulation testing.',
-    badge: 'Mobile'
-  },
-  {
-    name: 'Unity 3D',
-    category: 'tools',
-    categoryLabel: 'Tools',
-    iconSrc: unityIcon,
-    description: 'Interactive 3D/2D game development, C# scripting, and physics simulation.',
-    badge: 'Engine'
-  },
-  {
-    name: 'Figma',
-    category: 'design',
-    categoryLabel: 'Design',
-    iconSrc: figmaIcon,
-    description: 'User interface wireframing, component design systems, and clickable prototypes.',
-    badge: 'UI/UX'
-  },
-  {
-    name: 'Canva',
-    category: 'design',
-    categoryLabel: 'Design',
-    iconSrc: canvaIcon,
-    description: 'Visual presentations, graphic documentation, and promotional layout design.',
-    badge: 'Creative'
-  },
-  {
-    name: 'Microsoft 365',
-    category: 'microsoft',
-    categoryLabel: 'Productivity',
-    iconSrc: microsoftIcon,
-    description: 'Spreadsheet data analysis in Excel, documentation in Word, and pitch decks.',
-    badge: 'Office'
+    description: 'Official Android IDE, Gradle build systems, emulator testing, Kotlin/Java layouts, and APK packaging.',
+    badge: 'IDE'
   }
 ];
+
+// 3 Curated Floating Marquee Rows matching reference mockup
+const floatingRow1: TechSkillItem[] = [
+  { name: 'Vite', iconSrc: viteIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'React 19', iconSrc: reactIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'Vercel', iconSrc: vercelIcon, category: 'tools', categoryLabel: 'Hosting' },
+  { name: 'HTML5', iconSrc: html5Icon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'CSS3', iconSrc: css3Icon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'JavaScript', iconSrc: jsIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'TypeScript', iconSrc: tsIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Tailwind CSS', iconSrc: tailwindIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'Figma', iconSrc: figmaIcon, category: 'design', categoryLabel: 'Design' },
+  { name: 'Supabase', iconSrc: supabaseIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Unity 3D', iconSrc: unityIcon, category: 'tools', categoryLabel: 'Game Engine' },
+  { name: 'Framer', iconSrc: framerIcon, category: 'frontend', categoryLabel: 'Design' }
+];
+
+const floatingRow2: TechSkillItem[] = [
+  { name: 'MySQL', iconSrc: mysqlIcon, category: 'database', categoryLabel: 'Database' },
+  { name: 'PostgreSQL', iconSrc: postgresIcon, category: 'database', categoryLabel: 'Database' },
+  { name: 'Supabase', iconSrc: supabaseIcon, category: 'backend', categoryLabel: 'BaaS & Cloud' },
+  { name: 'Render', iconSrc: renderIcon, category: 'tools', categoryLabel: 'Cloud' },
+  { name: 'PHP', iconSrc: phpIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Netlify', iconSrc: netlifyIcon, category: 'tools', categoryLabel: 'Deployment' },
+  { name: 'Laravel', iconSrc: laravelIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Python', iconSrc: pythonIcon, category: 'programming', categoryLabel: 'AI & Data' },
+  { name: 'C# / .NET', iconSrc: csharpIcon, category: 'programming', categoryLabel: 'Enterprise' },
+  { name: 'ASP.NET Core', iconSrc: dotnetIcon, category: 'backend', categoryLabel: 'Backend' },
+  { name: 'Java', iconSrc: javaIcon, category: 'programming', categoryLabel: 'Programming' },
+  { name: 'Microsoft SQL', iconSrc: mssqlIcon, category: 'database', categoryLabel: 'Database' },
+  { name: 'Postman', iconSrc: postmanIcon, category: 'tools', categoryLabel: 'API Tool' }
+];
+
+const floatingRow3: TechSkillItem[] = [
+  { name: 'Figma', iconSrc: figmaIcon, category: 'design', categoryLabel: 'UI/UX Design' },
+  { name: 'Canva', iconSrc: canvaIcon, category: 'design', categoryLabel: 'Visual Design' },
+  { name: 'Git', iconSrc: gitIcon, category: 'tools', categoryLabel: 'Version Control' },
+  { name: 'GitHub', iconSrc: githubIcon, category: 'tools', categoryLabel: 'DevOps & Git' },
+  { name: 'WordPress', iconSrc: wordpressIcon, category: 'tools', categoryLabel: 'CMS & Web' },
+  { name: 'Android Studio', iconSrc: androidStudioIcon, category: 'tools', categoryLabel: 'Mobile IDE' },
+  { name: 'Microsoft 365', iconSrc: microsoftIcon, category: 'microsoft', categoryLabel: 'Productivity' },
+  { name: 'VS Code', iconSrc: vscodeIcon, category: 'microsoft', categoryLabel: 'IDE Editor' },
+  { name: 'Unity 3D', iconSrc: unityIcon, category: 'tools', categoryLabel: '3D Engine' },
+  { name: 'SAP S/4HANA', iconSrc: sapIcon, category: 'tools', categoryLabel: 'Enterprise ERP' },
+  { name: 'Tailwind CSS', iconSrc: tailwindIcon, category: 'frontend', categoryLabel: 'Frontend' },
+  { name: 'React 19', iconSrc: reactIcon, category: 'frontend', categoryLabel: 'Frontend' }
+];
+
+
 
 interface Project {
   title: string;
@@ -408,6 +579,7 @@ interface Project {
   highlight?: boolean;
 }
 
+// Clean Modern Project Card with macOS Browser Shell and Smooth Hover Micro-Interactions
 function ProjectCard({ 
   proj, 
   isDark 
@@ -417,28 +589,32 @@ function ProjectCard({
 }) {
   return (
     <div
-      className={`rounded-xl border transition-all duration-200 flex flex-col justify-between overflow-hidden group ${
-        isDark 
-          ? 'bg-zinc-900/30 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/50' 
-          : 'bg-white border-zinc-200/90 hover:border-zinc-300 hover:shadow-xs'
+      className={`rounded-3xl border p-5 sm:p-6 flex flex-col justify-between group relative overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl ${
+        proj.highlight
+          ? isDark
+            ? 'bg-gradient-to-b from-[#111936] to-[#0a0f1d] border-indigo-500/50 shadow-xl shadow-indigo-950/40 hover:border-indigo-400 hover:shadow-indigo-900/30'
+            : 'bg-gradient-to-b from-white via-white to-indigo-50/40 border-indigo-200/90 shadow-xl shadow-indigo-100/70 hover:border-indigo-400 hover:shadow-indigo-200/80'
+          : isDark
+            ? 'bg-[#0a0f1d]/95 border-slate-800/90 hover:border-indigo-500/50 hover:shadow-indigo-950/30'
+            : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:shadow-xl hover:shadow-slate-200/70 shadow-sm'
       }`}
     >
       <div>
-        {/* Screenshot Frame with Minimal Top Bar */}
-        <div className={`relative aspect-[16/10] w-full overflow-hidden border-b ${
-          isDark ? 'bg-zinc-950 border-zinc-800/70' : 'bg-zinc-100 border-zinc-200/70'
+        {/* macOS Browser Mockup Top Bar & Screenshot Frame */}
+        <div className={`relative aspect-[16/10] w-full rounded-2xl overflow-hidden border mb-4 group/img shadow-md transition-colors ${
+          isDark ? 'bg-slate-950 border-slate-800/90' : 'bg-slate-100 border-slate-200/90'
         }`}>
-          {/* Subtle Window Dot Indicators */}
-          <div className={`absolute top-0 inset-x-0 h-6 px-3 flex items-center justify-between z-10 backdrop-blur-xs border-b ${
-            isDark ? 'bg-zinc-950/80 border-zinc-800/60' : 'bg-zinc-50/80 border-zinc-200/60'
+          {/* macOS Window Controls Header */}
+          <div className={`absolute top-0 inset-x-0 h-6 backdrop-blur-md border-b px-2.5 flex items-center justify-between z-20 transition-colors ${
+            isDark ? 'bg-slate-950/90 border-slate-800/80' : 'bg-slate-100/95 border-slate-200/90'
           }`}>
             <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-zinc-600/60" />
-              <span className="w-2 h-2 rounded-full bg-zinc-600/60" />
-              <span className="w-2 h-2 rounded-full bg-zinc-600/60" />
+              <span className="w-2 h-2 rounded-full bg-rose-500/90" />
+              <span className="w-2 h-2 rounded-full bg-amber-500/90" />
+              <span className="w-2 h-2 rounded-full bg-emerald-500/90" />
             </div>
-            <span className={`text-[10px] font-mono truncate max-w-[140px] ${
-              isDark ? 'text-zinc-500' : 'text-zinc-400'
+            <span className={`text-[9px] font-mono truncate max-w-[130px] font-medium ${
+              isDark ? 'text-slate-400' : 'text-slate-600'
             }`}>
               {proj.title.toLowerCase().replace(/\s+/g, '')}.app
             </span>
@@ -448,48 +624,54 @@ function ProjectCard({
           <img 
             src={proj.image} 
             alt={proj.title} 
-            className="w-full h-full object-cover object-top pt-6 group-hover:scale-[1.02] transition-transform duration-300 ease-out" 
+            className="w-full h-full object-cover object-top pt-6 group-hover/img:scale-105 transition-transform duration-500 ease-out" 
           />
+          <div className={`absolute inset-0 transition-opacity ${
+            isDark 
+              ? 'bg-gradient-to-t from-[#0a0f1d]/80 via-transparent to-transparent opacity-60 group-hover/img:opacity-20' 
+              : 'bg-gradient-to-t from-slate-900/20 via-transparent to-transparent opacity-30 group-hover/img:opacity-10'
+          }`} />
+          
+          {/* Top-Right Badge */}
+          <span className={`absolute top-8 right-2.5 px-2.5 py-0.5 rounded-md text-[9px] font-mono font-bold backdrop-blur-md shadow-md z-20 ${
+            isDark 
+              ? 'bg-slate-950/90 border border-indigo-500/40 text-indigo-300' 
+              : 'bg-white/95 border border-indigo-200 text-indigo-700 shadow-sm'
+          }`}>
+            {proj.badge}
+          </span>
         </div>
 
-        {/* Content */}
-        <div className="p-5">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span className={`text-[10px] font-mono uppercase tracking-wider font-medium ${
-              isDark ? 'text-zinc-400' : 'text-zinc-500'
-            }`}>
-              {proj.category}
-            </span>
-            <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
-              isDark 
-                ? 'bg-zinc-900 border-zinc-800 text-zinc-300' 
-                : 'bg-zinc-100 border-zinc-200 text-zinc-700'
-            }`}>
-              {proj.badge}
-            </span>
-          </div>
-
-          <h3 className={`text-base font-semibold tracking-tight mb-2 transition-colors ${
-            isDark ? 'text-zinc-100 group-hover:text-white' : 'text-zinc-900 group-hover:text-zinc-950'
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <span className={`text-[10px] font-mono font-bold tracking-wider uppercase ${
+            isDark ? 'text-indigo-400' : 'text-indigo-600'
           }`}>
-            {proj.title}
-          </h3>
-
-          <p className={`text-xs leading-relaxed line-clamp-3 mb-4 ${
-            isDark ? 'text-zinc-400' : 'text-zinc-600'
-          }`}>
-            {proj.description}
-          </p>
+            {proj.category}
+          </span>
         </div>
+
+        <h3 className={`text-xl font-bold tracking-tight mb-2 transition-colors ${
+          isDark 
+            ? 'text-white group-hover:text-indigo-400' 
+            : 'text-slate-900 group-hover:text-indigo-600'
+        }`}>
+          {proj.title}
+        </h3>
+
+        <p className={`text-xs leading-relaxed mb-5 line-clamp-3 ${
+          isDark ? 'text-slate-400' : 'text-slate-600'
+        }`}>
+          {proj.description}
+        </p>
       </div>
 
-      <div className="p-5 pt-0">
+      <div>
         <div className="flex flex-wrap gap-1.5 mb-4">
           {proj.tags.map(t => (
-            <span key={t} className={`text-[10px] px-2 py-0.5 rounded font-mono border ${
+            <span key={t} className={`text-[10px] px-2.5 py-0.5 rounded-md font-mono border transition-colors ${
               isDark 
-                ? 'bg-zinc-900/60 text-zinc-400 border-zinc-800/80' 
-                : 'bg-zinc-50 text-zinc-600 border-zinc-200'
+                ? 'bg-slate-950/90 text-slate-300 border-slate-800' 
+                : 'bg-slate-50 text-slate-700 border-slate-200/90 hover:border-slate-300'
             }`}>
               {t}
             </span>
@@ -497,22 +679,18 @@ function ProjectCard({
         </div>
 
         <div className={`pt-3 border-t flex items-center justify-between text-xs ${
-          isDark ? 'border-zinc-800/80' : 'border-zinc-200'
+          isDark ? 'border-slate-800/80' : 'border-slate-200/80'
         }`}>
           {proj.githubUrl && (
             <a
               href={proj.githubUrl}
               target="_blank"
               rel="noreferrer"
-              className={`inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all ${
-                isDark 
-                  ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white' 
-                  : 'bg-zinc-100 text-zinc-800 border-zinc-200 hover:bg-zinc-200 hover:text-zinc-900'
-              }`}
+              className="inline-flex items-center gap-1.5 font-bold text-xs px-3.5 py-1.5 rounded-xl bg-indigo-600 text-white hover:bg-indigo-500 transition-all shadow-md shadow-indigo-600/20 group/btn active:scale-95"
             >
               <GithubIcon className="w-3.5 h-3.5" />
-              <span>Source</span>
-              <ArrowRight className="w-3 h-3 opacity-60" />
+              <span>View Code</span>
+              <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover/btn:translate-x-1" />
             </a>
           )}
           {proj.liveUrl && (
@@ -520,8 +698,8 @@ function ProjectCard({
               href={proj.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className={`text-xs font-medium hover:underline flex items-center gap-1 ${
-                isDark ? 'text-zinc-300' : 'text-zinc-700'
+              className={`text-xs font-bold hover:underline flex items-center gap-1 ${
+                isDark ? 'text-indigo-400' : 'text-indigo-600'
               }`}
             >
               <ExternalLink className="w-3 h-3" />
@@ -533,6 +711,7 @@ function ProjectCard({
     </div>
   );
 }
+
 
 interface CertificateGalleryItem {
   title: string;
@@ -582,21 +761,21 @@ export default function App() {
     if (theme === 'dark') {
       root.classList.add('dark');
       root.classList.remove('light');
-      document.body.style.backgroundColor = '#09090b';
+      document.body.style.backgroundColor = '#05070e';
     } else {
       root.classList.remove('dark');
       root.classList.add('light');
-      document.body.style.backgroundColor = '#fafafa';
+      document.body.style.backgroundColor = '#f8fafc';
     }
     try {
       localStorage.setItem('portfolio-theme', theme);
     } catch {}
   }, [theme]);
-
   const [activeTechCategory, setActiveTechCategory] = useState<string>('all');
+  const [techViewMode, setTechViewMode] = useState<'floating' | 'grid'>('floating');
   const [techSearchQuery, setTechSearchQuery] = useState<string>('');
   const [activeProjectFilter, setActiveProjectFilter] = useState<string>('All');
-  const [activeNavSection, setActiveNavSection] = useState<string>('about');
+  const [activeNavSection, setActiveNavSection] = useState<string>('hero');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [activeCertDocIndex, setActiveCertDocIndex] = useState<number>(0);
   const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
@@ -605,17 +784,21 @@ export default function App() {
   const [discordCopied, setDiscordCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Subtle intersection observer for reveal on scroll
+
+  // Dynamic Bidirectional Intersection Observer for Scroll-in & Scroll-out Animations
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             entry.target.classList.add('is-visible');
+          } else {
+            // Re-triggers smooth animation when scrolling back up and down
+            entry.target.classList.remove('is-visible');
           }
         });
       },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
+      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
 
     const elements = document.querySelectorAll('.reveal-on-scroll');
@@ -624,12 +807,12 @@ export default function App() {
     return () => observer.disconnect();
   }, []);
 
-  // Scrollspy for active navbar indicator
+  // Dynamic Scrollspy to accurately update active navbar link while scrolling
   useEffect(() => {
     const sections = ['about', 'skills', 'projects', 'github-activity', 'experience', 'certificates', 'contact'];
     
     const handleScroll = () => {
-      const scrollPos = window.scrollY + 200;
+      const scrollPos = window.scrollY + 220;
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
@@ -655,16 +838,16 @@ export default function App() {
   const copyDiscord = () => {
     navigator.clipboard.writeText('spieler02.');
     setDiscordCopied(true);
-    setTimeout(() => setDiscordCopied(false), 2000);
+    setTimeout(() => setDiscordCopied(false), 2500);
   };
 
   const interests = [
-    'Full-Stack Software Engineering',
-    'Enterprise .NET & Distributed Architectures',
-    'Applied Machine Learning & Forecasting Models',
-    'Relational Database Modeling & Optimization',
-    'GovTech & Biometric API Integrations',
-    'Enterprise ERP Workflows (SAP S/4HANA)'
+    'Software Development',
+    'Web Development',
+    'Machine Learning & AI',
+    'Database Management',
+    'Enterprise ERP (SAP)',
+    'Cybersecurity'
   ];
 
   const education: EducationItem[] = [
@@ -673,21 +856,21 @@ export default function App() {
       institution: 'STI Academic Center Novaliches',
       period: '2023 – Present (Graduating 2026)',
       honors: 'SAP Certified & Capstone Lead Programmer',
-      details: 'Specializing in enterprise business systems, full-stack web architectures, demand forecasting algorithms, and government API integrations.',
-      skills: ['Full-Stack Web', 'Enterprise ERP (SAP)', 'Software Architecture', 'Applied AI'],
+      details: 'Focusing on enterprise business workflows, advanced full-stack web architectures, demand forecasting models, and GovTech API integrations.',
+      skills: ['Full-Stack Web', 'Enterprise ERP (SAP)', 'Software Engineering', 'Applied AI'],
       logo: stiLogo
     },
     {
-      degree: 'Junior & Senior High School (TVL - ICT Track)',
+      degree: 'Junior High School & Senior High School (TVL - ICT Track)',
       institution: 'Lagro High School',
       period: '2017 – 2023',
       honors: 'Graduated with High Honors',
-      details: 'Completed Junior High School (2017–2021) and Senior High School TVL-ICT track with High Honors (2021–2023). Completed Work Immersion practicum at Centrive Technology. Author & Lead Developer of the automated "Classroom Attendance System with QR Code Recognition" presented in the TVL-ICT Research Congress 2023.',
-      skills: ['Centrive Tech OJT', 'Java Fundamentals', 'Algorithms', 'High Honors'],
+      details: 'Studied Junior High School (2017–2021) and completed Senior High School TVL-ICT track with High Honors (2021–2023). Completed On-the-Job Training (OJT) / Work Immersion at Centrive Technology. Author & Lead Developer of the automated "Classroom Attendance System with QR Code Recognition" presented in the TVL-ICT Research Congress 2023.',
+      skills: ['Centrive Tech OJT', 'Junior & Senior High', 'Java Fundamentals', 'Algorithms', 'Research & Development', 'High Honors'],
       logo: lagroLogo,
       ojt: {
         company: 'Centrive Technology',
-        description: 'Completed Work Immersion / On-the-Job Training practicum in practical coding and software workflows.',
+        description: 'Completed Work Immersion / On-the-Job Training (OJT) practicum in practical coding and software workflows.',
         logo: centriveLogo
       }
     }
@@ -868,11 +1051,35 @@ export default function App() {
     return skillsData.filter((tech) => {
       const matchesCategory = 
         activeTechCategory === 'all' ||
-        (activeTechCategory === 'programming' && tech.category === 'programming') ||
-        (activeTechCategory === 'frontend' && tech.category === 'frontend') ||
-        (activeTechCategory === 'backend' && (tech.category === 'backend' || tech.category === 'database')) ||
-        (activeTechCategory === 'tools' && (tech.category === 'tools' || tech.category === 'microsoft')) ||
-        (activeTechCategory === 'design' && tech.category === 'design');
+        (activeTechCategory === 'microsoft' && (
+          tech.category === 'microsoft' ||
+          tech.name.toLowerCase().includes('microsoft') ||
+          tech.name.toLowerCase().includes('sql server') ||
+          tech.name.toLowerCase().includes('c#') ||
+          tech.name.toLowerCase().includes('asp.net') ||
+          tech.name.toLowerCase().includes('vs code')
+        )) ||
+        (activeTechCategory === 'design' && (
+          tech.category === 'design' || 
+          tech.name === 'Figma' || 
+          tech.name === 'Canva' || 
+          tech.name === 'Framer'
+        )) ||
+        (activeTechCategory === 'tools' && (
+          tech.category === 'tools' || 
+          tech.name === 'Git' || 
+          tech.name === 'GitHub' || 
+          tech.name === 'Unity 3D' || 
+          tech.name === 'SAP S/4HANA' || 
+          tech.name === 'WordPress' || 
+          tech.name === 'Postman' ||
+          tech.name === 'Render' ||
+          tech.name === 'Vercel' ||
+          tech.name === 'Netlify' ||
+          tech.name === 'Android Studio'
+        )) ||
+
+        tech.category === activeTechCategory;
 
       const matchesSearch = 
         !techSearchQuery ||
@@ -883,6 +1090,7 @@ export default function App() {
       return matchesCategory && matchesSearch;
     });
   }, [activeTechCategory, techSearchQuery]);
+
 
   const filteredProjects = activeProjectFilter === 'All'
     ? projects
@@ -916,7 +1124,7 @@ export default function App() {
 
       if (response.status === 200 && data.success) {
         setContactStatus('success');
-        setContactFeedback('Message sent successfully. I will get back to you promptly.');
+        setContactFeedback('Message sent successfully! I will get back to you soon.');
         setContactData({ name: '', email: '', message: '' });
         setTimeout(() => {
           setContactStatus('idle');
@@ -924,14 +1132,14 @@ export default function App() {
         }, 5000);
       } else {
         setContactStatus('error');
-        setContactFeedback(data.message || 'Failed to send message. Please contact via email directly.');
+        setContactFeedback(data.message || 'Failed to send message. Please try again or email directly.');
         setTimeout(() => {
           setContactStatus('idle');
         }, 6000);
       }
     } catch {
       setContactStatus('error');
-      setContactFeedback('Network error. Please contact via email directly.');
+      setContactFeedback('Network error. Please check your connection or reach out via email directly.');
       setTimeout(() => {
         setContactStatus('idle');
       }, 6000);
@@ -951,59 +1159,59 @@ export default function App() {
   ];
 
   return (
-    <div className={`min-h-screen transition-colors duration-300 flex flex-col font-sans selection:bg-zinc-700 selection:text-white relative w-full overflow-x-hidden ${
-      isDark ? 'bg-[#09090b] text-zinc-100' : 'bg-[#fafafa] text-zinc-900'
+    <div className={`min-h-screen transition-colors duration-500 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative w-full overflow-x-hidden ${
+      isDark ? 'bg-[#05070e] text-slate-100' : 'bg-[#f8fafc] text-slate-900'
     }`}>
       
-      {/* Sleek Minimalist Header */}
-      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-200 w-full ${
-        isDark ? 'bg-[#09090b]/80 border-zinc-800/80' : 'bg-white/80 border-zinc-200/80'
+      {/* Natural Starry Cosmic Background */}
+      <StarField isDark={isDark} />
+
+      {/* Header - Fixed persistently so it remains visible at all scroll positions */}
+      <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b transition-colors duration-300 w-full ${
+        isDark ? 'bg-[#05070e]/90 border-slate-800/80 shadow-lg shadow-black/20' : 'bg-white/90 border-slate-200/90 shadow-sm'
       }`}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between relative z-10 w-full">
-          <a href="#" className="font-semibold text-sm tracking-tight flex items-center gap-2 group">
-            <span className={`h-6 w-6 rounded-md border flex items-center justify-center text-[11px] font-mono font-medium transition-colors ${
-              isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-200 group-hover:border-zinc-700' : 'bg-zinc-100 border-zinc-200 text-zinc-800 group-hover:border-zinc-300'
-            }`}>
+        <div className="max-w-6xl mx-auto px-3.5 sm:px-6 h-16 flex items-center justify-between relative z-10 w-full">
+          <a href="#" className="font-bold text-sm sm:text-base tracking-tight flex items-center gap-2 group min-w-0 shrink">
+            <span className="h-8 w-8 rounded-lg bg-gradient-to-tr from-indigo-600 to-purple-600 flex items-center justify-center text-white text-xs font-bold shadow-md shadow-indigo-600/30 group-hover:scale-105 transition-transform shrink-0">
               JA
             </span>
-            <span className={`text-xs sm:text-sm font-medium tracking-tight transition-colors ${
-              isDark ? 'text-zinc-200 group-hover:text-white' : 'text-zinc-800 group-hover:text-black'
-            }`}>
+            <span className={`transition-colors font-bold truncate ${isDark ? 'text-white group-hover:text-indigo-400' : 'text-slate-900 group-hover:text-indigo-600'}`}>
               Justin Allen Azucena
             </span>
           </a>
 
-          {/* Minimalist Navigation Links */}
-          <nav className="hidden md:flex items-center gap-5 text-xs">
+          {/* Dynamic Scrollspy Navbar */}
+          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold">
             {navLinks.map((link) => {
               const isActive = activeNavSection === link.id;
               return (
                 <a
                   key={link.id}
                   href={`#${link.id}`}
-                  className={`py-1 transition-colors ${
+                  className={`relative py-1 transition-colors duration-300 ${
                     isActive 
-                      ? isDark ? 'text-white font-medium' : 'text-zinc-950 font-medium'
-                      : isDark ? 'text-zinc-400 hover:text-zinc-200' : 'text-zinc-600 hover:text-zinc-900'
+                      ? isDark ? 'text-indigo-400 font-bold' : 'text-indigo-600 font-bold'
+                      : isDark ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-950'
                   }`}
                 >
                   {link.label}
+                  {isActive && (
+                    <span className="absolute bottom-[-4px] left-0 right-0 h-0.5 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full" />
+                  )}
                 </a>
               );
             })}
           </nav>
 
-          {/* Right Action Icons */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
             <button
               onClick={toggleTheme}
-              className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all text-xs cursor-pointer ${
                 isDark 
-                  ? 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' 
-                  : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:border-zinc-300'
+                  ? 'bg-slate-900 border-slate-800 text-amber-300 hover:border-slate-700' 
+                  : 'bg-white border-slate-200 text-amber-600 hover:border-slate-300 hover:bg-slate-50 shadow-sm'
               }`}
-              title={isDark ? "Switch to light theme" : "Switch to dark theme"}
-              aria-label="Toggle theme"
+              title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
             >
               {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
             </button>
@@ -1012,65 +1220,60 @@ export default function App() {
               href={GITHUB_URL} 
               target="_blank" 
               rel="noreferrer"
-              className={`p-1.5 rounded-lg border transition-colors ${
-                isDark ? 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:border-zinc-300'
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all ${
+                isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-700 hover:text-slate-950 shadow-sm'
               }`}
               title="GitHub Profile"
             >
-              <GithubIcon className="w-3.5 h-3.5" />
+              <GithubIcon className="w-4 h-4" />
             </a>
 
             <a 
               href={LINKEDIN_URL} 
               target="_blank" 
               rel="noreferrer"
-              className={`p-1.5 rounded-lg border transition-colors ${
-                isDark ? 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:border-zinc-300'
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all ${
+                isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-blue-400' : 'bg-white border-slate-200 text-slate-700 hover:text-blue-600 shadow-sm'
               }`}
               title="LinkedIn Profile"
             >
-              <LinkedinIcon className="w-3.5 h-3.5" />
+              <LinkedinIcon className="w-4 h-4" />
             </a>
 
             <button
               onClick={copyDiscord}
-              className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
-                isDark ? 'bg-zinc-900/80 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:border-zinc-300'
+              className={`p-1.5 sm:p-2 rounded-xl border transition-all ${
+                isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-indigo-400' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 shadow-sm'
               }`}
-              title="Discord: spieler02."
-              aria-label="Copy Discord handle"
+              title="Discord (spieler02.)"
             >
-              {discordCopied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <DiscordIcon className="w-3.5 h-3.5" />}
+              {discordCopied ? <Check className="w-4 h-4 text-emerald-400" /> : <DiscordIcon className="w-4 h-4" />}
             </button>
 
             <a 
               href="#contact"
-              className={`hidden sm:inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors ${
-                isDark 
-                  ? 'bg-zinc-100 text-zinc-900 border-zinc-100 hover:bg-white' 
-                  : 'bg-zinc-900 text-white border-zinc-900 hover:bg-zinc-800'
-              }`}
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 text-white font-semibold text-xs hover:bg-indigo-500 transition-all shadow-md shadow-indigo-600/30 hover:scale-[1.02]"
             >
-              Get in Touch
+              Get In Touch
             </a>
 
-            {/* Mobile Menu Toggle */}
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen(prev => !prev)}
-              className={`md:hidden p-1.5 rounded-lg border transition-colors ${
-                isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-400' : 'bg-white border-zinc-200 text-zinc-600'
+              className={`md:hidden p-1.5 sm:p-2 rounded-xl border transition-all ${
+                isDark ? 'bg-slate-900 border-slate-800 text-slate-300 hover:text-white' : 'bg-white border-slate-200 text-slate-700 hover:text-slate-950 shadow-sm'
               }`}
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-3.5 h-3.5" /> : <Menu className="w-3.5 h-3.5" />}
+              {mobileMenuOpen ? <X className="w-4 h-4" /> : <Menu className="w-4 h-4" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Dropdown */}
+        {/* Mobile Dropdown Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className={`md:hidden border-t px-4 py-3 flex flex-col gap-1 transition-all ${
-            isDark ? 'bg-[#09090b] border-zinc-800 text-zinc-300' : 'bg-white border-zinc-200 text-zinc-700'
+          <div className={`md:hidden border-t px-4 py-3 flex flex-col gap-2 transition-all ${
+            isDark ? 'bg-[#070b16] border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700'
           }`}>
             {navLinks.map((link) => {
               const isActive = activeNavSection === link.id;
@@ -1079,128 +1282,158 @@ export default function App() {
                   key={link.id}
                   href={`#${link.id}`}
                   onClick={() => setMobileMenuOpen(false)}
-                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex items-center justify-between ${
+                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition-colors flex items-center justify-between ${
                     isActive
-                      ? isDark ? 'bg-zinc-900 text-white' : 'bg-zinc-100 text-zinc-950 font-semibold'
-                      : isDark ? 'hover:bg-zinc-900/60 hover:text-zinc-200' : 'hover:bg-zinc-50 hover:text-zinc-900'
+                      ? isDark ? 'bg-indigo-600/10 text-indigo-400 font-bold' : 'bg-indigo-50 text-indigo-700 font-bold'
+                      : isDark ? 'hover:bg-slate-900 hover:text-white' : 'hover:bg-slate-100 hover:text-slate-900'
                   }`}
                 >
                   <span>{link.label}</span>
-                  {isActive && <ChevronRight className="w-3 h-3 opacity-60" />}
+                  {isActive && <ChevronRight className={`w-3.5 h-3.5 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />}
                 </a>
               );
             })}
             <a
               href="#contact"
               onClick={() => setMobileMenuOpen(false)}
-              className={`mt-2 w-full py-2 px-3 rounded-lg text-xs font-medium text-center transition-colors ${
-                isDark ? 'bg-zinc-100 text-zinc-900 hover:bg-white' : 'bg-zinc-900 text-white hover:bg-zinc-800'
-              }`}
+              className="mt-1 w-full py-2 px-3 rounded-lg bg-indigo-600 text-white font-semibold text-xs text-center hover:bg-indigo-500 transition-colors"
             >
-              Get in Touch
+              Get In Touch
             </a>
           </div>
         )}
       </header>
 
-      {/* Header spacer */}
-      <div className="h-14 shrink-0 w-full" aria-hidden="true" />
+      {/* Header spacer to prevent top content from hiding under fixed navbar */}
+      <div className="h-16 shrink-0 w-full" aria-hidden="true" />
 
       {/* Hero Section */}
       <section id="hero" className="relative pt-16 pb-16 md:pt-24 md:pb-24 px-6 overflow-hidden z-10">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-start md:items-center gap-8 md:gap-12 reveal-on-scroll is-visible">
+        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-10 md:gap-14 text-center md:text-left reveal-on-scroll is-visible">
           
-          {/* Minimal Profile Photo */}
-          <div className="shrink-0">
-            <div className={`w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border transition-colors ${
+          {/* Profile Card & Avatar - Enhanced Modern Aesthetic Framing */}
+          <div className="relative group shrink-0 flex items-center justify-center my-4 md:my-0">
+            {/* Ambient Multi-Layer Glow */}
+            <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-500/40 via-purple-500/30 to-pink-500/40 rounded-[2.5rem] blur-2xl opacity-60 group-hover:opacity-95 transition duration-700 animate-pulse-glow" />
+            
+            {/* Decorative Ambient Floating Accent Elements */}
+            <div className={`absolute -top-3 -left-3 w-10 h-10 rounded-2xl border backdrop-blur-md hidden sm:flex items-center justify-center shadow-lg -rotate-12 group-hover:rotate-0 transition-transform duration-500 z-20 ${
+              isDark ? 'bg-indigo-500/20 border-indigo-400/40' : 'bg-white/95 border-indigo-200'
+            }`}>
+              <Sparkles className={`w-4 h-4 animate-pulse ${isDark ? 'text-indigo-300' : 'text-indigo-600'}`} />
+            </div>
+
+            {/* Main Profile Image Box */}
+            <div className={`relative w-52 h-64 sm:w-60 sm:h-72 lg:w-68 lg:h-80 rounded-[2rem] overflow-hidden border-2 shadow-2xl animate-float backdrop-blur-xl transition-all duration-500 ${
               isDark 
-                ? 'bg-zinc-900 border-zinc-800' 
-                : 'bg-zinc-100 border-zinc-200 shadow-xs'
+                ? 'bg-slate-950/90 border-indigo-500/40 shadow-indigo-950/80 hover:border-indigo-400/80 hover:shadow-indigo-900/50' 
+                : 'bg-white border-indigo-200/90 shadow-indigo-100 hover:border-indigo-300 hover:shadow-indigo-200'
             }`}>
               <img 
                 src={profileImg} 
                 alt="Justin Allen Azucena" 
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
               />
+              
+              {/* Subtle Inner Glass Overlay Gradients */}
+              <div className={`absolute inset-0 pointer-events-none ${
+                isDark ? 'bg-gradient-to-t from-slate-950/70 via-transparent to-black/10' : 'bg-gradient-to-t from-slate-900/25 via-transparent to-transparent'
+              }`} />
+              <div className="absolute inset-0 ring-1 ring-inset ring-white/20 rounded-[2rem] pointer-events-none" />
             </div>
           </div>
 
-          {/* Hero Content */}
-          <div className="flex-1">
-            {/* Status Pill */}
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium mb-4 border transition-colors ${
+
+          {/* Hero Main Content */}
+          <div className="flex-1 max-w-2xl">
+            {/* Status & Role Pill */}
+            <div className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-4 backdrop-blur-md shadow-sm border transition-colors ${
               isDark 
-                ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300' 
-                : 'bg-zinc-100/90 border-zinc-200 text-zinc-700'
+                ? 'bg-indigo-500/10 border-indigo-500/30 text-indigo-300' 
+                : 'bg-indigo-50/90 border-indigo-200/90 text-indigo-700'
             }`}>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
               <span>Full-Stack Software Developer</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight mb-3 text-zinc-900 dark:text-zinc-100 leading-tight">
-              Justin Allen Azucena
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4 leading-tight">
+              <span className={`block text-xl sm:text-2xl lg:text-3xl font-bold mb-1 ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              }`}>
+                Hi, I am
+              </span>
+              <span className="block text-4xl sm:text-5xl lg:text-6xl font-black min-h-[1.2em]">
+                <TypewriterName isDark={isDark} />
+              </span>
             </h1>
 
-            <p className={`text-sm sm:text-base leading-relaxed mb-6 font-normal max-w-2xl ${
-              isDark ? 'text-zinc-400' : 'text-zinc-600'
+
+
+            <p className={`text-sm sm:text-base leading-relaxed mb-6 max-w-xl font-normal ${
+              isDark ? 'text-slate-300' : 'text-slate-600'
             }`}>
-              Information Technology student & developer specializing in scalable full-stack web platforms, enterprise .NET backends, and desktop database architectures. Top 30 Finalist in the nationwide eGov PH Hackathon 2026.
+              Passionate developer specializing in <strong>intelligent full-stack web platforms</strong>, <strong>enterprise .NET systems</strong>, and <strong>desktop database applications</strong> with scalable architectures.
             </p>
 
-            {/* Quick Metadata */}
-            <div className="flex flex-wrap items-center gap-2 text-xs mb-7">
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border ${
-                isDark ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400' : 'bg-white border-zinc-200 text-zinc-600 shadow-xs'
+            {/* Quick Contact & Location Pills */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 text-xs mb-8">
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-sm transition-colors ${
+                isDark ? 'bg-slate-900/80 border-slate-800 text-slate-300' : 'bg-white border-slate-200 text-slate-700 shadow-sm'
               }`}>
-                <MapPin className="w-3 h-3 text-zinc-400" />
+                <MapPin className={`w-3.5 h-3.5 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
                 Quezon City, PH
               </span>
 
               <a 
                 href="mailto:azucenajustinallen@gmail.com"
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border transition-colors ${
-                  isDark ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 shadow-xs'
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-sm transition-all hover:scale-[1.02] ${
+                  isDark ? 'bg-slate-900/80 border-slate-800 text-slate-300 hover:text-indigo-300 hover:border-indigo-500/40' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 shadow-sm'
                 }`}
               >
-                <Mail className="w-3 h-3 text-zinc-400" />
+                <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
                 azucenajustinallen@gmail.com
+              </a>
+
+              <a 
+                href={LINKEDIN_URL}
+                target="_blank"
+                rel="noreferrer"
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-sm transition-all hover:scale-[1.02] ${
+                  isDark ? 'bg-slate-900/80 border-slate-800 text-slate-300 hover:text-blue-400 hover:border-blue-500/40' : 'bg-white border-slate-200 text-slate-700 hover:text-blue-600 shadow-sm'
+                }`}
+              >
+                <LinkedinIcon className={`w-3.5 h-3.5 ${isDark ? 'text-blue-400' : 'text-blue-600'}`} />
+                LinkedIn
               </a>
 
               <button
                 onClick={copyDiscord}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border transition-colors cursor-pointer ${
-                  isDark ? 'bg-zinc-900/50 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 shadow-xs'
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border backdrop-blur-sm transition-all hover:scale-[1.02] ${
+                  isDark ? 'bg-slate-900/80 border-slate-800 text-slate-300 hover:text-indigo-300 hover:border-indigo-500/40' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 shadow-sm'
                 }`}
-                title="Click to copy Discord handle"
               >
-                <DiscordIcon className="w-3 h-3 text-zinc-400" />
-                <span>{discordCopied ? 'Copied handle' : 'spieler02.'}</span>
+                <DiscordIcon className={`w-3.5 h-3.5 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
+                <span>{discordCopied ? 'Copied!' : 'Discord: spieler02.'}</span>
               </button>
             </div>
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-2.5">
+            {/* Primary Action Buttons */}
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <a 
                 href="#projects" 
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-medium transition-colors ${
-                  isDark 
-                    ? 'bg-zinc-100 text-zinc-900 hover:bg-white' 
-                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
-                }`}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold text-xs hover:from-indigo-500 hover:to-purple-500 transition-all shadow-lg shadow-indigo-600/30 hover:scale-[1.03] active:scale-[0.98]"
               >
-                <FolderGit2 className="w-3.5 h-3.5" />
+                <FolderGit2 className="w-4 h-4" />
                 View Projects
               </a>
               
               <a 
                 href="#github-activity" 
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-medium transition-colors ${
-                  isDark 
-                    ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:bg-zinc-800/80 hover:text-white' 
-                    : 'bg-white border-zinc-200 text-zinc-700 hover:bg-zinc-50 hover:text-zinc-950 shadow-xs'
+                className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border font-bold text-xs transition-all hover:scale-[1.03] active:scale-[0.98] backdrop-blur-sm ${
+                  isDark ? 'bg-slate-900/80 border-slate-700/80 text-slate-200 hover:bg-slate-800 hover:border-indigo-500/40' : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:border-slate-300 shadow-sm'
                 }`}
               >
-                <GithubIcon className="w-3.5 h-3.5" />
+                <GithubIcon className={`w-4 h-4 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
                 GitHub Activity
               </a>
 
@@ -1208,14 +1441,12 @@ export default function App() {
                 href="/resume.html" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-medium transition-colors ${
-                  isDark 
-                    ? 'bg-zinc-900/40 border-zinc-800 text-zinc-400 hover:text-zinc-200 hover:border-zinc-700' 
-                    : 'bg-white border-zinc-200 text-zinc-600 hover:text-zinc-900 shadow-xs'
+                className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border font-semibold text-xs transition-all hover:scale-[1.02] backdrop-blur-sm ${
+                  isDark ? 'bg-slate-900/40 border-slate-800 text-indigo-400 hover:border-indigo-500/40 hover:text-indigo-300' : 'bg-white border-indigo-200 text-indigo-700 hover:bg-indigo-50/60 hover:border-indigo-300 shadow-sm'
                 }`}
               >
                 <Download className="w-3.5 h-3.5" />
-                Resume
+                Download Resume
               </a>
             </div>
 
@@ -1223,57 +1454,60 @@ export default function App() {
         </div>
       </section>
 
+
       {/* 01 - ABOUT ME */}
-      <section id="about" className={`py-16 px-6 relative z-10 border-t scroll-mt-14 ${
-        isDark ? 'border-zinc-800/80' : 'border-zinc-200/80'
-      }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+      <section id="about" className="py-20 px-6 relative z-10 scroll-mt-20">
+        <div className="max-w-5xl mx-auto reveal-on-scroll">
           
-          <div className="mb-8">
-            <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-              isDark ? 'text-zinc-500' : 'text-zinc-400'
+          <div className="text-center mb-12">
+            <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
+              isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
-              Background
+              GET TO KNOW ME
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               About Me
             </h2>
+            <p className={`text-xs sm:text-sm mt-2 max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              A brief story about my background and passion in software engineering.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
             
             {/* Bio Paragraphs */}
-            <div className={`md:col-span-7 p-6 rounded-xl border text-sm leading-relaxed space-y-4 ${
-              isDark ? 'bg-zinc-900/30 border-zinc-800/80 text-zinc-300' : 'bg-white border-zinc-200/90 text-zinc-700 shadow-xs'
+            <div className={`md:col-span-6 p-6 sm:p-8 rounded-3xl border text-sm leading-relaxed space-y-4 ${
+              isDark ? 'bg-[#0a0f1d]/90 border-slate-800/80 text-slate-300' : 'bg-white border-slate-200/90 text-slate-700 shadow-sm'
             }`}>
               <p>
-                I am a 4th-year <strong>Information Technology</strong> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
+                I am a 4th-year <strong>Information Technology</strong> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a foundation built on computer systems, software architecture, and practical algorithm engineering.
               </p>
               <p>
-                My work focuses on developing <strong>AI-integrated full-stack web platforms</strong>, <strong>enterprise .NET backend solutions</strong>, and <strong>desktop database applications</strong>. Recognized as a <strong>Top 30 Finalist</strong> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
+                My focus centers on developing <strong>AI-integrated full-stack web platforms</strong>, <strong>enterprise .NET backend solutions</strong>, and <strong>desktop database applications</strong>. Recognized as a <strong>Top 30 Finalist</strong> in the nationwide <strong>eGov PH Hackathon 2026</strong> across 150 teams for developing <em>eScholar</em>.
               </p>
               <p>
-                Graduated Junior High School and Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <strong>High Honors</strong>, completing industry work immersion at Centrive Technology and authoring the automated QR Code Attendance Management System for the research congress.
+                Studied Junior High School and completed Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <strong>High Honors</strong>, where I pioneered and researched the automated QR Code Attendance Management System for the TVL-ICT research congress.
               </p>
             </div>
 
-            {/* Focus Areas */}
-            <div className="md:col-span-5 space-y-2">
-              <span className={`text-xs font-mono uppercase tracking-wider font-medium block mb-3 ${
-                isDark ? 'text-zinc-400' : 'text-zinc-500'
+            {/* Interests & Focus Areas */}
+            <div className="md:col-span-6 space-y-3">
+              <span className={`text-xs font-mono uppercase tracking-wider font-bold flex items-center gap-1.5 mb-2 ${
+                isDark ? 'text-slate-400' : 'text-slate-600'
               }`}>
-                Core Competencies
+                <Sparkles className={`w-3.5 h-3.5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
+                Interests & Focus
               </span>
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {interests.map((interest, i) => (
                   <div
                     key={i}
-                    className={`p-3 rounded-lg border flex items-center gap-2.5 transition-colors ${
-                      isDark ? 'bg-zinc-900/30 border-zinc-800/70 text-zinc-300' : 'bg-white border-zinc-200/80 text-zinc-700 shadow-xs'
+                    className={`p-4 rounded-2xl border transition-all duration-300 hover:scale-[1.02] flex items-center gap-3 ${
+                      isDark ? 'bg-[#0a0f1d]/80 border-slate-800/80 hover:border-indigo-500/40 text-slate-200' : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:shadow-md text-slate-800 shadow-xs'
                     }`}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-zinc-500 shrink-0" />
-                    <span className="text-xs font-medium">{interest}</span>
+                    <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+                    <span className="text-xs font-semibold">{interest}</span>
                   </div>
                 ))}
               </div>
@@ -1284,188 +1518,438 @@ export default function App() {
         </div>
       </section>
 
-      {/* 02 - SKILLS & TECHNOLOGIES (Curated Clean Category Grid) */}
-      <section id="skills" className={`py-16 px-6 border-t relative z-10 scroll-mt-14 ${
-        isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-zinc-50/70 border-zinc-200/80'
+      {/* 02 - SKILLS & TECHNOLOGIES */}
+      <section id="skills" className={`py-20 px-6 border-y relative z-10 transition-colors overflow-hidden scroll-mt-20 ${
+        isDark ? 'bg-[#070b16]/95 border-slate-800/80' : 'bg-slate-100/60 border-slate-200/80'
       }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+        <div className="max-w-6xl mx-auto reveal-on-scroll">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          {/* Section Header with 'View All' Toggle */}
+          <div className={`flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-6 border-b pb-6 ${
+            isDark ? 'border-slate-800/60' : 'border-slate-200'
+          }`}>
             <div>
-              <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-                isDark ? 'text-zinc-500' : 'text-zinc-400'
-              }`}>
-                Arsenal
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                Technologies & Tools
+              <div className="flex items-center gap-2 mb-1.5">
+                <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block ${
+                  isDark ? 'text-indigo-400' : 'text-indigo-600'
+                }`}>
+                  TECHNICAL ARSENAL
+                </span>
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full font-semibold ${
+                  isDark ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-800/50' : 'bg-indigo-50 text-indigo-700 border border-indigo-200'
+                }`}>
+                  {skillsData.length} Tools & Stacks
+                </span>
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                Technologies
               </h2>
-              <p className={`text-xs sm:text-sm mt-1 max-w-xl ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                Languages, frameworks, databases, and tooling actively engineered with.
+              <p className={`text-xs sm:text-sm mt-1 max-w-xl ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+                Languages, frameworks, databases, cloud BaaS, and enterprise platforms I actively engineer with.
               </p>
             </div>
 
-            {/* Instant Filter Search */}
-            <div className="relative w-full sm:w-60">
-              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
-              <input
-                type="text"
-                placeholder="Filter tools..."
-                value={techSearchQuery}
-                onChange={(e) => setTechSearchQuery(e.target.value)}
-                className={`w-full pl-8 pr-7 py-1.5 rounded-lg text-xs border transition-colors outline-none ${
-                  isDark 
-                    ? 'bg-zinc-900/70 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-600' 
-                    : 'bg-white border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-400 shadow-xs'
-                }`}
-              />
-              {techSearchQuery && (
+            {/* View Mode Toggle Button (Matching Reference Mockup "View All -> [Grid Icon]") */}
+            <div className="flex items-center gap-3 shrink-0">
+              {techViewMode === 'floating' ? (
                 <button
-                  onClick={() => setTechSearchQuery('')}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-200"
+                  onClick={() => setTechViewMode('grid')}
+                  className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer active:scale-95 ${
+                    isDark 
+                      ? 'bg-[#0a0f1d] hover:bg-indigo-950/50 border-slate-800 text-slate-300 hover:text-white hover:border-indigo-500/60 shadow-indigo-950/30' 
+                      : 'bg-white hover:bg-slate-50 border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-sm'
+                  }`}
+                  aria-label="View All Technologies Grid"
                 >
-                  <X className="w-3 h-3" />
+                  <span className="font-medium">View All</span>
+                  <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 text-indigo-400" />
+                  <LayoutGrid className="w-4 h-4 ml-0.5 opacity-75 group-hover:opacity-100" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => setTechViewMode('floating')}
+                  className={`group flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold border transition-all duration-300 shadow-sm cursor-pointer active:scale-95 ${
+                    isDark 
+                      ? 'bg-indigo-600/20 text-indigo-300 border-indigo-500/40 hover:bg-indigo-600/30' 
+                      : 'bg-indigo-50 text-indigo-600 border-indigo-200 hover:bg-indigo-100'
+                  }`}
+                  aria-label="Switch to Floating Stream"
+                >
+                  <SlidersHorizontal className="w-4 h-4 text-indigo-400 group-hover:rotate-180 transition-transform duration-300" />
+                  <span>Floating Stream</span>
                 </button>
               )}
             </div>
           </div>
 
-          {/* Clean Category Tabs */}
-          <div className="flex flex-wrap items-center gap-1.5 mb-6">
-            {[
-              { id: 'all', label: 'All Stacks' },
-              { id: 'programming', label: 'Languages' },
-              { id: 'frontend', label: 'Frontend' },
-              { id: 'backend', label: 'Backend & Data' },
-              { id: 'tools', label: 'Tools & Cloud' },
-              { id: 'design', label: 'Design' }
-            ].map(tab => {
-              const isActive = activeTechCategory === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTechCategory(tab.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
-                    isActive
-                      ? isDark
-                        ? 'bg-zinc-100 text-zinc-900 font-semibold'
-                        : 'bg-zinc-900 text-white font-semibold'
-                      : isDark
-                        ? 'bg-zinc-900/50 text-zinc-400 hover:text-zinc-200 border border-zinc-800/80 hover:border-zinc-700'
-                        : 'bg-white text-zinc-600 hover:text-zinc-900 border border-zinc-200 hover:border-zinc-300 shadow-xs'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
-          </div>
+          {/* VIEW MODE 1: FLOATING / HOVERING MARQUEE STREAM */}
+          {techViewMode === 'floating' && (
+            <div className="relative -mx-6 sm:-mx-10 py-4 overflow-hidden">
+              
+              {/* Left & Right Ambient Gradient Fade Masks for Infinite Floating Illusion */}
+              <div className={`pointer-events-none absolute inset-y-0 left-0 w-20 sm:w-40 z-20 bg-gradient-to-r ${
+                isDark ? 'from-[#070b16] via-[#070b16]/80 to-transparent' : 'from-slate-100 via-slate-100/80 to-transparent'
+              }`} />
+              <div className={`pointer-events-none absolute inset-y-0 right-0 w-20 sm:w-40 z-20 bg-gradient-to-l ${
+                isDark ? 'from-[#070b16] via-[#070b16]/80 to-transparent' : 'from-slate-100 via-slate-100/80 to-transparent'
+              }`} />
 
-          {/* Curated Grid */}
-          {filteredSkills.length > 0 ? (
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-              {filteredSkills.map((tech, idx) => (
-                <div
-                  key={idx}
-                  className={`p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between group ${
-                    isDark 
-                      ? 'bg-zinc-900/30 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/60' 
-                      : 'bg-white border-zinc-200/90 hover:border-zinc-300 hover:shadow-xs'
-                  }`}
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-2">
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center p-1.5 border transition-colors ${
-                        isDark ? 'bg-zinc-900 border-zinc-800' : 'bg-zinc-50 border-zinc-200'
-                      }`}>
-                        <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 object-contain" />
-                      </div>
-                      {tech.badge && (
-                        <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded border ${
+              <div className="flex flex-col gap-3.5 sm:gap-4.5 overflow-hidden">
+                
+                {/* Floating Row 1: Left Drift (Vite, React, HTML5, CSS3, JS, TS, Tailwind, Figma, Supabase, Framer...) */}
+                <div className="flex overflow-hidden group py-1">
+                  <div className="animate-marquee-left flex gap-3 sm:gap-4 pause-on-group-hover">
+                    {[...floatingRow1, ...floatingRow1, ...floatingRow1, ...floatingRow1].map((tech, idx) => (
+                      <div
+                        key={`r1-${idx}`}
+                        onClick={() => {
+                          setActiveTechCategory(tech.category);
+                          setTechViewMode('grid');
+                        }}
+                        className={`group/pill flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border transition-all duration-300 cursor-pointer select-none whitespace-nowrap shadow-sm hover:shadow-xl hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                          isDark
+                            ? 'bg-[#0a0f1d]/90 hover:bg-[#111933] border-slate-800/80 hover:border-indigo-500/80 hover:shadow-indigo-500/10 backdrop-blur-md'
+                            : 'bg-white/95 hover:bg-white border-slate-200/90 hover:border-indigo-400 hover:shadow-indigo-100/70 shadow-sm backdrop-blur-md'
+                        }`}
+                        title={`Click to inspect ${tech.name} in Arsenal`}
+                      >
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center p-0.5 transition-transform group-hover/pill:scale-110 ${
+                          isDark ? 'bg-slate-900/80' : 'bg-slate-50'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                        </div>
+                        <span className={`text-xs sm:text-sm font-semibold tracking-tight transition-colors ${
+                          isDark ? 'text-slate-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </span>
+                        <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-md font-semibold tracking-wider ${
                           isDark 
-                            ? 'bg-zinc-900 border-zinc-800 text-zinc-400' 
-                            : 'bg-zinc-100 border-zinc-200 text-zinc-600'
+                            ? 'bg-slate-800/90 text-slate-400 group-hover/pill:bg-indigo-950/60 group-hover/pill:text-indigo-300' 
+                            : 'bg-slate-100 text-slate-500 group-hover/pill:bg-indigo-50 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating Row 2: Right Drift (MySQL, PostgreSQL, Supabase, PHP, Laravel, Python, C#, ASP.NET, Java, MSSQL, Postman...) */}
+                <div className="flex overflow-hidden group py-1">
+                  <div className="animate-marquee-right flex gap-3 sm:gap-4 pause-on-group-hover">
+                    {[...floatingRow2, ...floatingRow2, ...floatingRow2, ...floatingRow2].map((tech, idx) => (
+                      <div
+                        key={`r2-${idx}`}
+                        onClick={() => {
+                          setActiveTechCategory(tech.category);
+                          setTechViewMode('grid');
+                        }}
+                        className={`group/pill flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border transition-all duration-300 cursor-pointer select-none whitespace-nowrap shadow-sm hover:shadow-xl hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                          isDark
+                            ? 'bg-[#0a0f1d]/90 hover:bg-[#111933] border-slate-800/80 hover:border-indigo-500/80 hover:shadow-indigo-500/10 backdrop-blur-md'
+                            : 'bg-white/95 hover:bg-white border-slate-200/90 hover:border-indigo-400 hover:shadow-indigo-100/70 shadow-sm backdrop-blur-md'
+                        }`}
+                        title={`Click to inspect ${tech.name} in Arsenal`}
+                      >
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center p-0.5 transition-transform group-hover/pill:scale-110 ${
+                          isDark ? 'bg-slate-900/80' : 'bg-slate-50'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                        </div>
+                        <span className={`text-xs sm:text-sm font-semibold tracking-tight transition-colors ${
+                          isDark ? 'text-slate-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </span>
+                        <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark 
+                            ? 'bg-slate-800/90 text-slate-400 group-hover/pill:bg-indigo-950/60 group-hover/pill:text-indigo-300' 
+                            : 'bg-slate-100 text-slate-500 group-hover/pill:bg-indigo-50 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Floating Row 3: Left Drift Fast (Figma, Canva, Git, GitHub, WordPress, Microsoft 365, VS Code, SAP, Tailwind, React...) */}
+                <div className="flex overflow-hidden group py-1">
+                  <div className="animate-marquee-left-fast flex gap-3 sm:gap-4 pause-on-group-hover">
+                    {[...floatingRow3, ...floatingRow3, ...floatingRow3, ...floatingRow3].map((tech, idx) => (
+                      <div
+                        key={`r3-${idx}`}
+                        onClick={() => {
+                          setActiveTechCategory(tech.category);
+                          setTechViewMode('grid');
+                        }}
+                        className={`group/pill flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl border transition-all duration-300 cursor-pointer select-none whitespace-nowrap shadow-sm hover:shadow-xl hover:scale-105 hover:-translate-y-1 active:scale-95 ${
+                          isDark
+                            ? 'bg-[#0a0f1d]/90 hover:bg-[#111933] border-slate-800/80 hover:border-indigo-500/80 hover:shadow-indigo-500/10 backdrop-blur-md'
+                            : 'bg-white/95 hover:bg-white border-slate-200/90 hover:border-indigo-400 hover:shadow-indigo-100/70 shadow-sm backdrop-blur-md'
+                        }`}
+                        title={`Click to inspect ${tech.name} in Arsenal`}
+                      >
+                        <div className={`w-6 h-6 sm:w-7 sm:h-7 rounded-lg flex items-center justify-center p-0.5 transition-transform group-hover/pill:scale-110 ${
+                          isDark ? 'bg-slate-900/80' : 'bg-slate-50'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
+                        </div>
+                        <span className={`text-xs sm:text-sm font-semibold tracking-tight transition-colors ${
+                          isDark ? 'text-slate-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </span>
+                        <span className={`text-[10px] uppercase font-mono px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark 
+                            ? 'bg-slate-800/90 text-slate-400 group-hover/pill:bg-indigo-950/60 group-hover/pill:text-indigo-300' 
+                            : 'bg-slate-100 text-slate-500 group-hover/pill:bg-indigo-50 group-hover/pill:text-indigo-600'
+                        }`}>
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Bottom Quick Navigation & Interaction Hint */}
+              <div className="mt-8 flex flex-wrap items-center justify-between gap-4 px-6 sm:px-10 text-xs">
+                <div className={`flex items-center gap-2 font-mono ${isDark ? 'text-slate-500' : 'text-slate-600'}`}>
+                  <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+                  <span>Hover to pause drift • Click any pill to inspect</span>
+                </div>
+
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className={`font-medium ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Quick Filters:</span>
+                  {[
+                    { id: 'programming', label: 'Languages' },
+                    { id: 'frontend', label: 'Frontend' },
+                    { id: 'backend', label: 'Backend' },
+                    { id: 'database', label: 'Databases' },
+                    { id: 'design', label: 'Design' },
+                    { id: 'microsoft', label: 'Microsoft' },
+                    { id: 'tools', label: 'Tools & Cloud' }
+                  ].map(q => (
+                    <button
+                      key={q.id}
+                      onClick={() => {
+                        setActiveTechCategory(q.id);
+                        setTechViewMode('grid');
+                      }}
+                      className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-all ${
+                        isDark 
+                          ? 'bg-slate-900/80 hover:bg-indigo-950 text-slate-400 hover:text-indigo-300 border border-slate-800' 
+                          : 'bg-white hover:bg-indigo-50 text-slate-600 hover:text-indigo-600 border border-slate-200 shadow-xs'
+                      }`}
+                    >
+                      {q.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* VIEW MODE 2: FULL CATEGORIZED GRID VIEW ('VIEW ALL') */}
+          {techViewMode === 'grid' && (
+            <div className="animate-in fade-in duration-300">
+              
+              {/* Category Filter Tabs & Quick Search */}
+              <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                
+                {/* Filter Pills */}
+                <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 w-full md:w-auto">
+                  {[
+                    { id: 'all', label: 'All Arsenal' },
+                    { id: 'programming', label: 'Programming' },
+                    { id: 'frontend', label: 'Frontend' },
+                    { id: 'backend', label: 'Backend & APIs' },
+                    { id: 'database', label: 'Databases' },
+                    { id: 'design', label: 'Design & UI/UX' },
+                    { id: 'microsoft', label: 'Microsoft Tools' },
+                    { id: 'tools', label: 'Tools & Cloud' }
+                  ].map(tab => {
+                    const count = tab.id === 'all' 
+                      ? skillsData.length 
+                      : tab.id === 'microsoft'
+                        ? skillsData.filter(s => s.category === 'microsoft' || s.name.includes('C#') || s.name.includes('ASP.NET') || s.name.includes('SQL Server') || s.name.includes('VS Code') || s.name.includes('Microsoft')).length
+                        : tab.id === 'design'
+                          ? skillsData.filter(s => s.category === 'design' || s.name === 'Figma' || s.name === 'Canva' || s.name === 'Framer').length
+                          : tab.id === 'tools'
+                            ? skillsData.filter(s => s.category === 'tools' || s.name === 'Git' || s.name === 'GitHub' || s.name === 'Unity 3D' || s.name === 'SAP S/4HANA' || s.name === 'WordPress' || s.name === 'Postman' || s.name === 'Render' || s.name === 'Vercel' || s.name === 'Netlify' || s.name === 'Android Studio').length
+                            : skillsData.filter(s => s.category === tab.id).length;
+
+
+                    return (
+                      <button
+                        key={tab.id}
+                        onClick={() => setActiveTechCategory(tab.id)}
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all duration-300 flex items-center gap-1.5 cursor-pointer ${
+                          activeTechCategory === tab.id
+                            ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-105'
+                            : isDark
+                              ? 'bg-[#0a0f1d] text-slate-400 hover:text-white border border-slate-800'
+                              : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 shadow-sm'
+                        }`}
+                      >
+                        <span>{tab.label}</span>
+                        <span className={`text-[10px] px-1.5 py-0.2 rounded-md font-mono ${
+                          activeTechCategory === tab.id 
+                            ? 'bg-white/20 text-white' 
+                            : isDark ? 'bg-slate-800 text-slate-400' : 'bg-slate-100 text-slate-500'
+                        }`}>
+                          {count}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Instant Search Bar */}
+                <div className="relative w-full md:w-64">
+                  <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                  <input
+                    type="text"
+                    placeholder="Search stack, tool..."
+                    value={techSearchQuery}
+                    onChange={(e) => setTechSearchQuery(e.target.value)}
+                    className={`w-full pl-9 pr-8 py-2 rounded-xl text-xs border transition-colors outline-none ${
+                      isDark 
+                        ? 'bg-[#0a0f1d] border-slate-800 text-white placeholder-slate-500 focus:border-indigo-500' 
+                        : 'bg-white border-slate-200 text-slate-900 placeholder-slate-400 focus:border-indigo-500 shadow-sm'
+                    }`}
+                  />
+                  {techSearchQuery && (
+                    <button
+                      onClick={() => setTechSearchQuery('')}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-200"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  )}
+                </div>
+
+              </div>
+
+              {/* Categorized Tech Cards Grid with Official SVGs & Descriptions */}
+              {filteredSkills.length > 0 ? (
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {filteredSkills.map((tech, idx) => (
+                    <div
+                      key={idx}
+                      className={`p-5 rounded-2xl border transition-all duration-300 hover:scale-[1.03] hover:shadow-xl flex flex-col items-center text-center justify-between group relative ${
+                        isDark 
+                          ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-indigo-500/50 hover:shadow-indigo-950/30' 
+                          : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100/50 shadow-sm'
+                      }`}
+                    >
+                      {tech.badge && (
+                        <span className={`absolute top-3 right-3 text-[9px] font-mono uppercase px-2 py-0.5 rounded-md font-semibold tracking-wider ${
+                          isDark ? 'bg-indigo-950/80 text-indigo-300 border border-indigo-900/60' : 'bg-indigo-50 text-indigo-700 border border-indigo-100'
                         }`}>
                           {tech.badge}
                         </span>
                       )}
+
+                      <div className="flex flex-col items-center pt-2">
+                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-3 transition-transform group-hover:scale-110 p-2.5 ${
+                          isDark ? 'bg-slate-900/90 border border-slate-800' : 'bg-slate-50 border border-slate-200 shadow-inner'
+                        }`}>
+                          <img src={tech.iconSrc} alt={tech.name} className="w-8 h-8 object-contain" />
+                        </div>
+                        <h3 className={`font-bold text-sm mb-0.5 transition-colors ${
+                          isDark ? 'group-hover:text-indigo-400' : 'group-hover:text-indigo-600'
+                        }`}>
+                          {tech.name}
+                        </h3>
+                        <span className="text-[10px] uppercase font-mono tracking-wider text-slate-500 font-semibold mb-2">
+                          {tech.categoryLabel}
+                        </span>
+                      </div>
+
+                      {tech.description && (
+                        <p className={`text-[11px] leading-relaxed line-clamp-2 mt-1 ${
+                          isDark ? 'text-slate-400' : 'text-slate-600'
+                        }`}>
+                          {tech.description}
+                        </p>
+                      )}
                     </div>
-                    
-                    <h3 className={`text-xs font-semibold tracking-tight ${
-                      isDark ? 'text-zinc-200 group-hover:text-white' : 'text-zinc-800 group-hover:text-black'
-                    }`}>
-                      {tech.name}
-                    </h3>
-
-                    <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider block mb-1.5">
-                      {tech.categoryLabel}
-                    </span>
-                  </div>
-
-                  {tech.description && (
-                    <p className={`text-[11px] leading-relaxed line-clamp-2 ${
-                      isDark ? 'text-zinc-500' : 'text-zinc-500'
-                    }`}>
-                      {tech.description}
-                    </p>
-                  )}
+                  ))}
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className={`p-8 text-center rounded-xl border ${
-              isDark ? 'bg-zinc-900/30 border-zinc-800 text-zinc-400' : 'bg-white border-zinc-200 text-zinc-600'
-            }`}>
-              <p className="text-xs">No technologies matching &ldquo;{techSearchQuery}&rdquo;</p>
-              <button
-                onClick={() => {
-                  setTechSearchQuery('');
-                  setActiveTechCategory('all');
-                }}
-                className={`mt-3 px-3 py-1 rounded-md text-xs font-medium border transition-colors ${
-                  isDark ? 'border-zinc-700 bg-zinc-800 text-zinc-200' : 'border-zinc-300 bg-zinc-100 text-zinc-800'
-                }`}
-              >
-                Reset filter
-              </button>
+              ) : (
+                <div className={`p-12 text-center rounded-2xl border ${
+                  isDark ? 'bg-[#0a0f1d] border-slate-800 text-slate-400' : 'bg-white border-slate-200 text-slate-600'
+                }`}>
+                  <p className="text-sm">No technologies found matching &ldquo;{techSearchQuery}&rdquo; in this category.</p>
+                  <button
+                    onClick={() => {
+                      setTechSearchQuery('');
+                      setActiveTechCategory('all');
+                    }}
+                    className="mt-3 px-4 py-1.5 rounded-xl bg-indigo-600 text-white text-xs font-semibold hover:bg-indigo-500 transition-colors"
+                  >
+                    Reset Filters
+                  </button>
+                </div>
+              )}
+
+              {/* Back to Floating View Prompt */}
+              <div className="mt-10 text-center">
+                <button
+                  onClick={() => setTechViewMode('floating')}
+                  className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-semibold border transition-all duration-300 ${
+                    isDark
+                      ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800'
+                      : 'bg-white hover:bg-slate-50 text-slate-700 border-slate-200 shadow-sm'
+                  }`}
+                >
+                  <SlidersHorizontal className={`w-4 h-4 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`} />
+                  <span>Return to Interactive Floating Stream</span>
+                </button>
+              </div>
+
             </div>
           )}
 
         </div>
       </section>
 
+
       {/* 03 - PROJECTS SHOWCASE */}
-      <section id="projects" className={`py-16 px-6 relative z-10 border-t scroll-mt-14 ${
-        isDark ? 'border-zinc-800/80' : 'border-zinc-200/80'
-      }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+      <section id="projects" className="py-20 px-6 relative z-10 scroll-mt-20">
+        <div className="max-w-6xl mx-auto reveal-on-scroll">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div className={`flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6 border-b pb-4 ${
+            isDark ? 'border-slate-800/80' : 'border-slate-200'
+          }`}>
             <div>
-              <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-                isDark ? 'text-zinc-500' : 'text-zinc-400'
+              <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
+                isDark ? 'text-indigo-400' : 'text-indigo-600'
               }`}>
-                Featured Work
+                FEATURED WORK
               </span>
-              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-                Projects
+              <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                Projects Showcase
               </h2>
             </div>
 
             {/* Category Filter */}
-            <div className="flex flex-wrap gap-1.5">
+            <div className="flex flex-wrap gap-2">
               {['All', 'Web', 'Enterprise', 'Desktop'].map(filter => (
                 <button
                   key={filter}
                   onClick={() => setActiveProjectFilter(filter)}
-                  className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors cursor-pointer ${
+                  className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-300 ${
                     activeProjectFilter === filter
-                      ? isDark
-                        ? 'bg-zinc-100 text-zinc-900 font-semibold'
-                        : 'bg-zinc-900 text-white font-semibold'
+                      ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/30 scale-105'
                       : isDark
-                        ? 'bg-zinc-900/50 text-zinc-400 hover:text-zinc-200 border border-zinc-800/80'
-                        : 'bg-white text-zinc-600 hover:text-zinc-900 border border-zinc-200 shadow-xs'
+                        ? 'bg-[#0a0f1d] text-slate-400 hover:text-white border border-slate-800'
+                        : 'bg-white text-slate-600 hover:text-slate-900 border border-slate-200 shadow-sm'
                   }`}
                 >
                   {filter}
@@ -1474,7 +1958,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredProjects.map((proj) => (
               <ProjectCard 
                 key={proj.title} 
@@ -1484,51 +1968,54 @@ export default function App() {
             ))}
           </div>
 
+
+
         </div>
       </section>
 
       {/* 04 - LIVE GITHUB ACTIVITY & CONTRIBUTION GRAPH */}
-      <section id="github-activity" className={`py-16 px-6 border-t relative z-10 scroll-mt-14 ${
-        isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-zinc-50/70 border-zinc-200/80'
+      <section id="github-activity" className={`py-20 px-6 border-y relative z-10 transition-colors scroll-mt-20 ${
+        isDark ? 'bg-[#070b16]/90 border-slate-800/80' : 'bg-slate-100/60 border-slate-200/80'
       }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+        <div className="max-w-6xl mx-auto reveal-on-scroll">
           
-          <div className="mb-8">
-            <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-              isDark ? 'text-zinc-500' : 'text-zinc-400'
+          <div className="text-center mb-12">
+            <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
+              isDark ? 'text-emerald-400' : 'text-emerald-600'
             }`}>
-              Open Source
+              OPEN SOURCE & CODE ACTIVITY
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              GitHub Activity
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              GitHub Contribution Graph
             </h2>
-            <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Verified commit activity and repository contributions from @{GITHUB_USERNAME}.
+            <p className={`text-xs sm:text-sm mt-2 max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              Live commit activity and repository metrics from my public GitHub account.
             </p>
           </div>
 
-          {/* Clean GitHub Card Frame */}
-          <div className={`rounded-xl border p-5 sm:p-6 overflow-hidden ${
-            isDark ? 'bg-zinc-900/30 border-zinc-800/80' : 'bg-white border-zinc-200/90 shadow-xs'
+          {/* GitHub Contribution Heatmap Card */}
+          <div className={`rounded-3xl border p-6 sm:p-8 mb-8 shadow-2xl overflow-hidden relative ${
+            isDark ? 'bg-[#0a0f1d]/95 border-slate-800/90 shadow-indigo-950/20' : 'bg-white border-slate-200/90 shadow-sm'
           }`}>
-            <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b ${
-              isDark ? 'border-zinc-800/80' : 'border-zinc-200'
+            <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b ${
+              isDark ? 'border-slate-800/80' : 'border-slate-200'
             }`}>
-              <div className="flex items-center gap-2.5">
-                <div className={`p-2 rounded-lg border ${
-                  isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-zinc-100 border-zinc-200 text-zinc-700'
+              <div className="flex items-center gap-3">
+                <div className={`p-2.5 rounded-xl border transition-colors ${
+                  isDark ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-emerald-50 border-emerald-200 text-emerald-600'
                 }`}>
-                  <GithubIcon className="w-4 h-4" />
+                  <GithubIcon className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-sm flex items-center gap-2 text-zinc-100 dark:text-zinc-100 light:text-zinc-900">
+                  <h3 className="font-bold text-base flex items-center gap-2">
                     <span>@{GITHUB_USERNAME}</span>
-                    <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded border ${
-                      isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-400' : 'bg-zinc-100 border-zinc-200 text-zinc-600'
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md font-semibold ${
+                      isDark ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                     }`}>
-                      Public Activity
+                      Active
                     </span>
                   </h3>
+                  <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>Public contributions over the last year</p>
                 </div>
               </div>
 
@@ -1536,18 +2023,14 @@ export default function App() {
                 href={GITHUB_URL}
                 target="_blank"
                 rel="noreferrer"
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors w-fit ${
-                  isDark 
-                    ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-800' 
-                    : 'bg-zinc-100 border-zinc-200 text-zinc-700 hover:text-black hover:bg-zinc-200'
-                }`}
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 transition-all shadow-md shadow-indigo-600/20 w-fit"
               >
-                <span>View Profile</span>
-                <ExternalLink className="w-3 h-3" />
+                <span>Follow on GitHub</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
 
-            {/* Live Contribution Graph */}
+            {/* Live Contribution Graph with Authentic GitHub Palette */}
             <div className="w-full">
               <GitHubContributionGraph
                 username={GITHUB_USERNAME}
@@ -1557,26 +2040,28 @@ export default function App() {
             </div>
 
             <div className={`flex flex-wrap items-center justify-between gap-3 mt-4 text-[11px] font-mono ${
-              isDark ? 'text-zinc-500' : 'text-zinc-500'
+              isDark ? 'text-slate-400' : 'text-slate-600'
             }`}>
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1">
-                  <GitCommit className="w-3.5 h-3.5" />
-                  Commits
+                  <GitCommit className={`w-3.5 h-3.5 ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`} />
+                  Verified Commits
                 </span>
                 <span className="flex items-center gap-1">
-                  <GitPullRequest className="w-3.5 h-3.5" />
+                  <GitPullRequest className={`w-3.5 h-3.5 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
                   Pull Requests
                 </span>
                 <span className="flex items-center gap-1">
-                  <Star className="w-3.5 h-3.5" />
-                  Repositories
+                  <Star className={`w-3.5 h-3.5 ${isDark ? 'text-amber-400' : 'text-amber-600'}`} />
+                  Open Source
                 </span>
               </div>
 
-              <div className="flex items-center gap-1.5 text-[10px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                <span>Live sync</span>
+              <div className={`flex items-center gap-1.5 text-[10px] font-semibold ${
+                isDark ? 'text-emerald-400' : 'text-emerald-600'
+              }`}>
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Synchronized with GitHub</span>
               </div>
             </div>
           </div>
@@ -1584,46 +2069,49 @@ export default function App() {
         </div>
       </section>
 
-      {/* 05 - EDUCATION & TIMELINE */}
-      <section id="experience" className={`py-16 px-6 relative z-10 border-t scroll-mt-14 ${
-        isDark ? 'border-zinc-800/80' : 'border-zinc-200/80'
-      }`}>
+      {/* 05 - EDUCATION & ACADEMIC BACKGROUND WITH PROPORTIONAL CLEAN LOGOS */}
+      <section id="experience" className="py-20 px-6 relative z-10 overflow-hidden scroll-mt-20">
         <div className="max-w-4xl mx-auto reveal-on-scroll">
           
-          <div className="mb-8">
-            <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-              isDark ? 'text-zinc-500' : 'text-zinc-400'
+          <div className="text-center mb-12">
+            <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
+              isDark ? 'text-emerald-400' : 'text-emerald-600'
             }`}>
-              Academic
+              ACADEMIC JOURNEY
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
-              Education & Experience
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
+              Education & Honors
             </h2>
           </div>
 
-          {/* Minimal Timeline */}
-          <div className={`relative pl-6 sm:pl-8 border-l space-y-8 my-6 ${
-            isDark ? 'border-zinc-800' : 'border-zinc-300'
+          {/* Connected Education Timeline */}
+          <div className={`relative pl-6 sm:pl-10 border-l-2 space-y-8 my-8 ${
+            isDark ? 'border-indigo-500/30' : 'border-indigo-300'
           }`}>
             {education.map((item, idx) => (
-              <div key={idx} className="relative">
-                {/* Timeline Node */}
-                <div className={`absolute -left-[31px] sm:-left-[39px] top-6 w-3 h-3 rounded-full border-2 shrink-0 ${
-                  isDark ? 'bg-zinc-400 border-zinc-950' : 'bg-zinc-800 border-white'
-                }`} />
+              <div 
+                key={idx} 
+                className={`relative group ${idx % 2 === 0 ? 'slide-in-from-left' : 'slide-in-from-right'}`}
+              >
+                {/* Glowing Timeline Node */}
+                <div className={`absolute -left-[31px] sm:-left-[47px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-2 shadow-md shadow-indigo-500/60 flex items-center justify-center shrink-0 group-hover:scale-125 group-hover:bg-indigo-500 transition-transform duration-300 ${
+                  isDark ? 'border-slate-950' : 'border-white'
+                }`}>
+                  <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+                </div>
 
                 <div 
-                  className={`p-6 rounded-xl border transition-colors ${
+                  className={`p-6 sm:p-8 rounded-3xl border transition-all duration-300 hover:-translate-y-1.5 hover:shadow-xl ${
                     isDark 
-                      ? 'bg-zinc-900/30 border-zinc-800/80' 
-                      : 'bg-white border-zinc-200/90 shadow-xs'
+                      ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-indigo-500/40 hover:shadow-indigo-950/30' 
+                      : 'bg-white border-slate-200/90 hover:border-indigo-300 hover:shadow-lg hover:shadow-indigo-100/50 shadow-sm'
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start gap-4 mb-4">
                     
-                    {/* Institution Logo */}
-                    <div className={`w-12 h-12 rounded-lg overflow-hidden shrink-0 border bg-white flex items-center justify-center p-1.5 ${
-                      isDark ? 'border-zinc-800' : 'border-zinc-200'
+                    {/* Clean School Logo Frame */}
+                    <div className={`w-14 h-14 sm:w-16 sm:h-16 rounded-2xl overflow-hidden shrink-0 border shadow-md bg-white flex items-center justify-center p-2 group-hover:scale-105 transition-transform duration-300 ${
+                      isDark ? 'border-slate-700/80' : 'border-slate-200 shadow-sm'
                     }`}>
                       <img 
                         src={item.logo} 
@@ -1632,62 +2120,68 @@ export default function App() {
                       />
                     </div>
 
-                    {/* Degree & Year */}
+                    {/* Degree, Institution Details & Year Badge on the other side */}
                     <div className="flex-1">
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-                        <h3 className="text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-1.5">
+                        <h3 className={`text-lg font-bold leading-snug transition-colors ${
+                          isDark ? 'text-indigo-400 group-hover:text-indigo-300' : 'text-indigo-600 group-hover:text-indigo-700'
+                        }`}>
                           {item.degree}
                         </h3>
-                        <span className={`text-xs font-mono shrink-0 ${
-                          isDark ? 'text-zinc-400' : 'text-zinc-500'
+                        {/* Year Badge on the Other Side */}
+                        <span className={`px-3 py-1 rounded-full text-xs font-mono font-bold backdrop-blur-md shadow-sm transition-all shrink-0 w-fit ${
+                          isDark 
+                            ? 'bg-indigo-500/15 border border-indigo-500/40 text-indigo-300 group-hover:border-indigo-400 group-hover:bg-indigo-500/25' 
+                            : 'bg-indigo-50 border border-indigo-200 text-indigo-700 group-hover:border-indigo-300 group-hover:bg-indigo-100/60'
                         }`}>
                           {item.period}
                         </span>
                       </div>
 
-                      <div className={`flex flex-wrap items-center gap-2 text-xs font-medium mb-3 ${
-                        isDark ? 'text-zinc-400' : 'text-zinc-600'
+                      <div className={`flex flex-wrap items-center gap-2 text-sm font-semibold mb-3 ${
+                        isDark ? 'text-slate-300' : 'text-slate-800'
                       }`}>
-                        <Building2 className="w-3.5 h-3.5 shrink-0" />
+                        <Building2 className={`w-4 h-4 shrink-0 ${isDark ? 'text-purple-400' : 'text-purple-600'}`} />
                         <span>{item.institution}</span>
                         {item.honors && (
-                          <span className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                          <span className={`text-xs font-bold px-2.5 py-0.5 rounded-full shadow-sm ${
                             isDark 
-                              ? 'bg-zinc-900 border-zinc-800 text-zinc-300' 
-                              : 'bg-zinc-100 border-zinc-200 text-zinc-700'
+                              ? 'text-amber-300 bg-amber-950/70 border border-amber-500/50 shadow-amber-500/20' 
+                              : 'text-amber-800 bg-amber-50 border border-amber-200'
                           }`}>
-                            {item.honors}
+                            🏅 {item.honors}
                           </span>
                         )}
                       </div>
                     </div>
                   </div>
 
-                  <p className={`text-xs leading-relaxed mb-4 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+
+                  <p className={`text-xs sm:text-sm leading-relaxed mb-4 ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                     {item.details}
                   </p>
 
-                  {/* OJT Showcase */}
+                  {/* Industry Work Immersion / OJT Showcase */}
                   {item.ojt && (
-                    <div className={`mb-4 p-3 rounded-lg border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                      isDark ? 'bg-zinc-950/60 border-zinc-800/80' : 'bg-zinc-50 border-zinc-200'
+                    <div className={`mb-4 p-3 sm:p-4 rounded-2xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-all duration-300 hover:border-indigo-500/40 ${
+                      isDark ? 'bg-slate-950/60 border-slate-800/80' : 'bg-slate-50 border-slate-200 shadow-sm'
                     }`}>
                       <div className="flex items-center gap-3">
-                        <div className="h-8 px-2 rounded bg-white border border-zinc-200 flex items-center justify-center overflow-hidden shrink-0">
-                          <img src={item.ojt.logo} alt={item.ojt.company} className="h-5 w-auto object-contain" />
+                        <div className="h-10 px-2.5 rounded-xl bg-white border border-slate-200/80 shadow-sm flex items-center justify-center overflow-hidden shrink-0">
+                          <img src={item.ojt.logo} alt={item.ojt.company} className="h-6 w-auto object-contain" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className={`text-xs font-semibold ${isDark ? 'text-zinc-200' : 'text-zinc-800'}`}>
+                            <span className={`text-xs font-bold ${isDark ? 'text-slate-200' : 'text-slate-800'}`}>
                               {item.ojt.company}
                             </span>
-                            <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded border ${
-                              isDark ? 'bg-zinc-900 text-zinc-400 border-zinc-800' : 'bg-zinc-100 text-zinc-600 border-zinc-200'
+                            <span className={`text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md border ${
+                              isDark ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' : 'bg-indigo-50 text-indigo-700 border-indigo-200'
                             }`}>
-                              Work Immersion
+                              Industry OJT
                             </span>
                           </div>
-                          <p className={`text-[11px] ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                          <p className={`text-[11px] ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
                             {item.ojt.description}
                           </p>
                         </div>
@@ -1697,8 +2191,8 @@ export default function App() {
 
                   <div className="flex flex-wrap gap-1.5">
                     {item.skills.map(s => (
-                      <span key={s} className={`text-[10px] px-2 py-0.5 rounded font-mono border ${
-                        isDark ? 'bg-zinc-900 text-zinc-400 border-zinc-800' : 'bg-zinc-50 text-zinc-600 border-zinc-200'
+                      <span key={s} className={`text-xs px-2.5 py-0.5 rounded-md font-mono border transition-colors ${
+                        isDark ? 'bg-slate-950 text-slate-300 border-slate-800' : 'bg-slate-50 text-slate-700 border-slate-200'
                       }`}>
                         {s}
                       </span>
@@ -1713,26 +2207,26 @@ export default function App() {
       </section>
 
       {/* 06 - CERTIFICATES GALLERY */}
-      <section id="certificates" className={`py-16 px-6 border-t relative z-10 scroll-mt-14 ${
-        isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-zinc-50/70 border-zinc-200/80'
+      <section id="certificates" className={`py-20 px-6 border-t relative z-10 transition-colors scroll-mt-20 ${
+        isDark ? 'bg-[#070b16]/90 border-slate-800/80' : 'bg-slate-100/60 border-slate-200/80'
       }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+        <div className="max-w-6xl mx-auto reveal-on-scroll">
           
-          <div className="mb-8">
-            <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-              isDark ? 'text-zinc-500' : 'text-zinc-400'
+          <div className="text-center mb-12">
+            <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
+              isDark ? 'text-pink-400' : 'text-pink-600'
             }`}>
-              Credentials
+              CREDENTIALS
             </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100">
+            <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
               Certificates & Awards
             </h2>
-            <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-              Select any certificate to inspect the verified official document.
+            <p className={`text-xs sm:text-sm mt-2 max-w-xl mx-auto ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              Click any certificate below to inspect the verified official document.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {certificates.map((cert, index) => (
               <div
                 key={index}
@@ -1740,54 +2234,61 @@ export default function App() {
                   setSelectedCert(cert);
                   setActiveCertDocIndex(0);
                 }}
-                className={`group cursor-pointer rounded-xl overflow-hidden border transition-all duration-200 flex flex-col justify-between ${
+                className={`group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl flex flex-col justify-between ${
                   isDark 
-                    ? 'bg-zinc-900/30 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/60' 
-                    : 'bg-white border-zinc-200/90 hover:border-zinc-300 hover:shadow-xs'
+                    ? 'bg-[#0a0f1d]/90 border-slate-800/80 hover:border-purple-500/50 hover:shadow-purple-950/30' 
+                    : 'bg-white border-slate-200/90 hover:border-purple-300 hover:shadow-lg hover:shadow-purple-100/40 shadow-sm'
                 }`}
               >
                 <div className={`relative aspect-[16/11] overflow-hidden ${
-                  isDark ? 'bg-zinc-950' : 'bg-zinc-100'
+                  isDark ? 'bg-slate-900' : 'bg-slate-100'
                 }`}>
                   <img
                     src={cert.image}
                     alt={cert.title}
-                    className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-300 ease-out"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
-                  <span className={`absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[9px] font-mono font-medium backdrop-blur-xs ${
-                    isDark ? 'bg-zinc-900/90 border border-zinc-800 text-zinc-300' : 'bg-white/95 border border-zinc-200 text-zinc-700 shadow-xs'
+                  <div className={`absolute inset-0 transition-opacity ${
+                    isDark 
+                      ? 'bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent opacity-60 group-hover:opacity-20' 
+                      : 'bg-gradient-to-t from-slate-900/25 via-transparent to-transparent opacity-30 group-hover:opacity-10'
+                  }`} />
+                  <span className={`absolute top-3 right-3 px-2.5 py-0.5 rounded-md text-[10px] font-bold backdrop-blur-sm shadow-md ${
+                    isDark ? 'bg-slate-900/90 border border-slate-700 text-purple-300' : 'bg-white/95 border border-purple-200 text-purple-700 shadow-sm'
                   }`}>
                     {cert.category}
                   </span>
                   {cert.gallery && cert.gallery.length > 1 && (
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[9px] font-mono font-medium bg-zinc-900/90 border border-zinc-800 text-zinc-300 backdrop-blur-xs">
-                      {cert.gallery.length} Records
+                    <span className="absolute top-3 left-3 px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-600/90 border border-purple-400/40 text-white backdrop-blur-sm shadow-md flex items-center gap-1">
+                      <span>{cert.gallery.length} Verified Docs</span>
                     </span>
                   )}
                 </div>
 
-                <div className="p-3.5 flex-1 flex flex-col justify-between">
+                <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className={`font-semibold text-xs mb-1 line-clamp-2 transition-colors ${
-                      isDark ? 'text-zinc-200 group-hover:text-white' : 'text-zinc-800 group-hover:text-black'
+                    <h3 className={`font-bold text-xs mb-1 transition-colors line-clamp-2 ${
+                      isDark ? 'group-hover:text-purple-400' : 'group-hover:text-purple-600'
                     }`}>
                       {cert.title}
                     </h3>
-                    <div className="flex items-center gap-1 text-[11px] font-medium text-zinc-500 mb-2">
+                    <div className={`flex items-center gap-1 text-[11px] font-medium mb-2 ${
+                      isDark ? 'text-purple-400' : 'text-purple-600'
+                    }`}>
                       <Building2 className="w-3 h-3" />
-                      <span className="truncate">{cert.issuer}</span>
+                      <span>{cert.issuer}</span>
                     </div>
                   </div>
 
-                  <div className={`flex items-center justify-between pt-2 border-t text-[10px] font-mono ${
-                    isDark ? 'border-zinc-800/80 text-zinc-500' : 'border-zinc-200 text-zinc-500'
+                  <div className={`flex items-center justify-between pt-2 border-t text-[11px] ${
+                    isDark ? 'border-slate-800 text-slate-500' : 'border-slate-200 text-slate-500'
                   }`}>
                     <span>{cert.date}</span>
-                    <span className={`inline-flex items-center gap-0.5 ${
-                      isDark ? 'text-zinc-400 group-hover:text-zinc-200' : 'text-zinc-600 group-hover:text-zinc-900'
+                    <span className={`font-bold inline-flex items-center gap-0.5 group-hover:translate-x-1 transition-transform duration-300 ${
+                      isDark ? 'text-purple-400' : 'text-purple-600'
                     }`}>
                       Inspect
-                      <ChevronRight className="w-3 h-3" />
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
@@ -1816,43 +2317,47 @@ export default function App() {
 
         return (
           <div 
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-xs"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md animate-in fade-in duration-200"
             onClick={() => setSelectedCert(null)}
           >
             <div 
-              className={`relative max-w-2xl w-full border rounded-2xl overflow-hidden p-6 max-h-[90vh] flex flex-col ${
-                isDark ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-white border-zinc-200 text-zinc-900 shadow-xl'
+              className={`relative max-w-3xl w-full border rounded-3xl overflow-hidden shadow-2xl p-6 sm:p-8 max-h-[92vh] flex flex-col ${
+                isDark ? 'bg-slate-900 border-slate-800 text-white' : 'bg-white border-slate-200 text-slate-900'
               }`}
               onClick={e => e.stopPropagation()}
             >
               <button
                 onClick={() => setSelectedCert(null)}
-                className={`absolute top-4 right-4 p-1.5 rounded-lg transition-colors z-10 ${
-                  isDark ? 'bg-zinc-800 text-zinc-400 hover:text-white' : 'bg-zinc-100 text-zinc-600 hover:text-black'
+                className={`absolute top-5 right-5 p-2 rounded-full transition-colors z-10 ${
+                  isDark ? 'bg-slate-800/80 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:text-slate-950 hover:bg-slate-200'
                 }`}
-                aria-label="Close dialog"
               >
-                <X className="w-4 h-4" />
+                <X className="w-5 h-5" />
               </button>
 
-              {/* Multi-document Tabs */}
+              {/* Multi-document Tabs (if available) */}
               {selectedCert.gallery && selectedCert.gallery.length > 1 && (
-                <div className="mb-4 pr-10">
-                  <div className="flex flex-wrap gap-1.5">
+                <div className="mb-4 pr-12">
+                  <div className={`text-[10px] font-mono uppercase tracking-wider font-bold mb-2 flex items-center gap-1.5 ${
+                    isDark ? 'text-purple-400' : 'text-purple-600'
+                  }`}>
+                    <Sparkles className="w-3 h-3" />
+                    <span>Attached Official Records ({activeCertDocIndex + 1} of {selectedCert.gallery.length})</span>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
                     {selectedCert.gallery.map((doc, idx) => (
                       <button
                         key={idx}
                         onClick={() => setActiveCertDocIndex(idx)}
-                        className={`px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${
                           activeCertDocIndex === idx
-                            ? isDark
-                              ? 'bg-zinc-100 text-zinc-900'
-                              : 'bg-zinc-900 text-white'
+                            ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30 ring-2 ring-purple-400/40'
                             : isDark
-                              ? 'bg-zinc-800/80 text-zinc-400 hover:text-zinc-200'
-                              : 'bg-zinc-100 text-zinc-600 hover:text-zinc-900'
+                              ? 'bg-slate-800/90 text-slate-300 hover:bg-slate-700 hover:text-white border border-slate-700/60'
+                              : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
                         }`}
                       >
+                        <span className={`w-1.5 h-1.5 rounded-full ${activeCertDocIndex === idx ? 'bg-white' : isDark ? 'bg-purple-400' : 'bg-purple-600'}`}></span>
                         {doc.title}
                       </button>
                     ))}
@@ -1860,34 +2365,34 @@ export default function App() {
                 </div>
               )}
 
-              <div className={`max-h-[50vh] overflow-hidden rounded-lg flex items-center justify-center border mb-4 ${
-                isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-zinc-50 border-zinc-200'
+              <div className={`max-h-[52vh] overflow-hidden rounded-2xl flex items-center justify-center border mb-5 shadow-inner ${
+                isDark ? 'bg-slate-950 border-slate-800' : 'bg-slate-100 border-slate-200'
               }`}>
                 <img
                   src={currentDoc.image}
                   alt={currentDoc.title || selectedCert.title}
-                  className="max-h-[50vh] w-auto object-contain"
+                  className="max-h-[52vh] w-auto object-contain transition-all duration-300"
                 />
               </div>
 
               <div className="overflow-y-auto">
-                <div className="flex items-center gap-2 mb-1.5">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-mono uppercase ${
-                    isDark ? 'bg-zinc-800 text-zinc-300' : 'bg-zinc-100 text-zinc-700'
+                <div className="flex items-center gap-2 mb-2">
+                  <span className={`px-2.5 py-0.5 rounded-md text-xs font-semibold font-mono ${
+                    isDark ? 'bg-purple-500/10 border border-purple-500/30 text-purple-400' : 'bg-purple-50 border border-purple-200 text-purple-700'
                   }`}>
                     {selectedCert.category}
                   </span>
-                  <span className={`text-xs font-mono ${isDark ? 'text-zinc-400' : 'text-zinc-500'}`}>
-                    {currentDoc.date || selectedCert.date}
+                  <span className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-500'}`}>
+                    Issued: {currentDoc.date || selectedCert.date}
                   </span>
                 </div>
-                <h3 className="text-base font-semibold mb-0.5">
+                <h3 className="text-xl font-bold mb-1">
                   {currentDoc.title && selectedCert.gallery && selectedCert.gallery.length > 1
                     ? currentDoc.title
                     : selectedCert.title}
                 </h3>
-                <p className="text-xs font-medium text-zinc-500 mb-2">{selectedCert.issuer}</p>
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
+                <p className={`text-sm font-semibold mb-2 ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>{selectedCert.issuer}</p>
+                <p className={`text-xs leading-relaxed ${isDark ? 'text-slate-300' : 'text-slate-600'}`}>
                   {currentDoc.caption || selectedCert.description}
                 </p>
               </div>
@@ -1897,137 +2402,128 @@ export default function App() {
       })()}
 
       {/* 07 - CONTACT SECTION */}
-      <section id="contact" className={`py-16 px-6 relative z-10 border-t scroll-mt-14 ${
-        isDark ? 'border-zinc-800/80' : 'border-zinc-200/80'
-      }`}>
-        <div className="max-w-2xl mx-auto w-full reveal-on-scroll">
-          <div className={`rounded-xl border p-6 sm:p-8 ${
-            isDark ? 'bg-zinc-900/30 border-zinc-800/80' : 'bg-white border-zinc-200/90 shadow-xs'
-          }`}>
-            <div className="mb-6">
-              <span className={`text-[11px] font-mono uppercase tracking-wider font-medium block mb-1 ${
-                isDark ? 'text-zinc-500' : 'text-zinc-400'
-              }`}>
-                Connect
-              </span>
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-zinc-900 dark:text-zinc-100 mb-1">
-                Get in Touch
-              </h2>
-              <p className={`text-xs ${isDark ? 'text-zinc-400' : 'text-zinc-600'}`}>
-                Inquiries regarding full-stack software development, collaborations, or hackathons.
-              </p>
+      <section id="contact" className="py-20 px-6 max-w-3xl mx-auto w-full relative z-10 scroll-mt-20">
+        <div className={`rounded-3xl border p-8 sm:p-12 shadow-2xl reveal-on-scroll ${
+          isDark ? 'bg-[#0a0f1d]/95 border-slate-800/80' : 'bg-white border-slate-200/90 shadow-sm'
+        }`}>
+          <div className="text-center mb-8">
+            <span className={`text-[11px] font-mono uppercase tracking-widest font-bold block mb-1 ${
+              isDark ? 'text-teal-400' : 'text-teal-600'
+            }`}>
+              GET IN TOUCH
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-2">
+              Let us Connect & Collaborate
+            </h2>
+            <p className={`text-xs ${isDark ? 'text-slate-400' : 'text-slate-600'}`}>
+              Reach out for software opportunities, full-stack projects, or hackathons.
+            </p>
+          </div>
+
+          <form onSubmit={handleContactSubmit} className="space-y-4">
+            <div>
+              <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Name</label>
+              <input 
+                type="text" 
+                required
+                disabled={contactStatus === 'loading'}
+                value={contactData.name}
+                onChange={(e) => setContactData(prev => ({ ...prev, name: e.target.value }))}
+                placeholder="Justin / Recruiter" 
+                className={`w-full px-4 py-3 rounded-xl border text-xs focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-60 ${
+                  isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50/70 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-indigo-500 shadow-xs'
+                }`}
+              />
+            </div>
+            <div>
+              <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Email</label>
+              <input 
+                type="email" 
+                required
+                disabled={contactStatus === 'loading'}
+                value={contactData.email}
+                onChange={(e) => setContactData(prev => ({ ...prev, email: e.target.value }))}
+                placeholder="you@domain.com" 
+                className={`w-full px-4 py-3 rounded-xl border text-xs focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-60 ${
+                  isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50/70 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-indigo-500 shadow-xs'
+                }`}
+              />
+            </div>
+            <div>
+              <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-slate-300' : 'text-slate-700'}`}>Message</label>
+              <textarea 
+                rows={4} 
+                required
+                disabled={contactStatus === 'loading'}
+                value={contactData.message}
+                onChange={(e) => setContactData(prev => ({ ...prev, message: e.target.value }))}
+                placeholder="Your project inquiry or message..." 
+                className={`w-full px-4 py-3 rounded-xl border text-xs resize-none focus:outline-none focus:border-indigo-500 transition-colors disabled:opacity-60 ${
+                  isDark ? 'bg-slate-950 border-slate-800 text-white placeholder-slate-500' : 'bg-slate-50/70 border-slate-200 text-slate-900 placeholder-slate-400 focus:bg-white focus:border-indigo-500 shadow-xs'
+                }`}
+              />
             </div>
 
-            <form onSubmit={handleContactSubmit} className="space-y-3.5">
-              <div>
-                <label className={`block text-xs font-medium mb-1 ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>Name</label>
-                <input 
-                  type="text" 
-                  required
-                  disabled={contactStatus === 'loading'}
-                  value={contactData.name}
-                  onChange={(e) => setContactData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Your Name" 
-                  className={`w-full px-3.5 py-2 rounded-lg border text-xs outline-none transition-colors disabled:opacity-60 ${
-                    isDark 
-                      ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-600' 
-                      : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-400 focus:bg-white shadow-xs'
-                  }`}
-                />
-              </div>
-              <div>
-                <label className={`block text-xs font-medium mb-1 ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>Email</label>
-                <input 
-                  type="email" 
-                  required
-                  disabled={contactStatus === 'loading'}
-                  value={contactData.email}
-                  onChange={(e) => setContactData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="your.email@domain.com" 
-                  className={`w-full px-3.5 py-2 rounded-lg border text-xs outline-none transition-colors disabled:opacity-60 ${
-                    isDark 
-                      ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-600' 
-                      : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-400 focus:bg-white shadow-xs'
-                  }`}
-                />
-              </div>
-              <div>
-                <label className={`block text-xs font-medium mb-1 ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>Message</label>
-                <textarea 
-                  rows={4} 
-                  required
-                  disabled={contactStatus === 'loading'}
-                  value={contactData.message}
-                  onChange={(e) => setContactData(prev => ({ ...prev, message: e.target.value }))}
-                  placeholder="Your message or project scope..." 
-                  className={`w-full px-3.5 py-2 rounded-lg border text-xs resize-none outline-none transition-colors disabled:opacity-60 ${
-                    isDark 
-                      ? 'bg-zinc-900/60 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-600' 
-                      : 'bg-zinc-50 border-zinc-200 text-zinc-900 placeholder-zinc-400 focus:border-zinc-400 focus:bg-white shadow-xs'
-                  }`}
-                />
-              </div>
-
-              {contactFeedback && (
-                <div className={`p-3 rounded-lg text-xs flex items-center gap-2 border ${
-                  contactStatus === 'success' 
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
-                    : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
-                }`}>
-                  {contactStatus === 'success' ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-400" />
-                  ) : (
-                    <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-400" />
-                  )}
-                  <span>{contactFeedback}</span>
-                </div>
-              )}
-
-              <button
-                type="submit"
-                disabled={contactStatus === 'loading'}
-                className={`w-full py-2.5 rounded-lg text-xs font-medium transition-colors flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${
-                  isDark 
-                    ? 'bg-zinc-100 text-zinc-900 hover:bg-white' 
-                    : 'bg-zinc-900 text-white hover:bg-zinc-800'
-                }`}
-              >
-                {contactStatus === 'loading' ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    Sending...
-                  </>
-                ) : contactStatus === 'success' ? (
-                  <>
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    Sent
-                  </>
+            {contactFeedback && (
+              <div className={`p-3 rounded-xl text-xs flex items-center gap-2 border transition-all ${
+                contactStatus === 'success' 
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' 
+                  : 'bg-rose-500/10 border-rose-500/30 text-rose-400'
+              }`}>
+                {contactStatus === 'success' ? (
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
                 ) : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    Send Message
-                  </>
+                  <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
                 )}
-              </button>
-            </form>
-          </div>
+                <span>{contactFeedback}</span>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={contactStatus === 'loading'}
+              className="w-full py-3.5 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 disabled:bg-indigo-700 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30 cursor-pointer"
+            >
+              {contactStatus === 'loading' ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  Sending Message...
+                </>
+              ) : contactStatus === 'success' ? (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-green-300" />
+                  Message Sent Successfully!
+                </>
+              ) : contactStatus === 'error' ? (
+                <>
+                  <AlertCircle className="w-4 h-4 text-rose-300" />
+                  Try Again
+                </>
+              ) : (
+                <>
+                  <Send className="w-4 h-4" />
+                  Send Message
+                </>
+              )}
+            </button>
+          </form>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className={`mt-auto border-t py-8 px-6 text-xs relative z-10 ${
-        isDark ? 'border-zinc-800/80 text-zinc-500 bg-[#09090b]' : 'border-zinc-200 text-zinc-500 bg-white'
+      <footer className={`mt-auto border-t py-10 px-6 text-center text-xs relative z-10 ${
+        isDark ? 'border-slate-800/80 text-slate-500 bg-[#05070e]' : 'border-slate-200 text-slate-600 bg-white/80'
       }`}>
-        <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px]">
+        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
           <p>© {new Date().getFullYear()} Justin Allen Azucena</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
-            <a href="/resume.html" target="_blank" rel="noreferrer" className={isDark ? 'hover:text-zinc-300' : 'hover:text-zinc-900'}>Resume</a>
-            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={isDark ? 'hover:text-zinc-300' : 'hover:text-zinc-900'}>GitHub</a>
-            <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className={isDark ? 'hover:text-zinc-300' : 'hover:text-zinc-900'}>LinkedIn</a>
-            <span className={`cursor-pointer ${isDark ? 'hover:text-zinc-300' : 'hover:text-zinc-900'}`} onClick={copyDiscord}>Discord</span>
-            <a href="mailto:azucenajustinallen@gmail.com" className={isDark ? 'hover:text-zinc-300' : 'hover:text-zinc-900'}>Email</a>
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
+            <a href="/resume.html" target="_blank" rel="noreferrer" className={isDark ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}>Resume</a>
+            <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={isDark ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}>GitHub</a>
+            <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className={isDark ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}>LinkedIn</a>
+            <span className={`cursor-pointer ${isDark ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}`} onClick={copyDiscord}>Discord (spieler02.)</span>
+            <a href="mailto:azucenajustinallen@gmail.com" className={isDark ? 'hover:text-indigo-400' : 'hover:text-indigo-600'}>Email</a>
           </div>
-          <p className="text-zinc-500">React 19 • Vite</p>
+          <p>React 19 + Vite</p>
         </div>
       </footer>
 
