@@ -789,8 +789,61 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  const toggleTheme = (e?: React.MouseEvent) => {
+    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+
+    const doc = document as any;
+    const isAppearanceTransition =
+      typeof doc !== 'undefined' &&
+      typeof doc.startViewTransition === 'function' &&
+      !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!isAppearanceTransition || !e) {
+      document.documentElement.classList.add('theme-transitioning');
+      setTheme(nextTheme);
+      window.setTimeout(() => {
+        document.documentElement.classList.remove('theme-transitioning');
+      }, 550);
+      return;
+    }
+
+    const rect = (e.currentTarget as HTMLElement)?.getBoundingClientRect?.() || {
+      left: window.innerWidth - 80,
+      top: 24,
+      width: 32,
+      height: 32
+    };
+    const x = e.clientX && e.clientX > 0 ? e.clientX : rect.left + rect.width / 2;
+    const y = e.clientY && e.clientY > 0 ? e.clientY : rect.top + rect.height / 2;
+
+    const endRadius = Math.hypot(
+      Math.max(x, window.innerWidth - x),
+      Math.max(y, window.innerHeight - y)
+    );
+
+    const transition = doc.startViewTransition(() => {
+      setTheme(nextTheme);
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`
+      ];
+      
+      doc.documentElement.animate(
+        {
+          clipPath: clipPath,
+        },
+        {
+          duration: 500,
+          easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+          pseudoElement: '::view-transition-new(root)',
+        }
+      );
+    }).catch(() => {
+      setTheme(nextTheme);
+    });
   };
 
   const copyDiscord = () => {
@@ -1211,17 +1264,41 @@ export default function App() {
 
           {/* Right Action Icons */}
           <div className="flex items-center gap-1.5 sm:gap-2">
+            {/* Theme Toggle Button with Spring Morph & Ambient Aura */}
             <button
-              onClick={toggleTheme}
-              className={`p-1.5 sm:p-2 rounded-lg border transition-colors cursor-pointer ${
+              onClick={(e) => toggleTheme(e)}
+              className={`relative group p-1.5 sm:p-2 rounded-xl border transition-all duration-300 cursor-pointer overflow-hidden active:scale-90 hover:scale-105 shadow-xs ${
                 isDark 
-                  ? 'bg-zinc-900 border-zinc-800 text-amber-300 hover:text-amber-200 hover:border-zinc-700' 
-                  : 'bg-white border-slate-200 text-amber-600 hover:text-amber-700 hover:border-slate-300 shadow-xs'
+                  ? 'bg-zinc-900/90 border-zinc-700/80 hover:border-amber-400/50 shadow-amber-500/5 text-amber-300 hover:text-amber-200' 
+                  : 'bg-white border-slate-200 hover:border-indigo-400/60 shadow-slate-200/80 text-indigo-600 hover:text-indigo-700'
               }`}
               title={isDark ? "Switch to light theme" : "Switch to dark theme"}
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="w-3.5 h-3.5" /> : <Moon className="w-3.5 h-3.5" />}
+              {/* Ambient radial aura glow behind icon */}
+              <span className={`absolute inset-0 rounded-xl transition-opacity duration-300 blur-sm pointer-events-none opacity-0 group-hover:opacity-100 ${
+                isDark ? 'bg-amber-400/20' : 'bg-indigo-500/15'
+              }`} />
+
+              <div className="relative w-4 h-4 flex items-center justify-center">
+                {/* Sun Icon */}
+                <Sun 
+                  className={`w-4 h-4 text-amber-400 absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                    isDark 
+                      ? 'scale-100 rotate-0 opacity-100 drop-shadow-[0_0_8px_rgba(251,191,36,0.6)]' 
+                      : 'scale-0 -rotate-90 opacity-0 pointer-events-none'
+                  }`} 
+                />
+                
+                {/* Moon Icon */}
+                <Moon 
+                  className={`w-4 h-4 text-indigo-600 absolute transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] ${
+                    !isDark 
+                      ? 'scale-100 rotate-0 opacity-100 drop-shadow-[0_0_8px_rgba(79,70,229,0.4)]' 
+                      : 'scale-0 rotate-90 opacity-0 pointer-events-none'
+                  }`} 
+                />
+              </div>
             </button>
 
             <a 

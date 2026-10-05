@@ -199,5 +199,38 @@
   animation: gentleFloat 4s ease-in-out infinite;
 }
 
+/* ==========================================================================
+   Silky Smooth Theme Transition & Circular Wave View Transitions
+   ========================================================================== */
+
+/* Disable default cross-fade in View Transitions so circular clip-path wave takes over */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 99999;
+}
+
+/* Fallback smooth color transitions across all page elements */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition: background-color 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+              border-color 0.45s cubic-bezier(0.25, 1, 0.5, 1),
+              color 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              fill 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              stroke 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+              box-shadow 0.45s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  transition-delay: 0s !important;
+}
+
 
 
