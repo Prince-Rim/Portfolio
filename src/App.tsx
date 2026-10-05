@@ -15,7 +15,7 @@ import {
   Moon, 
   Download, 
   Check, 
-  ExternalLink,
+  ExternalLink, 
   GitCommit,
   GitPullRequest,
   Star,
@@ -486,7 +486,7 @@ function ProjectCard({
               <span className={`w-2 h-2 rounded-full ${isDark ? 'bg-zinc-700' : 'bg-slate-300'}`} />
               <span className={`w-2 h-2 rounded-full ${isDark ? 'bg-zinc-700' : 'bg-slate-300'}`} />
             </div>
-            <span className={`text-[10px] font-mono truncate max-w-[140px] font-medium ${
+            <span className={`text-[10px] font-mono truncate max-w-[160px] font-medium ${
               isDark ? 'text-zinc-400' : 'text-slate-600'
             }`}>
               {proj.title.toLowerCase().replace(/\s+/g, '')}.app
@@ -518,7 +518,7 @@ function ProjectCard({
             </span>
           </div>
 
-          <h3 className={`text-base font-bold tracking-tight mb-1.5 transition-colors ${
+          <h3 className={`text-base sm:text-lg font-bold tracking-tight mb-1.5 transition-colors ${
             isDark ? 'text-white group-hover:text-indigo-300' : 'text-slate-900 group-hover:text-indigo-600'
           }`}>
             {proj.title}
@@ -1005,11 +1005,11 @@ export default function App() {
       isDark ? 'bg-[#090a0f] text-zinc-100' : 'bg-[#f8fafc] text-slate-900'
     }`}>
       
-      {/* Sleek Header */}
+      {/* Sleek Widescreen Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-200 w-full ${
         isDark ? 'bg-[#090a0f]/90 border-zinc-800/90 shadow-sm' : 'bg-white/95 border-slate-200 shadow-xs'
       }`}>
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between relative z-10 w-full">
           <a href="#" className="font-semibold text-sm tracking-tight flex items-center gap-2 group">
             <span className={`h-7 w-7 rounded-lg border flex items-center justify-center text-xs font-mono font-bold transition-all ${
               isDark 
@@ -1026,7 +1026,7 @@ export default function App() {
           </a>
 
           {/* Navigation Links */}
-          <nav className="hidden md:flex items-center gap-5 text-xs font-semibold">
+          <nav className="hidden md:flex items-center gap-6 text-xs font-semibold">
             {navLinks.map((link) => {
               const isActive = activeNavSection === link.id;
               return (
@@ -1158,13 +1158,13 @@ export default function App() {
       {/* Header spacer */}
       <div className="h-14 shrink-0 w-full" aria-hidden="true" />
 
-      {/* Hero Section - Space Optimized & Responsive */}
-      <section id="hero" className="relative pt-8 pb-10 sm:pt-14 sm:pb-14 px-4 sm:px-6 overflow-hidden z-10">
-        <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-10 reveal-on-scroll is-visible text-center md:text-left">
+      {/* Hero Section - Widescreen & Space Balanced */}
+      <section id="hero" className="relative pt-8 pb-10 sm:pt-14 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-10 lg:gap-14 reveal-on-scroll is-visible text-center md:text-left">
           
-          {/* Compact Clean Avatar */}
+          {/* Profile Avatar Frame */}
           <div className="shrink-0">
-            <div className={`w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 rounded-2xl overflow-hidden border shadow-sm transition-colors ${
+            <div className={`w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl overflow-hidden border shadow-sm transition-colors ${
               isDark 
                 ? 'bg-zinc-900 border-zinc-800' 
                 : 'bg-white border-slate-200/90'
@@ -1178,7 +1178,7 @@ export default function App() {
           </div>
 
           {/* Hero Content */}
-          <div className="flex-1">
+          <div className="flex-1 max-w-4xl">
             {/* Status Pill */}
             <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-3 border transition-colors ${
               isDark 
@@ -1189,54 +1189,54 @@ export default function App() {
               <span>Full-Stack Software Developer</span>
             </div>
 
-            <h1 className={`text-2xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-2.5 leading-tight ${
+            <h1 className={`text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 leading-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               Justin Allen Azucena
             </h1>
 
-            <p className={`text-xs sm:text-sm md:text-base leading-relaxed mb-5 font-normal max-w-2xl ${
+            <p className={`text-xs sm:text-base lg:text-lg leading-relaxed mb-6 font-normal max-w-3xl ${
               isDark ? 'text-zinc-300' : 'text-slate-700'
             }`}>
               Information Technology student & developer specializing in scalable full-stack web platforms, enterprise .NET backends, and desktop database architectures. Top 30 Finalist in the nationwide eGov PH Hackathon 2026.
             </p>
 
             {/* Quick Metadata */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xs mb-5">
-              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border font-medium ${
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 text-xs mb-6">
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium ${
                 isDark ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300' : 'bg-white border-slate-200 text-slate-700 shadow-xs'
               }`}>
-                <MapPin className={`w-3 h-3 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
+                <MapPin className={`w-3.5 h-3.5 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
                 Quezon City, PH
               </span>
 
               <a 
                 href="mailto:azucenajustinallen@gmail.com"
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border font-medium transition-colors ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium transition-colors ${
                   isDark ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                 }`}
               >
-                <Mail className={`w-3 h-3 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
+                <Mail className={`w-3.5 h-3.5 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
                 azucenajustinallen@gmail.com
               </a>
 
               <button
                 onClick={copyDiscord}
-                className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md border font-medium transition-colors cursor-pointer ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium transition-colors cursor-pointer ${
                   isDark ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                 }`}
                 title="Click to copy Discord handle"
               >
-                <DiscordIcon className={`w-3 h-3 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
+                <DiscordIcon className={`w-3.5 h-3.5 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
                 <span>{discordCopied ? 'Copied handle!' : 'spieler02.'}</span>
               </button>
             </div>
 
             {/* Action Buttons */}
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <a 
                 href="#projects" 
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-xs font-semibold transition-all shadow-xs ${
+                className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-semibold transition-all shadow-xs ${
                   isDark 
                     ? 'bg-zinc-100 text-zinc-950 hover:bg-white' 
                     : 'bg-indigo-600 text-white hover:bg-indigo-500'
@@ -1248,7 +1248,7 @@ export default function App() {
               
               <a 
                 href="#github-activity" 
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-semibold transition-all shadow-xs ${
+                className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border text-xs font-semibold transition-all shadow-xs ${
                   isDark 
                     ? 'bg-zinc-900 border-zinc-800 text-zinc-200 hover:bg-zinc-800 hover:text-white' 
                     : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:text-slate-950'
@@ -1262,7 +1262,7 @@ export default function App() {
                 href="/resume.html" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg border text-xs font-semibold transition-all shadow-xs ${
+                className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border text-xs font-semibold transition-all shadow-xs ${
                   isDark 
                     ? 'bg-zinc-900/50 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' 
                     : 'bg-white border-indigo-200 text-indigo-700 hover:bg-indigo-50'
@@ -1278,28 +1278,28 @@ export default function App() {
       </section>
 
       {/* 01 - ABOUT ME */}
-      <section id="about" className={`py-12 sm:py-16 px-4 sm:px-6 relative z-10 border-t scroll-mt-14 ${
+      <section id="about" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
           
-          <div className="mb-6">
+          <div className="mb-6 sm:mb-8">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
               GET TO KNOW ME
             </span>
-            <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               About Me
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
             
             {/* Bio Paragraphs */}
-            <div className={`md:col-span-7 p-5 sm:p-6 rounded-2xl border text-sm leading-relaxed space-y-3.5 ${
+            <div className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 ${
               isDark ? 'bg-zinc-900/40 border-zinc-800/90 text-zinc-300' : 'bg-white border-slate-200/90 text-slate-800 shadow-xs'
             }`}>
               <p>
@@ -1313,23 +1313,23 @@ export default function App() {
               </p>
             </div>
 
-            {/* Focus Areas */}
-            <div className="md:col-span-5 space-y-2">
-              <span className={`text-xs font-mono uppercase tracking-wider font-bold block mb-2.5 ${
+            {/* Focus Areas - 2 Column Grid to Maximize Width */}
+            <div className="md:col-span-6 lg:col-span-6 space-y-3">
+              <span className={`text-xs font-mono uppercase tracking-wider font-bold block mb-3 ${
                 isDark ? 'text-zinc-400' : 'text-slate-600'
               }`}>
-                Core Competencies
+                Core Competencies & Focus Areas
               </span>
-              <div className="space-y-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {interests.map((interest, i) => (
                   <div
                     key={i}
-                    className={`p-3 rounded-xl border flex items-center gap-2.5 transition-colors ${
+                    className={`p-3.5 sm:p-4 rounded-xl border flex items-center gap-3 transition-colors ${
                       isDark ? 'bg-zinc-900/40 border-zinc-800/80 text-zinc-300' : 'bg-white border-slate-200 text-slate-800 shadow-xs'
                     }`}
                   >
-                    <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
-                    <span className="text-xs font-semibold">{interest}</span>
+                    <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+                    <span className="text-xs sm:text-sm font-semibold">{interest}</span>
                   </div>
                 ))}
               </div>
@@ -1341,10 +1341,10 @@ export default function App() {
       </section>
 
       {/* 02 - SKILLS & TECHNOLOGIES WITH RESTORED TECH STACK ROULETTE */}
-      <section id="skills" className={`py-12 sm:py-16 px-4 sm:px-6 border-t relative z-10 scroll-mt-14 overflow-hidden ${
+      <section id="skills" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t relative z-10 scroll-mt-14 overflow-hidden ${
         isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
-        <div className="max-w-5xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5">
             <div>
@@ -1360,12 +1360,12 @@ export default function App() {
                   {skillsData.length} Stacks
                 </span>
               </div>
-              <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+              <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
                 Technologies & Tools
               </h2>
-              <p className={`text-xs sm:text-sm mt-1 max-w-xl ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+              <p className={`text-xs sm:text-sm mt-1 max-w-2xl ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
                 Languages, frameworks, databases, and enterprise platforms I actively engineer with.
               </p>
             </div>
@@ -1375,20 +1375,20 @@ export default function App() {
               {techViewMode === 'floating' ? (
                 <button
                   onClick={() => setTechViewMode('grid')}
-                  className={`group flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                  className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                     isDark 
                       ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' 
                       : 'bg-white border-slate-200 text-slate-800 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                   }`}
                   aria-label="View All Technologies Grid"
                 >
-                  <span>View Grid</span>
+                  <span>View Full Grid</span>
                   <LayoutGrid className="w-3.5 h-3.5 opacity-80 group-hover:opacity-100" />
                 </button>
               ) : (
                 <button
                   onClick={() => setTechViewMode('floating')}
-                  className={`group flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
+                  className={`group flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold border transition-all cursor-pointer ${
                     isDark 
                       ? 'bg-indigo-950/60 text-indigo-300 border-indigo-800/80 hover:bg-indigo-900/60' 
                       : 'bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100'
@@ -1404,21 +1404,21 @@ export default function App() {
 
           {/* VIEW MODE 1: TECH STACK ROULETTE (FLOATING MARQUEE STREAM) */}
           {techViewMode === 'floating' && (
-            <div className="relative -mx-4 sm:-mx-6 py-2 overflow-hidden">
+            <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 py-2 overflow-hidden">
               
               {/* Left & Right Edge Fade Gradient Masks */}
-              <div className={`pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-28 z-20 bg-gradient-to-r ${
+              <div className={`pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 lg:w-44 z-20 bg-gradient-to-r ${
                 isDark ? 'from-[#090a0f] to-transparent' : 'from-[#f8fafc] to-transparent'
               }`} />
-              <div className={`pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-28 z-20 bg-gradient-to-l ${
+              <div className={`pointer-events-none absolute inset-y-0 right-0 w-16 sm:w-32 lg:w-44 z-20 bg-gradient-to-l ${
                 isDark ? 'from-[#090a0f] to-transparent' : 'from-[#f8fafc] to-transparent'
               }`} />
 
-              <div className="flex flex-col gap-3 overflow-hidden">
+              <div className="flex flex-col gap-3.5 overflow-hidden">
                 
                 {/* Floating Row 1: Left Drift */}
                 <div className="flex overflow-hidden group py-0.5">
-                  <div className="animate-marquee-left flex gap-2.5 sm:gap-3.5 pause-on-group-hover">
+                  <div className="animate-marquee-left flex gap-3 sm:gap-4 pause-on-group-hover">
                     {[...floatingRow1, ...floatingRow1, ...floatingRow1, ...floatingRow1].map((tech, idx) => (
                       <div
                         key={`r1-${idx}`}
@@ -1426,7 +1426,7 @@ export default function App() {
                           setActiveTechCategory(tech.category);
                           setTechViewMode('grid');
                         }}
-                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-2 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
+                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
                           isDark
                             ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700'
                             : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-slate-950'
@@ -1438,7 +1438,7 @@ export default function App() {
                         }`}>
                           <img src={tech.iconSrc} alt={tech.name} className="w-4 h-4 object-contain" />
                         </div>
-                        <span className={`text-xs font-bold tracking-tight ${
+                        <span className={`text-xs sm:text-sm font-bold tracking-tight ${
                           isDark ? 'text-zinc-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
                         }`}>
                           {tech.name}
@@ -1457,7 +1457,7 @@ export default function App() {
 
                 {/* Floating Row 2: Right Drift */}
                 <div className="flex overflow-hidden group py-0.5">
-                  <div className="animate-marquee-right flex gap-2.5 sm:gap-3.5 pause-on-group-hover">
+                  <div className="animate-marquee-right flex gap-3 sm:gap-4 pause-on-group-hover">
                     {[...floatingRow2, ...floatingRow2, ...floatingRow2, ...floatingRow2].map((tech, idx) => (
                       <div
                         key={`r2-${idx}`}
@@ -1465,7 +1465,7 @@ export default function App() {
                           setActiveTechCategory(tech.category);
                           setTechViewMode('grid');
                         }}
-                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-2 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
+                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
                           isDark
                             ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700'
                             : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-slate-950'
@@ -1477,7 +1477,7 @@ export default function App() {
                         }`}>
                           <img src={tech.iconSrc} alt={tech.name} className="w-4 h-4 object-contain" />
                         </div>
-                        <span className={`text-xs font-bold tracking-tight ${
+                        <span className={`text-xs sm:text-sm font-bold tracking-tight ${
                           isDark ? 'text-zinc-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
                         }`}>
                           {tech.name}
@@ -1496,7 +1496,7 @@ export default function App() {
 
                 {/* Floating Row 3: Left Drift Fast */}
                 <div className="flex overflow-hidden group py-0.5">
-                  <div className="animate-marquee-left-fast flex gap-2.5 sm:gap-3.5 pause-on-group-hover">
+                  <div className="animate-marquee-left-fast flex gap-3 sm:gap-4 pause-on-group-hover">
                     {[...floatingRow3, ...floatingRow3, ...floatingRow3, ...floatingRow3].map((tech, idx) => (
                       <div
                         key={`r3-${idx}`}
@@ -1504,7 +1504,7 @@ export default function App() {
                           setActiveTechCategory(tech.category);
                           setTechViewMode('grid');
                         }}
-                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-2 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
+                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
                           isDark
                             ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700'
                             : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-slate-950'
@@ -1516,7 +1516,7 @@ export default function App() {
                         }`}>
                           <img src={tech.iconSrc} alt={tech.name} className="w-4 h-4 object-contain" />
                         </div>
-                        <span className={`text-xs font-bold tracking-tight ${
+                        <span className={`text-xs sm:text-sm font-bold tracking-tight ${
                           isDark ? 'text-zinc-200 group-hover/pill:text-white' : 'text-slate-800 group-hover/pill:text-indigo-600'
                         }`}>
                           {tech.name}
@@ -1536,7 +1536,7 @@ export default function App() {
               </div>
 
               {/* Bottom Quick Navigation Hint */}
-              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 text-xs">
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3 px-4 sm:px-6 lg:px-8 text-xs">
                 <div className={`flex items-center gap-1.5 font-mono text-[11px] ${
                   isDark ? 'text-zinc-400' : 'text-slate-600'
                 }`}>
@@ -1580,7 +1580,7 @@ export default function App() {
                       <button
                         key={tab.id}
                         onClick={() => setActiveTechCategory(tab.id)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                        className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                           isActive
                             ? isDark
                               ? 'bg-zinc-100 text-zinc-950 font-bold'
@@ -1597,7 +1597,7 @@ export default function App() {
                 </div>
 
                 {/* Instant Search Bar */}
-                <div className="relative w-full md:w-56">
+                <div className="relative w-full md:w-64">
                   <Search className={`w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 ${
                     isDark ? 'text-zinc-400' : 'text-slate-500'
                   }`} />
@@ -1606,7 +1606,7 @@ export default function App() {
                     placeholder="Search stack, tool..."
                     value={techSearchQuery}
                     onChange={(e) => setTechSearchQuery(e.target.value)}
-                    className={`w-full pl-8 pr-7 py-1.5 rounded-lg text-xs border outline-none transition-colors ${
+                    className={`w-full pl-8 pr-7 py-2 rounded-lg text-xs border outline-none transition-colors ${
                       isDark 
                         ? 'bg-zinc-900 border-zinc-800 text-white placeholder-zinc-500 focus:border-zinc-600' 
                         : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 shadow-xs'
@@ -1624,9 +1624,9 @@ export default function App() {
 
               </div>
 
-              {/* Categorized Tech Cards Grid */}
+              {/* Categorized Tech Cards Grid - Scaled to 6 cols on widescreen */}
               {filteredSkills.length > 0 ? (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
                   {filteredSkills.map((tech, idx) => (
                     <div
                       key={idx}
@@ -1718,10 +1718,10 @@ export default function App() {
       </section>
 
       {/* 03 - PROJECTS SHOWCASE */}
-      <section id="projects" className={`py-12 sm:py-16 px-4 sm:px-6 relative z-10 border-t scroll-mt-14 ${
+      <section id="projects" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-5xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
           
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5">
             <div>
@@ -1730,10 +1730,10 @@ export default function App() {
               }`}>
                 FEATURED WORK
               </span>
-              <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+              <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Projects
+                Projects Showcase
               </h2>
             </div>
 
@@ -1743,7 +1743,7 @@ export default function App() {
                 <button
                   key={filter}
                   onClick={() => setActiveProjectFilter(filter)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                     activeProjectFilter === filter
                       ? isDark
                         ? 'bg-zinc-100 text-zinc-950 font-bold'
@@ -1759,7 +1759,7 @@ export default function App() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
             {filteredProjects.map((proj) => (
               <ProjectCard 
                 key={proj.title} 
@@ -1773,10 +1773,10 @@ export default function App() {
       </section>
 
       {/* 04 - LIVE GITHUB ACTIVITY & CONTRIBUTION GRAPH */}
-      <section id="github-activity" className={`py-12 sm:py-16 px-4 sm:px-6 border-t relative z-10 scroll-mt-14 ${
+      <section id="github-activity" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t relative z-10 scroll-mt-14 ${
         isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
           
           <div className="mb-6">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
@@ -1784,7 +1784,7 @@ export default function App() {
             }`}>
               OPEN SOURCE
             </span>
-            <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               GitHub Contribution Graph
@@ -1795,24 +1795,24 @@ export default function App() {
           </div>
 
           {/* GitHub Card Frame */}
-          <div className={`rounded-2xl border p-5 sm:p-6 overflow-hidden ${
+          <div className={`rounded-2xl border p-5 sm:p-7 overflow-hidden ${
             isDark ? 'bg-zinc-900/40 border-zinc-800/90' : 'bg-white border-slate-200/90 shadow-xs'
           }`}>
             <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b ${
               isDark ? 'border-zinc-800/80' : 'border-slate-200'
             }`}>
-              <div className="flex items-center gap-2.5">
-                <div className={`p-2 rounded-lg border ${
+              <div className="flex items-center gap-3">
+                <div className={`p-2.5 rounded-xl border ${
                   isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-slate-100 border-slate-200 text-slate-800'
                 }`}>
-                  <GithubIcon className="w-4 h-4" />
+                  <GithubIcon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className={`font-bold text-sm flex items-center gap-2 ${
+                  <h3 className={`font-bold text-sm sm:text-base flex items-center gap-2 ${
                     isDark ? 'text-white' : 'text-slate-900'
                   }`}>
                     <span>@{GITHUB_USERNAME}</span>
-                    <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded border font-semibold ${
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded border font-semibold ${
                       isDark ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : 'bg-emerald-50 text-emerald-700 border-emerald-200'
                     }`}>
                       Active
@@ -1826,14 +1826,14 @@ export default function App() {
                 href={GITHUB_URL}
                 target="_blank"
                 rel="noreferrer"
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold border transition-colors w-fit ${
+                className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold border transition-colors w-fit ${
                   isDark 
                     ? 'bg-zinc-900 border-zinc-800 text-zinc-200 hover:text-white hover:bg-zinc-800' 
                     : 'bg-indigo-600 text-white border-indigo-600 hover:bg-indigo-500 shadow-xs'
                 }`}
               >
                 <span>View on GitHub</span>
-                <ExternalLink className="w-3 h-3" />
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
 
@@ -1875,10 +1875,10 @@ export default function App() {
       </section>
 
       {/* 05 - EDUCATION & TIMELINE */}
-      <section id="experience" className={`py-12 sm:py-16 px-4 sm:px-6 relative z-10 border-t scroll-mt-14 ${
+      <section id="experience" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-4xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
           
           <div className="mb-6">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
@@ -1886,7 +1886,7 @@ export default function App() {
             }`}>
               ACADEMIC
             </span>
-            <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               Education & Experience
@@ -1905,7 +1905,7 @@ export default function App() {
                 }`} />
 
                 <div 
-                  className={`p-5 sm:p-6 rounded-2xl border transition-colors ${
+                  className={`p-5 sm:p-7 rounded-2xl border transition-colors ${
                     isDark 
                       ? 'bg-zinc-900/40 border-zinc-800/90' 
                       : 'bg-white border-slate-200/90 shadow-xs'
@@ -1914,7 +1914,7 @@ export default function App() {
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3.5 mb-3">
                     
                     {/* Institution Logo */}
-                    <div className={`w-12 h-12 rounded-xl overflow-hidden shrink-0 border bg-white flex items-center justify-center p-1.5 ${
+                    <div className={`w-14 h-14 rounded-xl overflow-hidden shrink-0 border bg-white flex items-center justify-center p-2 ${
                       isDark ? 'border-zinc-800' : 'border-slate-200 shadow-xs'
                     }`}>
                       <img 
@@ -1927,25 +1927,25 @@ export default function App() {
                     {/* Degree & Year */}
                     <div className="flex-1">
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
-                        <h3 className={`text-base font-bold ${
+                        <h3 className={`text-base sm:text-lg font-bold ${
                           isDark ? 'text-white' : 'text-slate-900'
                         }`}>
                           {item.degree}
                         </h3>
-                        <span className={`text-xs font-mono font-semibold px-2 py-0.5 rounded border shrink-0 w-fit ${
+                        <span className={`text-xs font-mono font-semibold px-2.5 py-1 rounded border shrink-0 w-fit ${
                           isDark ? 'bg-zinc-900 border-zinc-800 text-zinc-300' : 'bg-slate-100 border-slate-200 text-slate-700'
                         }`}>
                           {item.period}
                         </span>
                       </div>
 
-                      <div className={`flex flex-wrap items-center gap-2 text-xs font-semibold mb-2.5 ${
+                      <div className={`flex flex-wrap items-center gap-2 text-xs sm:text-sm font-semibold mb-2.5 ${
                         isDark ? 'text-zinc-300' : 'text-slate-700'
                       }`}>
                         <Building2 className="w-3.5 h-3.5 shrink-0" />
                         <span>{item.institution}</span>
                         {item.honors && (
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                          <span className={`text-[10px] sm:text-xs font-bold px-2.5 py-0.5 rounded-full border ${
                             isDark 
                               ? 'bg-amber-950/70 border-amber-500/40 text-amber-300' 
                               : 'bg-amber-50 border-amber-200 text-amber-800'
@@ -1957,7 +1957,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  <p className={`text-xs sm:text-sm leading-relaxed mb-3.5 font-normal ${
+                  <p className={`text-xs sm:text-sm leading-relaxed mb-4 font-normal ${
                     isDark ? 'text-zinc-400' : 'text-slate-600'
                   }`}>
                     {item.details}
@@ -1965,25 +1965,25 @@ export default function App() {
 
                   {/* OJT Showcase */}
                   {item.ojt && (
-                    <div className={`mb-3.5 p-3 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 ${
+                    <div className={`mb-4 p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
                       isDark ? 'bg-zinc-950/70 border-zinc-800/90' : 'bg-slate-50 border-slate-200 shadow-xs'
                     }`}>
                       <div className="flex items-center gap-3">
-                        <div className="h-8 px-2 rounded bg-white border border-slate-200 flex items-center justify-center overflow-hidden shrink-0">
-                          <img src={item.ojt.logo} alt={item.ojt.company} className="h-5 w-auto object-contain" />
+                        <div className="h-9 px-2 rounded-lg bg-white border border-slate-200 flex items-center justify-center overflow-hidden shrink-0">
+                          <img src={item.ojt.logo} alt={item.ojt.company} className="h-6 w-auto object-contain" />
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className={`text-xs font-bold ${isDark ? 'text-zinc-200' : 'text-slate-900'}`}>
+                            <span className={`text-xs sm:text-sm font-bold ${isDark ? 'text-zinc-200' : 'text-slate-900'}`}>
                               {item.ojt.company}
                             </span>
-                            <span className={`text-[10px] font-mono px-1.5 py-0.2 rounded border font-semibold ${
+                            <span className={`text-[10px] font-mono px-2 py-0.5 rounded border font-semibold ${
                               isDark ? 'bg-zinc-900 text-zinc-300 border-zinc-800' : 'bg-indigo-50 text-indigo-700 border-indigo-200'
                             }`}>
                               Work Immersion
                             </span>
                           </div>
-                          <p className={`text-[11px] ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                          <p className={`text-[11px] sm:text-xs ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
                             {item.ojt.description}
                           </p>
                         </div>
@@ -1993,7 +1993,7 @@ export default function App() {
 
                   <div className="flex flex-wrap gap-1.5">
                     {item.skills.map(s => (
-                      <span key={s} className={`text-[10px] px-2 py-0.5 rounded font-mono border ${
+                      <span key={s} className={`text-[10px] sm:text-xs px-2.5 py-0.5 rounded font-mono border ${
                         isDark ? 'bg-zinc-900 text-zinc-400 border-zinc-800' : 'bg-slate-100 text-slate-700 border-slate-200 font-medium'
                       }`}>
                         {s}
@@ -2009,10 +2009,10 @@ export default function App() {
       </section>
 
       {/* 06 - CERTIFICATES GALLERY */}
-      <section id="certificates" className={`py-12 sm:py-16 px-4 sm:px-6 border-t relative z-10 scroll-mt-14 ${
+      <section id="certificates" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t relative z-10 scroll-mt-14 ${
         isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
-        <div className="max-w-5xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
           
           <div className="mb-6">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
@@ -2020,7 +2020,7 @@ export default function App() {
             }`}>
               CREDENTIALS
             </span>
-            <h2 className={`text-2xl sm:text-3xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               Certificates & Awards
@@ -2030,7 +2030,7 @@ export default function App() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {certificates.map((cert, index) => (
               <div
                 key={index}
@@ -2064,14 +2064,14 @@ export default function App() {
                   )}
                 </div>
 
-                <div className="p-3.5 flex-1 flex flex-col justify-between">
+                <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className={`font-bold text-xs mb-1 line-clamp-2 transition-colors ${
+                    <h3 className={`font-bold text-xs sm:text-sm mb-1 line-clamp-2 transition-colors ${
                       isDark ? 'text-zinc-100 group-hover:text-indigo-400' : 'text-slate-900 group-hover:text-indigo-600'
                     }`}>
                       {cert.title}
                     </h3>
-                    <div className={`flex items-center gap-1 text-[11px] font-medium mb-2 ${
+                    <div className={`flex items-center gap-1 text-[11px] sm:text-xs font-medium mb-2 ${
                       isDark ? 'text-zinc-400' : 'text-slate-600'
                     }`}>
                       <Building2 className="w-3 h-3" />
@@ -2079,7 +2079,7 @@ export default function App() {
                     </div>
                   </div>
 
-                  <div className={`flex items-center justify-between pt-2 border-t text-[10px] font-mono ${
+                  <div className={`flex items-center justify-between pt-2 border-t text-[10px] sm:text-[11px] font-mono ${
                     isDark ? 'border-zinc-800/80 text-zinc-400' : 'border-slate-200 text-slate-600'
                   }`}>
                     <span>{cert.date}</span>
@@ -2087,7 +2087,7 @@ export default function App() {
                       isDark ? 'text-indigo-400' : 'text-indigo-600'
                     }`}>
                       Inspect
-                      <ChevronRight className="w-3 h-3" />
+                      <ChevronRight className="w-3.5 h-3.5" />
                     </span>
                   </div>
                 </div>
@@ -2120,7 +2120,7 @@ export default function App() {
             onClick={() => setSelectedCert(null)}
           >
             <div 
-              className={`relative max-w-2xl w-full border rounded-2xl overflow-hidden p-5 sm:p-6 max-h-[90vh] flex flex-col ${
+              className={`relative max-w-3xl w-full border rounded-2xl overflow-hidden p-5 sm:p-7 max-h-[90vh] flex flex-col ${
                 isDark ? 'bg-zinc-900 border-zinc-800 text-white' : 'bg-white border-slate-200 text-slate-900 shadow-2xl'
               }`}
               onClick={e => e.stopPropagation()}
@@ -2143,7 +2143,7 @@ export default function App() {
                       <button
                         key={idx}
                         onClick={() => setActiveCertDocIndex(idx)}
-                        className={`px-2.5 py-1 rounded-md text-xs font-semibold transition-colors cursor-pointer ${
+                        className={`px-3 py-1 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
                           activeCertDocIndex === idx
                             ? isDark
                               ? 'bg-indigo-600 text-white'
@@ -2160,13 +2160,13 @@ export default function App() {
                 </div>
               )}
 
-              <div className={`max-h-[50vh] overflow-hidden rounded-lg flex items-center justify-center border mb-3.5 ${
+              <div className={`max-h-[52vh] overflow-hidden rounded-lg flex items-center justify-center border mb-4 ${
                 isDark ? 'bg-zinc-950 border-zinc-800' : 'bg-slate-50 border-slate-200'
               }`}>
                 <img
                   src={currentDoc.image}
                   alt={currentDoc.title || selectedCert.title}
-                  className="max-h-[50vh] w-auto object-contain"
+                  className="max-h-[52vh] w-auto object-contain"
                 />
               </div>
 
@@ -2181,13 +2181,13 @@ export default function App() {
                     {currentDoc.date || selectedCert.date}
                   </span>
                 </div>
-                <h3 className="text-base font-bold mb-0.5">
+                <h3 className="text-base sm:text-lg font-bold mb-0.5">
                   {currentDoc.title && selectedCert.gallery && selectedCert.gallery.length > 1
                     ? currentDoc.title
                     : selectedCert.title}
                 </h3>
-                <p className={`text-xs font-semibold mb-2 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>{selectedCert.issuer}</p>
-                <p className={`text-xs leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>
+                <p className={`text-xs sm:text-sm font-semibold mb-2 ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>{selectedCert.issuer}</p>
+                <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>
                   {currentDoc.caption || selectedCert.description}
                 </p>
               </div>
@@ -2196,141 +2196,231 @@ export default function App() {
         );
       })()}
 
-      {/* 07 - CONTACT SECTION - FIXED HIGH-CONTRAST & COMPACT */}
-      <section id="contact" className={`py-12 sm:py-16 px-4 sm:px-6 relative z-10 border-t scroll-mt-14 ${
+      {/* 07 - CONTACT SECTION - EXPANDED 2-COLUMN BALANCED WIDESCREEN LAYOUT */}
+      <section id="contact" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-xl mx-auto w-full reveal-on-scroll">
-          <div className={`rounded-2xl border p-5 sm:p-7 ${
-            isDark ? 'bg-zinc-900/40 border-zinc-800/90 shadow-sm' : 'bg-white border-slate-200/90 shadow-sm'
-          }`}>
-            <div className="mb-5 text-center sm:text-left">
-              <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
-                isDark ? 'text-indigo-400' : 'text-indigo-600'
+        <div className="max-w-7xl mx-auto reveal-on-scroll">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* Left Column: Direct Info & Availability */}
+            <div className="lg:col-span-5 space-y-6">
+              <div>
+                <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
+                  isDark ? 'text-indigo-400' : 'text-indigo-600'
+                }`}>
+                  CONNECT
+                </span>
+                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 ${
+                  isDark ? 'text-white' : 'text-slate-900'
+                }`}>
+                  Let's Connect & Collaborate
+                </h2>
+                <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                  Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
+                </p>
+              </div>
+
+              {/* Direct Communication Channels */}
+              <div className="space-y-3">
+                <a 
+                  href="mailto:azucenajustinallen@gmail.com"
+                  className={`p-3.5 rounded-xl border flex items-center gap-3.5 transition-all ${
+                    isDark 
+                      ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 text-zinc-300 hover:text-white' 
+                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                  }`}
+                >
+                  <div className={`p-2 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-indigo-50 text-indigo-600'}`}>
+                    <Mail className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-mono uppercase tracking-wider block font-medium opacity-60">Email</span>
+                    <span className="text-xs sm:text-sm font-bold">azucenajustinallen@gmail.com</span>
+                  </div>
+                </a>
+
+                <div 
+                  onClick={copyDiscord}
+                  className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                    isDark 
+                      ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 text-zinc-300 hover:text-white' 
+                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                  }`}
+                >
+                  <div className="flex items-center gap-3.5">
+                    <div className={`p-2 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-indigo-50 text-indigo-600'}`}>
+                      <DiscordIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider block font-medium opacity-60">Discord</span>
+                      <span className="text-xs sm:text-sm font-bold">spieler02.</span>
+                    </div>
+                  </div>
+                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
+                    discordCopied ? 'bg-emerald-500 text-white' : isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-600'
+                  }`}>
+                    {discordCopied ? 'Copied' : 'Copy'}
+                  </span>
+                </div>
+
+                <a 
+                  href={LINKEDIN_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`p-3.5 rounded-xl border flex items-center justify-between transition-all ${
+                    isDark 
+                      ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 text-zinc-300 hover:text-white' 
+                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                  }`}
+                >
+                  <div className="flex items-center gap-3.5">
+                    <div className={`p-2 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-indigo-50 text-indigo-600'}`}>
+                      <LinkedinIcon className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider block font-medium opacity-60">LinkedIn</span>
+                      <span className="text-xs sm:text-sm font-bold">Justin Allen Azucena</span>
+                    </div>
+                  </div>
+                  <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                </a>
+              </div>
+
+              {/* Status Note */}
+              <div className={`p-4 rounded-xl border flex items-center gap-3 ${
+                isDark ? 'bg-zinc-950/60 border-zinc-800/80 text-zinc-400' : 'bg-indigo-50/70 border-indigo-200 text-indigo-900'
               }`}>
-                CONNECT
-              </span>
-              <h2 className={`text-xl sm:text-2xl font-extrabold tracking-tight mb-1 ${
-                isDark ? 'text-white' : 'text-slate-900'
-              }`}>
-                Get in Touch
-              </h2>
-              <p className={`text-xs ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Inquiries regarding full-stack software development, collaborations, or hackathons.
-              </p>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="text-xs font-semibold">Currently open for software developer opportunities and collaborations.</span>
+              </div>
             </div>
 
-            <form onSubmit={handleContactSubmit} className="space-y-3.5">
-              <div>
-                <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-zinc-200' : 'text-slate-800'}`}>
-                  Name
-                </label>
-                <input 
-                  type="text" 
-                  required
-                  disabled={contactStatus === 'loading'}
-                  value={contactData.name}
-                  onChange={(e) => setContactData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Your Name" 
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-colors disabled:opacity-60 font-medium ${
-                    isDark 
-                      ? 'bg-zinc-950 border-zinc-800 text-white placeholder-zinc-500 focus:border-indigo-500' 
-                      : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 shadow-xs'
-                  }`}
-                />
-              </div>
+            {/* Right Column: Contact Form */}
+            <div className="lg:col-span-7">
+              <div className={`rounded-2xl border p-6 sm:p-8 ${
+                isDark ? 'bg-zinc-900/40 border-zinc-800/90 shadow-sm' : 'bg-white border-slate-200/90 shadow-sm'
+              }`}>
+                <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
+                  Send a Direct Message
+                </h3>
 
-              <div>
-                <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-zinc-200' : 'text-slate-800'}`}>
-                  Email
-                </label>
-                <input 
-                  type="email" 
-                  required
-                  disabled={contactStatus === 'loading'}
-                  value={contactData.email}
-                  onChange={(e) => setContactData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="your.email@domain.com" 
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-colors disabled:opacity-60 font-medium ${
-                    isDark 
-                      ? 'bg-zinc-950 border-zinc-800 text-white placeholder-zinc-500 focus:border-indigo-500' 
-                      : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 shadow-xs'
-                  }`}
-                />
-              </div>
+                <form onSubmit={handleContactSubmit} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-zinc-200' : 'text-slate-800'}`}>
+                        Your Name
+                      </label>
+                      <input 
+                        type="text" 
+                        required
+                        disabled={contactStatus === 'loading'}
+                        value={contactData.name}
+                        onChange={(e) => setContactData(prev => ({ ...prev, name: e.target.value }))}
+                        placeholder="Justin / Recruiter" 
+                        className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-colors disabled:opacity-60 font-medium ${
+                          isDark 
+                            ? 'bg-zinc-950 border-zinc-800 text-white placeholder-zinc-500 focus:border-indigo-500' 
+                            : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 shadow-xs'
+                        }`}
+                      />
+                    </div>
 
-              <div>
-                <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-zinc-200' : 'text-slate-800'}`}>
-                  Message
-                </label>
-                <textarea 
-                  rows={4} 
-                  required
-                  disabled={contactStatus === 'loading'}
-                  value={contactData.message}
-                  onChange={(e) => setContactData(prev => ({ ...prev, message: e.target.value }))}
-                  placeholder="Your message or project scope..." 
-                  className={`w-full px-3.5 py-2.5 rounded-xl border text-xs resize-none outline-none transition-colors disabled:opacity-60 font-medium ${
-                    isDark 
-                      ? 'bg-zinc-950 border-zinc-800 text-white placeholder-zinc-500 focus:border-indigo-500' 
-                      : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 shadow-xs'
-                  }`}
-                />
-              </div>
+                    <div>
+                      <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-zinc-200' : 'text-slate-800'}`}>
+                        Your Email
+                      </label>
+                      <input 
+                        type="email" 
+                        required
+                        disabled={contactStatus === 'loading'}
+                        value={contactData.email}
+                        onChange={(e) => setContactData(prev => ({ ...prev, email: e.target.value }))}
+                        placeholder="you@domain.com" 
+                        className={`w-full px-3.5 py-2.5 rounded-xl border text-xs outline-none transition-colors disabled:opacity-60 font-medium ${
+                          isDark 
+                            ? 'bg-zinc-950 border-zinc-800 text-white placeholder-zinc-500 focus:border-indigo-500' 
+                            : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 shadow-xs'
+                        }`}
+                      />
+                    </div>
+                  </div>
 
-              {contactFeedback && (
-                <div className={`p-3 rounded-xl text-xs flex items-center gap-2 border ${
-                  contactStatus === 'success' 
-                    ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500 font-semibold' 
-                    : 'bg-rose-500/10 border-rose-500/30 text-rose-500 font-semibold'
-                }`}>
-                  {contactStatus === 'success' ? (
-                    <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
-                  ) : (
-                    <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-500" />
+                  <div>
+                    <label className={`block text-xs font-semibold mb-1 ${isDark ? 'text-zinc-200' : 'text-slate-800'}`}>
+                      Message
+                    </label>
+                    <textarea 
+                      rows={5} 
+                      required
+                      disabled={contactStatus === 'loading'}
+                      value={contactData.message}
+                      onChange={(e) => setContactData(prev => ({ ...prev, message: e.target.value }))}
+                      placeholder="Describe your inquiry, project scope, or opportunity..." 
+                      className={`w-full px-3.5 py-2.5 rounded-xl border text-xs resize-none outline-none transition-colors disabled:opacity-60 font-medium ${
+                        isDark 
+                          ? 'bg-zinc-950 border-zinc-800 text-white placeholder-zinc-500 focus:border-indigo-500' 
+                          : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:border-indigo-600 focus:ring-1 focus:ring-indigo-600 shadow-xs'
+                      }`}
+                    />
+                  </div>
+
+                  {contactFeedback && (
+                    <div className={`p-3 rounded-xl text-xs flex items-center gap-2 border ${
+                      contactStatus === 'success' 
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-500 font-semibold' 
+                        : 'bg-rose-500/10 border-rose-500/30 text-rose-500 font-semibold'
+                    }`}>
+                      {contactStatus === 'success' ? (
+                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0 text-emerald-500" />
+                      ) : (
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0 text-rose-500" />
+                      )}
+                      <span>{contactFeedback}</span>
+                    </div>
                   )}
-                  <span>{contactFeedback}</span>
-                </div>
-              )}
 
-              <button
-                type="submit"
-                disabled={contactStatus === 'loading'}
-                className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${
-                  isDark 
-                    ? 'bg-zinc-100 text-zinc-950 hover:bg-white' 
-                    : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-md shadow-indigo-600/20'
-                }`}
-              >
-                {contactStatus === 'loading' ? (
-                  <>
-                    <Loader2 className="w-3.5 h-3.5 animate-spin" />
-                    Sending...
-                  </>
-                ) : contactStatus === 'success' ? (
-                  <>
-                    <CheckCircle2 className="w-3.5 h-3.5" />
-                    Message Sent
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-3.5 h-3.5" />
-                    Send Message
-                  </>
-                )}
-              </button>
-            </form>
+                  <button
+                    type="submit"
+                    disabled={contactStatus === 'loading'}
+                    className={`w-full py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${
+                      isDark 
+                        ? 'bg-zinc-100 text-zinc-950 hover:bg-white' 
+                        : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-md shadow-indigo-600/20'
+                    }`}
+                  >
+                    {contactStatus === 'loading' ? (
+                      <>
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        Sending Message...
+                      </>
+                    ) : contactStatus === 'success' ? (
+                      <>
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        Message Sent Successfully!
+                      </>
+                    ) : (
+                      <>
+                        <Send className="w-3.5 h-3.5" />
+                        Send Message
+                      </>
+                    )}
+                  </button>
+                </form>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className={`mt-auto border-t py-6 px-4 sm:px-6 text-xs relative z-10 ${
+      {/* Widescreen Footer */}
+      <footer className={`mt-auto border-t py-8 px-4 sm:px-6 lg:px-8 text-xs relative z-10 ${
         isDark ? 'border-zinc-800/80 text-zinc-400 bg-[#090a0f]' : 'border-slate-200 text-slate-600 bg-white'
       }`}>
-        <div className="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 font-mono text-[11px]">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-[11px]">
           <p className="font-medium">© {new Date().getFullYear()} Justin Allen Azucena</p>
-          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-1.5 font-medium">
+          <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 font-medium">
             <a href="/resume.html" target="_blank" rel="noreferrer" className={isDark ? 'hover:text-white' : 'hover:text-indigo-600'}>Resume</a>
             <a href={GITHUB_URL} target="_blank" rel="noreferrer" className={isDark ? 'hover:text-white' : 'hover:text-indigo-600'}>GitHub</a>
             <a href={LINKEDIN_URL} target="_blank" rel="noreferrer" className={isDark ? 'hover:text-white' : 'hover:text-indigo-600'}>LinkedIn</a>
