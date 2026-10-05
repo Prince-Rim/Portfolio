@@ -92,13 +92,13 @@
 .reveal-on-scroll {
   opacity: 0;
   transform: translateY(32px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: opacity, transform;
 }
 
 .reveal-on-scroll.is-visible {
   opacity: 1 !important;
-  transform: translateY(0) !important;
+  transform: translateY(0);
 }
 
 /* Staggered Child Reveal helpers */
@@ -111,14 +111,14 @@
 .slide-in-from-left {
   opacity: 0;
   transform: translateX(-48px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) !important;
   will-change: opacity, transform;
 }
 
 .slide-in-from-right {
   opacity: 0;
   transform: translateX(48px);
-  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 120ms;
+  transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1) 120ms, transform 0.85s cubic-bezier(0.16, 1, 0.3, 1) 120ms !important;
   will-change: opacity, transform;
 }
 
@@ -127,7 +127,7 @@
 .is-visible .slide-in-from-left,
 .is-visible .slide-in-from-right {
   opacity: 1 !important;
-  transform: translate(0, 0) !important;
+  transform: translate(0, 0);
 }
 
 @media (max-width: 640px) {

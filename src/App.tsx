@@ -732,30 +732,38 @@ export default function App() {
     }
   }, [activeProjectFilter]);
 
-  // Intersection observer for silky smooth reveal on scroll
+  // Intersection observer for silky smooth reveal on scroll (bidirectional: down & up)
   useEffect(() => {
     if (siteLoading) return;
 
+    let observer: IntersectionObserver | null = null;
+
     const timer = setTimeout(() => {
-      const observer = new IntersectionObserver(
+      observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               entry.target.classList.add('is-visible');
+            } else {
+              // Re-triggers smooth animation when scrolling back up and down
+              entry.target.classList.remove('is-visible');
             }
           });
         },
-        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+        { threshold: 0.06, rootMargin: '0px 0px -30px 0px' }
       );
 
       const elements = document.querySelectorAll('.reveal-on-scroll, .slide-in-from-left, .slide-in-from-right');
-      elements.forEach((el) => observer.observe(el));
-
-      return () => observer.disconnect();
+      elements.forEach((el) => observer!.observe(el));
     }, 60);
 
-    return () => clearTimeout(timer);
-  }, [siteLoading]);
+    return () => {
+      clearTimeout(timer);
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [siteLoading, techViewMode]);
 
   // Scrollspy for active navbar indicator
   useEffect(() => {
@@ -1324,7 +1332,7 @@ export default function App() {
           isDark ? 'bg-purple-600/10' : 'bg-purple-200/40'
         }`} style={{ animationDelay: '2.5s' }} />
 
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-10 lg:gap-14 reveal-on-scroll is-visible text-center md:text-left">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-10 lg:gap-14 reveal-on-scroll text-center md:text-left">
           
           {/* Profile Avatar Frame with Float Animation */}
           <div className="shrink-0 animate-float">
@@ -1572,7 +1580,7 @@ export default function App() {
 
           {/* VIEW MODE 1: TECH STACK ROULETTE (FLOATING MARQUEE STREAM) */}
           {techViewMode === 'floating' && (
-            <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 py-2 overflow-hidden">
+            <div className="relative -mx-4 sm:-mx-6 lg:-mx-8 py-2 overflow-hidden reveal-on-scroll">
               
               {/* Left & Right Edge Fade Gradient Masks */}
               <div className={`pointer-events-none absolute inset-y-0 left-0 w-16 sm:w-32 lg:w-44 z-20 bg-gradient-to-r ${
@@ -1728,7 +1736,7 @@ export default function App() {
 
           {/* VIEW MODE 2: FULL CATEGORIZED GRID */}
           {techViewMode === 'grid' && (
-            <div className="animate-in fade-in duration-200">
+            <div className="animate-in fade-in duration-200 reveal-on-scroll">
               
               {/* Category Filter Tabs & Quick Search */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-3 mb-6">
