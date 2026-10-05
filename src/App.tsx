@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { 
   X, 
   Menu,
+  ChevronLeft,
   ChevronRight, 
   Send, 
   CheckCircle2, 
@@ -466,54 +467,58 @@ function ProjectCard({
 }) {
   return (
     <div
-      className={`rounded-2xl border transition-all duration-200 flex flex-col justify-between overflow-hidden group ${
+      className={`w-full h-full rounded-2xl border transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5 hover:shadow-2xl ${
         isDark 
-          ? 'bg-zinc-900/40 border-zinc-800/90 hover:border-zinc-700 hover:bg-zinc-900/70' 
-          : 'bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-md shadow-xs'
+          ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 hover:shadow-indigo-500/10' 
+          : 'bg-white/95 backdrop-blur-md border-slate-200/90 hover:border-indigo-400/60 hover:shadow-xl hover:shadow-indigo-500/10 shadow-sm'
       }`}
     >
       <div>
-        {/* Screenshot Frame with Minimal Top Bar */}
+        {/* Screenshot Frame with macOS Style Browser Window */}
         <div className={`relative aspect-[16/10] w-full overflow-hidden border-b ${
           isDark ? 'bg-zinc-950 border-zinc-800/80' : 'bg-slate-100 border-slate-200'
         }`}>
           {/* Window Header */}
-          <div className={`absolute top-0 inset-x-0 h-6 px-3 flex items-center justify-between z-10 border-b ${
-            isDark ? 'bg-zinc-950/90 border-zinc-800/70' : 'bg-slate-50/95 border-slate-200'
+          <div className={`absolute top-0 inset-x-0 h-7 px-3 flex items-center justify-between z-10 border-b backdrop-blur-md transition-colors ${
+            isDark ? 'bg-zinc-950/85 border-zinc-800/70' : 'bg-slate-50/90 border-slate-200'
           }`}>
             <div className="flex items-center gap-1.5">
-              <span className={`w-2 h-2 rounded-full ${isDark ? 'bg-zinc-700' : 'bg-slate-300'}`} />
-              <span className={`w-2 h-2 rounded-full ${isDark ? 'bg-zinc-700' : 'bg-slate-300'}`} />
-              <span className={`w-2 h-2 rounded-full ${isDark ? 'bg-zinc-700' : 'bg-slate-300'}`} />
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500/80 border border-rose-600/30 group-hover:bg-rose-500 transition-colors" />
+              <span className="w-2.5 h-2.5 rounded-full bg-amber-500/80 border border-amber-600/30 group-hover:bg-amber-500 transition-colors" />
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500/80 border border-emerald-600/30 group-hover:bg-emerald-500 transition-colors" />
             </div>
-            <span className={`text-[10px] font-mono truncate max-w-[160px] font-medium ${
-              isDark ? 'text-zinc-400' : 'text-slate-600'
+            
+            <div className={`px-2.5 py-0.5 rounded-md text-[10px] font-mono font-medium border flex items-center gap-1.5 max-w-[170px] truncate ${
+              isDark ? 'bg-zinc-900/90 border-zinc-800 text-zinc-400' : 'bg-white border-slate-200 text-slate-600 shadow-2xs'
             }`}>
-              {proj.title.toLowerCase().replace(/\s+/g, '')}.app
-            </span>
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 shrink-0" />
+              <span className="truncate">{proj.title.toLowerCase().replace(/[^a-z0-9]/g, '')}.app</span>
+            </div>
+
             <div className="w-6" />
           </div>
 
           <img 
             src={proj.image} 
             alt={proj.title} 
-            className="w-full h-full object-cover object-top pt-6 group-hover:scale-[1.02] transition-transform duration-300 ease-out" 
+            className="w-full h-full object-cover object-top pt-7 group-hover:scale-105 transition-transform duration-500 ease-out" 
           />
         </div>
 
         {/* Content */}
         <div className="p-4 sm:p-5">
-          <div className="flex items-center justify-between gap-2 mb-2">
-            <span className={`text-[10px] font-mono uppercase tracking-wider font-semibold ${
+          <div className="flex items-center justify-between gap-2 mb-2.5">
+            <span className={`text-[10px] font-mono uppercase tracking-wider font-bold ${
               isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
               {proj.category}
             </span>
-            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-md border font-medium ${
+            <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-semibold flex items-center gap-1 ${
               isDark 
-                ? 'bg-zinc-900 border-zinc-800 text-zinc-300' 
-                : 'bg-slate-100 border-slate-200 text-slate-700'
+                ? 'bg-zinc-900/90 border-zinc-800 text-zinc-300' 
+                : 'bg-indigo-50/80 border-indigo-200 text-indigo-700'
             }`}>
+              <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
               {proj.badge}
             </span>
           </div>
@@ -535,10 +540,10 @@ function ProjectCard({
       <div className="p-4 sm:p-5 pt-0">
         <div className="flex flex-wrap gap-1.5 mb-3.5">
           {proj.tags.map(t => (
-            <span key={t} className={`text-[10px] px-2 py-0.5 rounded font-mono border ${
+            <span key={t} className={`text-[10px] px-2.5 py-0.5 rounded-md font-mono border transition-all duration-200 ${
               isDark 
-                ? 'bg-zinc-900/80 text-zinc-400 border-zinc-800' 
-                : 'bg-slate-50 text-slate-700 border-slate-200 font-medium'
+                ? 'bg-zinc-900/80 text-zinc-400 border-zinc-800 hover:border-zinc-700 hover:text-zinc-200' 
+                : 'bg-slate-50 text-slate-700 border-slate-200 font-medium hover:border-slate-300'
             }`}>
               {t}
             </span>
@@ -553,15 +558,15 @@ function ProjectCard({
               href={proj.githubUrl}
               target="_blank"
               rel="noreferrer"
-              className={`inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all ${
+              className={`group/btn inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
                 isDark 
-                  ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white' 
-                  : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800'
+                  ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white hover:border-zinc-700' 
+                  : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-2xs'
               }`}
             >
               <GithubIcon className="w-3.5 h-3.5" />
               <span>Source Code</span>
-              <ArrowRight className="w-3 h-3 opacity-60" />
+              <ArrowRight className="w-3 h-3 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
             </a>
           )}
           {proj.liveUrl && (
@@ -569,8 +574,8 @@ function ProjectCard({
               href={proj.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className={`text-xs font-semibold hover:underline flex items-center gap-1 ${
-                isDark ? 'text-indigo-400' : 'text-indigo-600'
+              className={`text-xs font-semibold hover:underline flex items-center gap-1 transition-colors ${
+                isDark ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-700'
               }`}
             >
               <ExternalLink className="w-3 h-3" />
@@ -654,6 +659,71 @@ export default function App() {
   const [contactFeedback, setContactFeedback] = useState<string>('');
   const [discordCopied, setDiscordCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Fast & Snappy Preloader
+  const [siteLoading, setSiteLoading] = useState(true);
+  const [loadProgress, setLoadProgress] = useState(0);
+  const [loadFadeOut, setLoadFadeOut] = useState(false);
+
+  useEffect(() => {
+    const start = performance.now();
+    const duration = 700; // fast 700ms boot
+    
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(Math.round((elapsed / duration) * 100), 100);
+      setLoadProgress(progress);
+      if (elapsed < duration) {
+        requestAnimationFrame(tick);
+      } else {
+        setLoadFadeOut(true);
+        setTimeout(() => {
+          setSiteLoading(false);
+        }, 300);
+      }
+    };
+    const animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, []);
+
+  useEffect(() => {
+    if (siteLoading) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+  }, [siteLoading]);
+
+  // Horizontal Carousel Refs & Scroll Handlers
+  const projectsScrollRef = useRef<HTMLDivElement>(null);
+  const certsScrollRef = useRef<HTMLDivElement>(null);
+
+  const scrollProjects = (direction: 'left' | 'right') => {
+    if (projectsScrollRef.current) {
+      const amount = projectsScrollRef.current.clientWidth * 0.75;
+      projectsScrollRef.current.scrollBy({
+        left: direction === 'left' ? -amount : amount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const scrollCerts = (direction: 'left' | 'right') => {
+    if (certsScrollRef.current) {
+      const amount = certsScrollRef.current.clientWidth * 0.75;
+      certsScrollRef.current.scrollBy({
+        left: direction === 'left' ? -amount : amount,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  // Reset project scroll on category change
+  useEffect(() => {
+    if (projectsScrollRef.current) {
+      projectsScrollRef.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  }, [activeProjectFilter]);
 
   // Subtle intersection observer for reveal on scroll
   useEffect(() => {
@@ -1005,6 +1075,69 @@ export default function App() {
       isDark ? 'bg-[#090a0f] text-zinc-100' : 'bg-[#f8fafc] text-slate-900'
     }`}>
       
+      {/* Fast & Snappy Preloader Splash */}
+      {siteLoading && (
+        <div 
+          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-300 ease-out select-none ${
+            loadFadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          } ${
+            isDark ? 'bg-[#090a0f] text-white' : 'bg-[#f8fafc] text-slate-900'
+          }`}
+        >
+          {/* Subtle Ambient Radial Glow */}
+          <div className={`absolute w-80 h-80 rounded-full blur-3xl pointer-events-none -z-10 ${
+            isDark ? 'bg-indigo-600/15' : 'bg-indigo-300/40'
+          }`} />
+
+          <div className="flex flex-col items-center max-w-xs text-center px-6">
+            {/* Monogram Box with pulsing status */}
+            <div className={`relative w-14 h-14 rounded-2xl border flex items-center justify-center mb-5 transition-transform duration-300 shadow-lg ${
+              isDark 
+                ? 'bg-zinc-900/90 border-zinc-800 shadow-indigo-950/40 text-white' 
+                : 'bg-white border-slate-200 shadow-slate-200/60 text-slate-900'
+            }`}>
+              <span className="font-mono font-extrabold text-xl tracking-tight bg-gradient-to-br from-indigo-400 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
+                JA
+              </span>
+              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse border-2 border-inherit" />
+            </div>
+
+            {/* Developer Monogram / Tag */}
+            <h1 className={`text-base font-extrabold tracking-tight mb-1 ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}>
+              Justin Allen Azucena
+            </h1>
+            <p className={`text-[10px] font-mono uppercase tracking-widest mb-6 ${
+              isDark ? 'text-zinc-400' : 'text-slate-500'
+            }`}>
+              Software Engineer // 2026
+            </p>
+
+            {/* Glowing Linear Progress Bar */}
+            <div className={`w-52 sm:w-60 h-1 rounded-full overflow-hidden mb-3 ${
+              isDark ? 'bg-zinc-800/80' : 'bg-slate-200'
+            }`}>
+              <div 
+                className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400 transition-all duration-75 ease-out rounded-full shadow-xs"
+                style={{ width: `${loadProgress}%` }}
+              />
+            </div>
+
+            {/* Status Text & Percentage */}
+            <div className={`w-52 sm:w-60 flex items-center justify-between text-[10px] font-mono ${
+              isDark ? 'text-zinc-400' : 'text-slate-500'
+            }`}>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping inline-block" />
+                {loadProgress < 40 ? 'INITIALIZING...' : loadProgress < 85 ? 'LOADING ARSENAL...' : 'READY'}
+              </span>
+              <span className="font-semibold">{loadProgress}%</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Sleek Widescreen Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md border-b transition-colors duration-200 w-full ${
         isDark ? 'bg-[#090a0f]/90 border-zinc-800/90 shadow-sm' : 'bg-white/95 border-slate-200 shadow-xs'
@@ -1158,22 +1291,32 @@ export default function App() {
       {/* Header spacer */}
       <div className="h-14 shrink-0 w-full" aria-hidden="true" />
 
-      {/* Hero Section - Widescreen & Space Balanced */}
+      {/* Hero Section - Widescreen & Space Balanced with Ambient Glow */}
       <section id="hero" className="relative pt-8 pb-10 sm:pt-14 sm:pb-16 px-4 sm:px-6 lg:px-8 overflow-hidden z-10">
+        {/* Ambient Gradient Glows */}
+        <div className={`absolute -top-24 left-1/4 w-96 h-96 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-glow ${
+          isDark ? 'bg-indigo-600/15' : 'bg-indigo-300/35'
+        }`} />
+        <div className={`absolute top-1/2 right-1/4 w-80 h-80 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-glow ${
+          isDark ? 'bg-purple-600/10' : 'bg-purple-200/40'
+        }`} style={{ animationDelay: '2.5s' }} />
+
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-6 sm:gap-10 lg:gap-14 reveal-on-scroll is-visible text-center md:text-left">
           
-          {/* Profile Avatar Frame */}
-          <div className="shrink-0">
-            <div className={`w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-2xl overflow-hidden border shadow-sm transition-colors ${
+          {/* Profile Avatar Frame with Float Animation */}
+          <div className="shrink-0 animate-float">
+            <div className={`relative w-36 h-36 sm:w-48 sm:h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 rounded-3xl overflow-hidden border shadow-xl p-1 transition-all duration-300 ${
               isDark 
-                ? 'bg-zinc-900 border-zinc-800' 
-                : 'bg-white border-slate-200/90'
+                ? 'bg-gradient-to-br from-indigo-500/20 via-purple-500/10 to-zinc-900 border-zinc-800 shadow-indigo-950/30' 
+                : 'bg-gradient-to-br from-indigo-500/15 via-purple-500/10 to-white border-slate-200/90 shadow-slate-200/70'
             }`}>
-              <img 
-                src={profileImg} 
-                alt="Justin Allen Azucena" 
-                className="w-full h-full object-cover object-top"
-              />
+              <div className="w-full h-full rounded-[22px] overflow-hidden">
+                <img 
+                  src={profileImg} 
+                  alt="Justin Allen Azucena" 
+                  className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500 ease-out"
+                />
+              </div>
             </div>
           </div>
 
@@ -1203,7 +1346,7 @@ export default function App() {
 
             {/* Quick Metadata */}
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2.5 text-xs mb-6">
-              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium ${
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium hover:-translate-y-0.5 transition-all duration-200 ${
                 isDark ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300' : 'bg-white border-slate-200 text-slate-700 shadow-xs'
               }`}>
                 <MapPin className={`w-3.5 h-3.5 ${isDark ? 'text-zinc-400' : 'text-indigo-600'}`} />
@@ -1212,7 +1355,7 @@ export default function App() {
 
               <a 
                 href="mailto:azucenajustinallen@gmail.com"
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium transition-colors ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium hover:-translate-y-0.5 transition-all duration-200 ${
                   isDark ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                 }`}
               >
@@ -1222,7 +1365,7 @@ export default function App() {
 
               <button
                 onClick={copyDiscord}
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium transition-colors cursor-pointer ${
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border font-medium hover:-translate-y-0.5 transition-all duration-200 cursor-pointer ${
                   isDark ? 'bg-zinc-900/60 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                 }`}
                 title="Click to copy Discord handle"
@@ -1299,8 +1442,8 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
             
             {/* Bio Paragraphs */}
-            <div className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 ${
-              isDark ? 'bg-zinc-900/40 border-zinc-800/90 text-zinc-300' : 'bg-white border-slate-200/90 text-slate-800 shadow-xs'
+            <div className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
+              isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-indigo-500/30 text-zinc-300' : 'bg-white/95 border-slate-200/90 hover:border-indigo-300 text-slate-800 shadow-sm'
             }`}>
               <p>
                 I am a 4th-year <strong>Information Technology</strong> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
@@ -1324,11 +1467,13 @@ export default function App() {
                 {interests.map((interest, i) => (
                   <div
                     key={i}
-                    className={`p-3.5 sm:p-4 rounded-xl border flex items-center gap-3 transition-colors ${
-                      isDark ? 'bg-zinc-900/40 border-zinc-800/80 text-zinc-300' : 'bg-white border-slate-200 text-slate-800 shadow-xs'
+                    className={`p-3.5 sm:p-4 rounded-xl border flex items-center gap-3 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md cursor-default ${
+                      isDark 
+                        ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 text-zinc-300' 
+                        : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-indigo-300 text-slate-800 shadow-2xs'
                     }`}
                   >
-                    <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0" />
+                    <span className="w-2 h-2 rounded-full bg-indigo-500 shrink-0 animate-pulse" />
                     <span className="text-xs sm:text-sm font-semibold">{interest}</span>
                   </div>
                 ))}
@@ -1426,10 +1571,10 @@ export default function App() {
                           setActiveTechCategory(tech.category);
                           setTechViewMode('grid');
                         }}
-                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
+                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 hover:-translate-y-0.5 ${
                           isDark
-                            ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700'
-                            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-slate-950'
+                            ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/10'
+                            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-indigo-300 text-slate-800 hover:text-slate-950 hover:shadow-md hover:shadow-indigo-500/5'
                         }`}
                         title={`Click to filter ${tech.name}`}
                       >
@@ -1465,10 +1610,10 @@ export default function App() {
                           setActiveTechCategory(tech.category);
                           setTechViewMode('grid');
                         }}
-                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
+                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 hover:-translate-y-0.5 ${
                           isDark
-                            ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700'
-                            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-slate-950'
+                            ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/10'
+                            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-indigo-300 text-slate-800 hover:text-slate-950 hover:shadow-md hover:shadow-indigo-500/5'
                         }`}
                         title={`Click to filter ${tech.name}`}
                       >
@@ -1504,10 +1649,10 @@ export default function App() {
                           setActiveTechCategory(tech.category);
                           setTechViewMode('grid');
                         }}
-                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 ${
+                        className={`group/pill flex items-center gap-2 sm:gap-2.5 px-4 sm:px-5 py-2.5 rounded-xl border transition-all duration-200 cursor-pointer select-none whitespace-nowrap shadow-xs hover:scale-105 active:scale-95 hover:-translate-y-0.5 ${
                           isDark
-                            ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-zinc-700'
-                            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-slate-300 text-slate-800 hover:text-slate-950'
+                            ? 'bg-zinc-900/90 hover:bg-zinc-800 border-zinc-800 hover:border-indigo-500/40 hover:shadow-md hover:shadow-indigo-500/10'
+                            : 'bg-white hover:bg-slate-50 border-slate-200 hover:border-indigo-300 text-slate-800 hover:text-slate-950 hover:shadow-md hover:shadow-indigo-500/5'
                         }`}
                         title={`Click to filter ${tech.name}`}
                       >
@@ -1630,10 +1775,10 @@ export default function App() {
                   {filteredSkills.map((tech, idx) => (
                     <div
                       key={idx}
-                      className={`p-3.5 rounded-xl border transition-all duration-200 flex flex-col justify-between group ${
+                      className={`p-3.5 rounded-xl border transition-all duration-300 ease-out flex flex-col justify-between group hover:-translate-y-1 hover:shadow-md ${
                         isDark 
-                          ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/70' 
-                          : 'bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
+                          ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 hover:bg-zinc-900/80 hover:shadow-indigo-500/5' 
+                          : 'bg-white/95 backdrop-blur-md border-slate-200/90 hover:border-indigo-300 hover:shadow-indigo-500/5 shadow-2xs'
                       }`}
                     >
                       <div>
@@ -1735,38 +1880,87 @@ export default function App() {
               }`}>
                 Projects Showcase
               </h2>
+              <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                Scroll or swipe horizontally to explore featured architectures & live deployments.
+              </p>
             </div>
 
-            {/* Category Filter */}
-            <div className="flex flex-wrap gap-1.5">
-              {['All', 'Web', 'Enterprise', 'Desktop'].map(filter => (
+            {/* Category Filter & Navigation Controls */}
+            <div className="flex items-center gap-3 flex-wrap sm:flex-nowrap">
+              <div className="flex flex-wrap gap-1.5">
+                {['All', 'Web', 'Enterprise', 'Desktop'].map(filter => (
+                  <button
+                    key={filter}
+                    onClick={() => setActiveProjectFilter(filter)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                      activeProjectFilter === filter
+                        ? isDark
+                          ? 'bg-zinc-100 text-zinc-950 font-bold'
+                          : 'bg-indigo-600 text-white font-bold'
+                        : isDark
+                          ? 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white'
+                          : 'bg-white border border-slate-200 text-slate-700 hover:text-slate-950 shadow-xs'
+                    }`}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+
+              {/* Chevron Nav Controls */}
+              <div className="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
                 <button
-                  key={filter}
-                  onClick={() => setActiveProjectFilter(filter)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
-                    activeProjectFilter === filter
-                      ? isDark
-                        ? 'bg-zinc-100 text-zinc-950 font-bold'
-                        : 'bg-indigo-600 text-white font-bold'
-                      : isDark
-                        ? 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white'
-                        : 'bg-white border border-slate-200 text-slate-700 hover:text-slate-950 shadow-xs'
+                  onClick={() => scrollProjects('left')}
+                  className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                    isDark
+                      ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
+                      : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                   }`}
+                  aria-label="Previous projects"
+                  title="Previous projects"
                 >
-                  {filter}
+                  <ChevronLeft className="w-4 h-4" />
                 </button>
-              ))}
+                <button
+                  onClick={() => scrollProjects('right')}
+                  className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                    isDark
+                      ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
+                      : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
+                  }`}
+                  aria-label="Next projects"
+                  title="Next projects"
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
+          {/* Horizontally Scrollable Project Track */}
+          <div 
+            ref={projectsScrollRef}
+            className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+          >
             {filteredProjects.map((proj) => (
-              <ProjectCard 
-                key={proj.title} 
-                proj={proj} 
-                isDark={isDark} 
-              />
+              <div 
+                key={proj.title}
+                className="w-[85vw] sm:w-[380px] md:w-[420px] lg:w-[440px] shrink-0 snap-start flex"
+              >
+                <ProjectCard 
+                  proj={proj} 
+                  isDark={isDark} 
+                />
+              </div>
             ))}
+          </div>
+
+          {/* Track Indicator & Swipe Hint */}
+          <div className={`flex items-center justify-between mt-3 text-[11px] font-mono ${
+            isDark ? 'text-zinc-500' : 'text-slate-500'
+          }`}>
+            <span>Showing {filteredProjects.length} {activeProjectFilter === 'All' ? 'featured' : activeProjectFilter} project{filteredProjects.length > 1 ? 's' : ''}</span>
+            <span className="hidden sm:inline-block">← Drag or use chevrons to browse →</span>
           </div>
 
         </div>
@@ -1795,8 +1989,8 @@ export default function App() {
           </div>
 
           {/* GitHub Card Frame */}
-          <div className={`rounded-2xl border p-5 sm:p-7 overflow-hidden ${
-            isDark ? 'bg-zinc-900/40 border-zinc-800/90' : 'bg-white border-slate-200/90 shadow-xs'
+          <div className={`rounded-2xl border p-5 sm:p-7 overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
+            isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-emerald-500/30' : 'bg-white/95 border-slate-200/90 hover:border-emerald-300 shadow-sm'
           }`}>
             <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b ${
               isDark ? 'border-zinc-800/80' : 'border-slate-200'
@@ -1905,10 +2099,12 @@ export default function App() {
                 }`} />
 
                 <div 
-                  className={`p-5 sm:p-7 rounded-2xl border transition-colors ${
+                  className={`p-5 sm:p-7 rounded-2xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl ${
+                    idx % 2 === 0 ? 'slide-in-from-left' : 'slide-in-from-right'
+                  } ${
                     isDark 
-                      ? 'bg-zinc-900/40 border-zinc-800/90' 
-                      : 'bg-white border-slate-200/90 shadow-xs'
+                      ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/90 hover:border-indigo-500/40 hover:shadow-indigo-500/5' 
+                      : 'bg-white/95 backdrop-blur-md border-slate-200/90 hover:border-indigo-300 hover:shadow-indigo-500/5 shadow-xs'
                   }`}
                 >
                   <div className="flex flex-col sm:flex-row sm:items-start gap-3.5 mb-3">
@@ -2014,23 +2210,57 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto reveal-on-scroll">
           
-          <div className="mb-6">
-            <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
-              isDark ? 'text-pink-400' : 'text-pink-600'
-            }`}>
-              CREDENTIALS
-            </span>
-            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
-              isDark ? 'text-white' : 'text-slate-900'
-            }`}>
-              Certificates & Awards
-            </h2>
-            <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-              Select any certificate to inspect the verified official document.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4 border-b pb-4">
+            <div>
+              <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
+                isDark ? 'text-pink-400' : 'text-pink-600'
+              }`}>
+                CREDENTIALS
+              </span>
+              <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
+                isDark ? 'text-white' : 'text-slate-900'
+              }`}>
+                Certificates & Awards
+              </h2>
+              <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                Scroll or swipe to view credentials. Click any card to inspect official documentation.
+              </p>
+            </div>
+
+            {/* Chevron Nav Controls */}
+            <div className="flex items-center gap-1.5 shrink-0 self-end sm:self-auto">
+              <button
+                onClick={() => scrollCerts('left')}
+                className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                  isDark
+                    ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
+                    : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
+                }`}
+                aria-label="Previous certificates"
+                title="Previous certificates"
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => scrollCerts('right')}
+                className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                  isDark
+                    ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
+                    : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
+                }`}
+                aria-label="Next certificates"
+                title="Next certificates"
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
+          {/* Horizontally Scrollable Certificates Track */}
+          <div 
+            ref={certsScrollRef}
+            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+          >
             {certificates.map((cert, index) => (
               <div
                 key={index}
@@ -2038,10 +2268,10 @@ export default function App() {
                   setSelectedCert(cert);
                   setActiveCertDocIndex(0);
                 }}
-                className={`group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-200 flex flex-col justify-between ${
+                className={`w-[80vw] sm:w-[280px] md:w-[320px] lg:w-[330px] shrink-0 snap-start group cursor-pointer rounded-2xl overflow-hidden border transition-all duration-300 ease-out flex flex-col justify-between hover:-translate-y-1.5 hover:shadow-2xl ${
                   isDark 
-                    ? 'bg-zinc-900/40 border-zinc-800/90 hover:border-zinc-700 hover:bg-zinc-900/70' 
-                    : 'bg-white border-slate-200/90 hover:border-slate-300 hover:shadow-md shadow-xs'
+                    ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-pink-500/40 hover:shadow-pink-500/10' 
+                    : 'bg-white/95 backdrop-blur-md border-slate-200/90 hover:border-pink-400/60 hover:shadow-xl hover:shadow-pink-500/10 shadow-sm'
                 }`}
               >
                 <div className={`relative aspect-[16/11] overflow-hidden ${
@@ -2050,15 +2280,13 @@ export default function App() {
                   <img
                     src={cert.image}
                     alt={cert.title}
-                    className="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-300 ease-out"
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
-                  <span className={`absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold ${
-                    isDark ? 'bg-zinc-900/90 border border-zinc-800 text-zinc-300' : 'bg-white/95 border border-slate-200 text-slate-800 shadow-xs'
-                  }`}>
+                  <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold backdrop-blur-md bg-black/60 text-white border border-white/20 shadow-xs">
                     {cert.category}
                   </span>
                   {cert.gallery && cert.gallery.length > 1 && (
-                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-indigo-600 text-white shadow-xs">
+                    <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[9px] font-mono font-bold bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-xs">
                       {cert.gallery.length} Records
                     </span>
                   )}
@@ -2067,7 +2295,7 @@ export default function App() {
                 <div className="p-4 flex-1 flex flex-col justify-between">
                   <div>
                     <h3 className={`font-bold text-xs sm:text-sm mb-1 line-clamp-2 transition-colors ${
-                      isDark ? 'text-zinc-100 group-hover:text-indigo-400' : 'text-slate-900 group-hover:text-indigo-600'
+                      isDark ? 'text-zinc-100 group-hover:text-pink-400' : 'text-slate-900 group-hover:text-pink-600'
                     }`}>
                       {cert.title}
                     </h3>
@@ -2083,16 +2311,24 @@ export default function App() {
                     isDark ? 'border-zinc-800/80 text-zinc-400' : 'border-slate-200 text-slate-600'
                   }`}>
                     <span>{cert.date}</span>
-                    <span className={`inline-flex items-center gap-0.5 font-bold ${
-                      isDark ? 'text-indigo-400' : 'text-indigo-600'
+                    <span className={`inline-flex items-center gap-0.5 font-bold transition-colors ${
+                      isDark ? 'text-pink-400 group-hover:text-pink-300' : 'text-pink-600 group-hover:text-pink-700'
                     }`}>
                       Inspect
-                      <ChevronRight className="w-3.5 h-3.5" />
+                      <ChevronRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                     </span>
                   </div>
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Hint indicator below track */}
+          <div className={`flex items-center justify-between mt-3 text-[11px] font-mono ${
+            isDark ? 'text-zinc-500' : 'text-slate-500'
+          }`}>
+            <span>{certificates.length} Verified Credentials Available</span>
+            <span className="hidden sm:inline-block">← Scroll or drag to browse records →</span>
           </div>
 
         </div>
@@ -2225,10 +2461,10 @@ export default function App() {
               <div className="space-y-3">
                 <a 
                   href="mailto:azucenajustinallen@gmail.com"
-                  className={`p-3.5 rounded-xl border flex items-center gap-3.5 transition-all ${
+                  className={`p-3.5 rounded-xl border flex items-center gap-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
                     isDark 
-                      ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 text-zinc-300 hover:text-white' 
-                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                      ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 text-zinc-300 hover:text-white' 
+                      : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
                   }`}
                 >
                   <div className={`p-2 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-indigo-50 text-indigo-600'}`}>
@@ -2242,10 +2478,10 @@ export default function App() {
 
                 <div 
                   onClick={copyDiscord}
-                  className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all ${
+                  className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
                     isDark 
-                      ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 text-zinc-300 hover:text-white' 
-                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                      ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 text-zinc-300 hover:text-white' 
+                      : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
@@ -2268,10 +2504,10 @@ export default function App() {
                   href={LINKEDIN_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className={`p-3.5 rounded-xl border flex items-center justify-between transition-all ${
+                  className={`p-3.5 rounded-xl border flex items-center justify-between transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
                     isDark 
-                      ? 'bg-zinc-900/40 border-zinc-800/80 hover:border-zinc-700 text-zinc-300 hover:text-white' 
-                      : 'bg-white border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                      ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-blue-500/40 text-zinc-300 hover:text-white' 
+                      : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-blue-300 hover:shadow-xs text-slate-800 hover:text-blue-600'
                   }`}
                 >
                   <div className="flex items-center gap-3.5">
@@ -2298,8 +2534,8 @@ export default function App() {
 
             {/* Right Column: Contact Form */}
             <div className="lg:col-span-7">
-              <div className={`rounded-2xl border p-6 sm:p-8 ${
-                isDark ? 'bg-zinc-900/40 border-zinc-800/90 shadow-sm' : 'bg-white border-slate-200/90 shadow-sm'
+              <div className={`rounded-2xl border p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
+                isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-zinc-700' : 'bg-white/95 border-slate-200/90 hover:border-indigo-200 shadow-sm'
               }`}>
                 <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Send a Direct Message
