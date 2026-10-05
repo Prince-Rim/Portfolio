@@ -660,26 +660,33 @@ export default function App() {
   const [discordCopied, setDiscordCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Fast & Snappy Preloader
+  // Atmospheric Developer Preloader (~1600ms)
   const [siteLoading, setSiteLoading] = useState(true);
   const [loadProgress, setLoadProgress] = useState(0);
   const [loadFadeOut, setLoadFadeOut] = useState(false);
 
   useEffect(() => {
     const start = performance.now();
-    const duration = 700; // fast 700ms boot
+    const duration = 1600; // 1.6s cinematic boot
     
     const tick = (now: number) => {
       const elapsed = now - start;
-      const progress = Math.min(Math.round((elapsed / duration) * 100), 100);
+      const t = Math.min(elapsed / duration, 1);
+      // Smooth non-linear curve: fast initial ramp-up, natural deceleration, snappy 100%
+      const eased = t < 0.65 
+        ? Math.pow(t / 0.65, 0.9) * 0.72 
+        : 0.72 + Math.pow((t - 0.65) / 0.35, 1.2) * 0.28;
+      const progress = Math.min(Math.round(eased * 100), 100);
       setLoadProgress(progress);
+
       if (elapsed < duration) {
         requestAnimationFrame(tick);
       } else {
+        setLoadProgress(100);
         setLoadFadeOut(true);
         setTimeout(() => {
           setSiteLoading(false);
-        }, 300);
+        }, 400);
       }
     };
     const animId = requestAnimationFrame(tick);
@@ -725,24 +732,30 @@ export default function App() {
     }
   }, [activeProjectFilter]);
 
-  // Subtle intersection observer for reveal on scroll
+  // Intersection observer for silky smooth reveal on scroll
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-          }
-        });
-      },
-      { threshold: 0.05, rootMargin: '0px 0px -20px 0px' }
-    );
+    if (siteLoading) return;
 
-    const elements = document.querySelectorAll('.reveal-on-scroll');
-    elements.forEach((el) => observer.observe(el));
+    const timer = setTimeout(() => {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
+      );
 
-    return () => observer.disconnect();
-  }, []);
+      const elements = document.querySelectorAll('.reveal-on-scroll, .slide-in-from-left, .slide-in-from-right');
+      elements.forEach((el) => observer.observe(el));
+
+      return () => observer.disconnect();
+    }, 60);
+
+    return () => clearTimeout(timer);
+  }, [siteLoading]);
 
   // Scrollspy for active navbar indicator
   useEffect(() => {
@@ -1075,64 +1088,74 @@ export default function App() {
       isDark ? 'bg-[#090a0f] text-zinc-100' : 'bg-[#f8fafc] text-slate-900'
     }`}>
       
-      {/* Fast & Snappy Preloader Splash */}
+      {/* Atmospheric Developer Preloader Screen */}
       {siteLoading && (
         <div 
-          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-300 ease-out select-none ${
+          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center transition-opacity duration-400 ease-out select-none ${
             loadFadeOut ? 'opacity-0 pointer-events-none' : 'opacity-100'
           } ${
             isDark ? 'bg-[#090a0f] text-white' : 'bg-[#f8fafc] text-slate-900'
           }`}
         >
           {/* Subtle Ambient Radial Glow */}
-          <div className={`absolute w-80 h-80 rounded-full blur-3xl pointer-events-none -z-10 ${
+          <div className={`absolute w-96 h-96 rounded-full blur-3xl pointer-events-none -z-10 animate-pulse-glow ${
             isDark ? 'bg-indigo-600/15' : 'bg-indigo-300/40'
           }`} />
 
-          <div className="flex flex-col items-center max-w-xs text-center px-6">
+          <div className="flex flex-col items-center max-w-sm text-center px-6">
             {/* Monogram Box with pulsing status */}
-            <div className={`relative w-14 h-14 rounded-2xl border flex items-center justify-center mb-5 transition-transform duration-300 shadow-lg ${
+            <div className={`relative w-16 h-16 rounded-2xl border flex items-center justify-center mb-5 transition-transform duration-300 shadow-xl ${
               isDark 
                 ? 'bg-zinc-900/90 border-zinc-800 shadow-indigo-950/40 text-white' 
                 : 'bg-white border-slate-200 shadow-slate-200/60 text-slate-900'
             }`}>
-              <span className="font-mono font-extrabold text-xl tracking-tight bg-gradient-to-br from-indigo-400 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
+              <span className="font-mono font-extrabold text-2xl tracking-tight bg-gradient-to-br from-indigo-400 via-indigo-500 to-purple-600 bg-clip-text text-transparent">
                 JA
               </span>
-              <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse border-2 border-inherit" />
+              <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-emerald-500 animate-pulse border-2 border-inherit shadow-xs" />
             </div>
 
-            {/* Developer Monogram / Tag */}
-            <h1 className={`text-base font-extrabold tracking-tight mb-1 ${
+            {/* Developer Identity with Italic Emphasis */}
+            <h1 className={`text-lg sm:text-xl font-extrabold tracking-tight mb-1 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              Justin Allen Azucena
+              Justin Allen <span className="font-serif-italic font-normal text-indigo-400">Azucena</span>
             </h1>
-            <p className={`text-[10px] font-mono uppercase tracking-widest mb-6 ${
+            <p className={`text-[11px] font-mono uppercase tracking-widest mb-6 ${
               isDark ? 'text-zinc-400' : 'text-slate-500'
             }`}>
               Software Engineer // 2026
             </p>
 
             {/* Glowing Linear Progress Bar */}
-            <div className={`w-52 sm:w-60 h-1 rounded-full overflow-hidden mb-3 ${
-              isDark ? 'bg-zinc-800/80' : 'bg-slate-200'
+            <div className={`w-60 sm:w-68 h-1.5 rounded-full overflow-hidden mb-3 p-0.5 border ${
+              isDark ? 'bg-zinc-900/80 border-zinc-800' : 'bg-slate-200/80 border-slate-300'
             }`}>
               <div 
-                className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400 transition-all duration-75 ease-out rounded-full shadow-xs"
+                className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400 transition-all duration-100 ease-out rounded-full shadow-xs"
                 style={{ width: `${loadProgress}%` }}
               />
             </div>
 
             {/* Status Text & Percentage */}
-            <div className={`w-52 sm:w-60 flex items-center justify-between text-[10px] font-mono ${
+            <div className={`w-60 sm:w-68 flex items-center justify-between text-[10px] font-mono ${
               isDark ? 'text-zinc-400' : 'text-slate-500'
             }`}>
-              <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping inline-block" />
-                {loadProgress < 40 ? 'INITIALIZING...' : loadProgress < 85 ? 'LOADING ARSENAL...' : 'READY'}
+              <span className="flex items-center gap-1.5 truncate pr-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping inline-block shrink-0" />
+                <span className="truncate">
+                  {loadProgress < 25 
+                    ? 'INITIALIZING DEV RUNTIME...' 
+                    : loadProgress < 55 
+                    ? 'LOADING TECH ARSENAL...' 
+                    : loadProgress < 85 
+                    ? 'FETCHING REPOSITORIES...' 
+                    : loadProgress < 100 
+                    ? 'CALIBRATING WORKSPACE...' 
+                    : 'SYSTEM READY'}
+                </span>
               </span>
-              <span className="font-semibold">{loadProgress}%</span>
+              <span className="font-semibold shrink-0">{loadProgress}%</span>
             </div>
           </div>
         </div>
@@ -1154,7 +1177,7 @@ export default function App() {
             <span className={`text-xs sm:text-sm font-bold tracking-tight transition-colors ${
               isDark ? 'text-zinc-100 group-hover:text-white' : 'text-slate-900 group-hover:text-black'
             }`}>
-              Justin Allen Azucena
+              Justin Allen <span className="font-serif-italic font-normal text-indigo-400">Azucena</span>
             </span>
           </a>
 
@@ -1329,19 +1352,19 @@ export default function App() {
                 : 'bg-indigo-50 border-indigo-200 text-indigo-700'
             }`}>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Full-Stack Software Developer</span>
+              <span>Full-Stack <span className="font-serif-italic font-normal tracking-normal text-indigo-400 text-[1.15em]">Software Developer</span></span>
             </div>
 
             <h1 className={`text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 leading-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              Justin Allen Azucena
+              Justin Allen <span className="font-serif-italic font-normal text-indigo-400">Azucena</span>
             </h1>
 
             <p className={`text-xs sm:text-base lg:text-lg leading-relaxed mb-6 font-normal max-w-3xl ${
               isDark ? 'text-zinc-300' : 'text-slate-700'
             }`}>
-              Information Technology student & developer specializing in scalable full-stack web platforms, enterprise .NET backends, and desktop database architectures. Top 30 Finalist in the nationwide eGov PH Hackathon 2026.
+              Information Technology student & developer specializing in <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">scalable full-stack</span> web platforms, enterprise .NET backends, and desktop database architectures. <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Top 30 Finalist</span> in the nationwide eGov PH Hackathon 2026.
             </p>
 
             {/* Quick Metadata */}
@@ -1424,9 +1447,9 @@ export default function App() {
       <section id="about" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="mb-6 sm:mb-8">
+          <div className="mb-6 sm:mb-8 reveal-on-scroll">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
@@ -1435,29 +1458,29 @@ export default function App() {
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              About Me
+              About <span className="font-serif-italic font-normal text-indigo-400">Me</span>
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
             
             {/* Bio Paragraphs */}
-            <div className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
+            <div className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 backdrop-blur-md transition-all duration-300 hover:shadow-xl reveal-on-scroll ${
               isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-indigo-500/30 text-zinc-300' : 'bg-white/95 border-slate-200/90 hover:border-indigo-300 text-slate-800 shadow-sm'
             }`}>
               <p>
-                I am a 4th-year <strong>Information Technology</strong> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
+                I am a 4th-year <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Information Technology</span> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
               </p>
               <p>
-                My work focuses on developing <strong>AI-integrated full-stack web platforms</strong>, <strong>enterprise .NET backend solutions</strong>, and <strong>desktop database applications</strong>. Recognized as a <strong>Top 30 Finalist</strong> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
+                My work focuses on developing <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">AI-integrated</span> full-stack web platforms, <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">enterprise .NET</span> backend solutions, and desktop database applications. Recognized as a <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Top 30 Finalist</span> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
               </p>
               <p>
-                Graduated Junior High School and Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <strong>High Honors</strong>, completing industry work immersion at Centrive Technology and authoring the automated QR Code Attendance Management System for the research congress.
+                Graduated Junior High School and Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <span className="font-serif-italic font-normal text-amber-400 text-[1.12em]">High Honors</span>, completing industry work immersion at Centrive Technology and authoring the automated QR Code Attendance Management System for the research congress.
               </p>
             </div>
 
             {/* Focus Areas - 2 Column Grid to Maximize Width */}
-            <div className="md:col-span-6 lg:col-span-6 space-y-3">
+            <div className="md:col-span-6 lg:col-span-6 space-y-3 reveal-on-scroll">
               <span className={`text-xs font-mono uppercase tracking-wider font-bold block mb-3 ${
                 isDark ? 'text-zinc-400' : 'text-slate-600'
               }`}>
@@ -1489,9 +1512,9 @@ export default function App() {
       <section id="skills" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t relative z-10 scroll-mt-14 overflow-hidden ${
         isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block ${
@@ -1508,10 +1531,10 @@ export default function App() {
               <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Technologies & Tools
+                Technologies & <span className="font-serif-italic font-normal text-indigo-400">Tools</span>
               </h2>
               <p className={`text-xs sm:text-sm mt-1 max-w-2xl ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Languages, frameworks, databases, and enterprise platforms I actively engineer with.
+                Languages, frameworks, databases, and enterprise platforms I <span className="font-serif-italic font-normal text-indigo-400 text-[1.1em]">actively engineer</span> with.
               </p>
             </div>
 
@@ -1866,9 +1889,9 @@ export default function App() {
       <section id="projects" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
             <div>
               <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
                 isDark ? 'text-indigo-400' : 'text-indigo-600'
@@ -1878,10 +1901,10 @@ export default function App() {
               <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Projects Showcase
+                Projects <span className="font-serif-italic font-normal text-indigo-400">Showcase</span>
               </h2>
               <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Scroll or swipe horizontally to explore featured architectures & live deployments.
+                Scroll or swipe horizontally to explore <span className="font-serif-italic font-normal text-indigo-400 text-[1.1em]">featured architectures</span> & live deployments.
               </p>
             </div>
 
@@ -1940,7 +1963,7 @@ export default function App() {
           {/* Horizontally Scrollable Project Track */}
           <div 
             ref={projectsScrollRef}
-            className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+            className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 reveal-on-scroll"
           >
             {filteredProjects.map((proj) => (
               <div 
@@ -1970,9 +1993,9 @@ export default function App() {
       <section id="github-activity" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t relative z-10 scroll-mt-14 ${
         isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="mb-6">
+          <div className="mb-6 reveal-on-scroll">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-emerald-400' : 'text-emerald-600'
             }`}>
@@ -1981,15 +2004,15 @@ export default function App() {
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              GitHub Contribution Graph
+              GitHub <span className="font-serif-italic font-normal text-emerald-400">Activity</span>
             </h2>
             <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-              Verified live commit activity and repository contributions from @{GITHUB_USERNAME}.
+              Verified live commit activity and <span className="font-serif-italic font-normal text-emerald-400 text-[1.1em]">open-source</span> contributions from @{GITHUB_USERNAME}.
             </p>
           </div>
 
           {/* GitHub Card Frame */}
-          <div className={`rounded-2xl border p-5 sm:p-7 overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
+          <div className={`rounded-2xl border p-5 sm:p-7 overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-xl reveal-on-scroll ${
             isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-emerald-500/30' : 'bg-white/95 border-slate-200/90 hover:border-emerald-300 shadow-sm'
           }`}>
             <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b ${
@@ -2072,18 +2095,18 @@ export default function App() {
       <section id="experience" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="mb-6">
+          <div className="mb-6 reveal-on-scroll">
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
-              ACADEMIC
+              ACADEMIC JOURNEY
             </span>
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              Education & Experience
+              Education & <span className="font-serif-italic font-normal text-indigo-400">Experience</span>
             </h2>
           </div>
 
@@ -2092,7 +2115,7 @@ export default function App() {
             isDark ? 'border-zinc-800' : 'border-indigo-200'
           }`}>
             {education.map((item, idx) => (
-              <div key={idx} className="relative">
+              <div key={idx} className="relative reveal-on-scroll">
                 {/* Timeline Node */}
                 <div className={`absolute -left-[27px] sm:-left-[35px] top-5 w-3 h-3 rounded-full border-2 shrink-0 ${
                   isDark ? 'bg-indigo-400 border-zinc-950' : 'bg-indigo-600 border-white'
@@ -2208,9 +2231,9 @@ export default function App() {
       <section id="certificates" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 border-t relative z-10 scroll-mt-14 ${
         isDark ? 'bg-zinc-950/40 border-zinc-800/80' : 'bg-slate-100/60 border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4 border-b pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4 border-b pb-4 reveal-on-scroll">
             <div>
               <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
                 isDark ? 'text-pink-400' : 'text-pink-600'
@@ -2220,10 +2243,10 @@ export default function App() {
               <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Certificates & Awards
+                Certificates & <span className="font-serif-italic font-normal text-pink-400">Honors</span>
               </h2>
               <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Scroll or swipe to view credentials. Click any card to inspect official documentation.
+                Scroll or swipe to view credentials. Click any card to inspect <span className="font-serif-italic font-normal text-pink-400 text-[1.1em]">official documentation</span>.
               </p>
             </div>
 
@@ -2259,7 +2282,7 @@ export default function App() {
           {/* Horizontally Scrollable Certificates Track */}
           <div 
             ref={certsScrollRef}
-            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8"
+            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 reveal-on-scroll"
           >
             {certificates.map((cert, index) => (
               <div
@@ -2436,11 +2459,11 @@ export default function App() {
       <section id="contact" className={`py-12 sm:py-16 px-4 sm:px-6 lg:px-8 relative z-10 border-t scroll-mt-14 ${
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
-        <div className="max-w-7xl mx-auto reveal-on-scroll">
+        <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             {/* Left Column: Direct Info & Availability */}
-            <div className="lg:col-span-5 space-y-6">
+            <div className="lg:col-span-5 space-y-6 reveal-on-scroll">
               <div>
                 <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
                   isDark ? 'text-indigo-400' : 'text-indigo-600'
@@ -2450,7 +2473,7 @@ export default function App() {
                 <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 ${
                   isDark ? 'text-white' : 'text-slate-900'
                 }`}>
-                  Let's Connect & Collaborate
+                  Let's <span className="font-serif-italic font-normal text-indigo-400">Connect</span> & Collaborate
                 </h2>
                 <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
                   Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
@@ -2533,7 +2556,7 @@ export default function App() {
             </div>
 
             {/* Right Column: Contact Form */}
-            <div className="lg:col-span-7">
+            <div className="lg:col-span-7 reveal-on-scroll">
               <div className={`rounded-2xl border p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
                 isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-zinc-700' : 'bg-white/95 border-slate-200/90 hover:border-indigo-200 shadow-sm'
               }`}>
