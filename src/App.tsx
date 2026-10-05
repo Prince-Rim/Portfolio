@@ -465,18 +465,29 @@ function ProjectCard({
   proj: Project; 
   isDark: boolean; 
 }) {
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
+
   return (
     <div
-      className={`w-full h-full rounded-2xl border transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5 hover:shadow-2xl ${
-        isDark 
-          ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 hover:shadow-indigo-500/10' 
-          : 'bg-white/95 backdrop-blur-md border-slate-200/90 hover:border-indigo-400/60 hover:shadow-xl hover:shadow-indigo-500/10 shadow-sm'
+      onMouseMove={handleMouseMove}
+      className={`w-full h-full rounded-2xl border transition-all duration-300 ease-out flex flex-col justify-between overflow-hidden group hover:-translate-y-1.5 hover:shadow-2xl spotlight-card ${
+        proj.highlight
+          ? isDark
+            ? 'bg-zinc-900/80 backdrop-blur-md border-indigo-500/50 hover:border-indigo-400 shadow-indigo-950/20 shadow-md ring-1 ring-indigo-500/20'
+            : 'bg-white/95 backdrop-blur-md border-indigo-300/80 hover:border-indigo-500 shadow-indigo-100 shadow-lg ring-1 ring-indigo-400/20'
+          : isDark 
+            ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 hover:shadow-indigo-500/10' 
+            : 'bg-white/95 backdrop-blur-md border-slate-200/90 hover:border-indigo-400/60 hover:shadow-xl hover:shadow-indigo-500/10 shadow-sm'
       }`}
     >
       <div>
         {/* Screenshot Frame with macOS Style Browser Window */}
         <div className={`relative aspect-[16/10] w-full overflow-hidden border-b ${
-          isDark ? 'bg-zinc-950 border-zinc-800/80' : 'bg-slate-100 border-slate-200'
+          isDark ? 'bg-zinc-900/90 border-zinc-800/80' : 'bg-slate-100 border-slate-200'
         }`}>
           {/* Window Header */}
           <div className={`absolute top-0 inset-x-0 h-7 px-3 flex items-center justify-between z-10 border-b backdrop-blur-md transition-colors ${
@@ -508,11 +519,24 @@ function ProjectCard({
         {/* Content */}
         <div className="p-4 sm:p-5">
           <div className="flex items-center justify-between gap-2 mb-2.5">
-            <span className={`text-[10px] font-mono uppercase tracking-wider font-bold ${
-              isDark ? 'text-indigo-400' : 'text-indigo-600'
-            }`}>
-              {proj.category}
-            </span>
+            <div className="flex items-center gap-1.5">
+              <span className={`text-[10px] font-mono uppercase tracking-wider font-bold ${
+                isDark ? 'text-indigo-400' : 'text-indigo-600'
+              }`}>
+                {proj.category}
+              </span>
+              {proj.highlight && (
+                <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border font-bold flex items-center gap-1 shadow-2xs ${
+                  isDark
+                    ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
+                    : 'bg-amber-50 text-amber-800 border-amber-200'
+                }`}>
+                  <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
+                  Finalist
+                </span>
+              )}
+            </div>
+
             <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-semibold flex items-center gap-1 ${
               isDark 
                 ? 'bg-zinc-900/90 border-zinc-800 text-zinc-300' 
@@ -659,6 +683,7 @@ export default function App() {
   const [contactFeedback, setContactFeedback] = useState<string>('');
   const [discordCopied, setDiscordCopied] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Atmospheric Developer Preloader (~1600ms)
   const [siteLoading, setSiteLoading] = useState(true);
@@ -770,6 +795,11 @@ export default function App() {
     const sections = ['about', 'skills', 'projects', 'github-activity', 'experience', 'certificates', 'contact'];
     
     const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollProgress(Math.min(100, Math.max(0, (window.scrollY / totalHeight) * 100)));
+      }
+
       const scrollPos = window.scrollY + 180;
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
@@ -788,6 +818,12 @@ export default function App() {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleCardMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
+  };
 
   const toggleTheme = (e?: React.MouseEvent) => {
     const nextTheme = theme === 'dark' ? 'light' : 'dark';
@@ -1148,6 +1184,31 @@ export default function App() {
     <div className={`min-h-screen transition-colors duration-200 flex flex-col font-sans selection:bg-indigo-500 selection:text-white relative w-full overflow-x-hidden ${
       isDark ? 'bg-[#090a0f] text-zinc-100' : 'bg-[#f8fafc] text-slate-900'
     }`}>
+      {/* Microscopic Analog Film Grain Texture Overlay */}
+      <div 
+        className="fixed inset-0 pointer-events-none z-[90] opacity-[0.022] mix-blend-overlay contrast-150" 
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")`,
+          backgroundRepeat: 'repeat'
+        }}
+        aria-hidden="true"
+      />
+
+      {/* Blueprint Dot Matrix Ambient Backdrop Canvas */}
+      <div 
+        className={`fixed inset-0 pointer-events-none -z-20 transition-opacity duration-500 ${
+          isDark ? 'opacity-30' : 'opacity-15'
+        }`}
+        style={{
+          backgroundImage: isDark 
+            ? `radial-gradient(rgba(129, 140, 248, 0.25) 1px, transparent 1px)` 
+            : `radial-gradient(rgba(99, 102, 241, 0.2) 1px, transparent 1px)`,
+          backgroundSize: '28px 28px',
+          maskImage: 'radial-gradient(ellipse at 50% 30%, black 40%, transparent 85%)',
+          WebkitMaskImage: 'radial-gradient(ellipse at 50% 30%, black 40%, transparent 85%)'
+        }}
+        aria-hidden="true"
+      />
       
       {/* Atmospheric Developer Preloader Screen */}
       {siteLoading && (
@@ -1394,6 +1455,14 @@ export default function App() {
             </a>
           </div>
         )}
+
+        {/* 1.5px Iridescent Scroll Reading Progress Bar */}
+        <div className="absolute bottom-0 left-0 right-0 h-[1.5px] bg-transparent overflow-hidden pointer-events-none">
+          <div 
+            className="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-amber-400 transition-all duration-75 ease-out shadow-[0_0_8px_rgba(99,102,241,0.6)]"
+            style={{ width: `${scrollProgress}%` }}
+          />
+        </div>
       </header>
 
       {/* Header spacer */}
@@ -1430,15 +1499,26 @@ export default function App() {
 
           {/* Hero Content */}
           <div className="flex-1 max-w-4xl">
-            {/* Status Pill */}
-            <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold mb-3 border transition-colors ${
-              isDark 
-                ? 'bg-zinc-900/80 border-zinc-800 text-zinc-300' 
-                : 'bg-indigo-50 border-indigo-200 text-indigo-700'
-            }`}>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Full-Stack <span className="font-serif-italic font-normal tracking-normal text-indigo-400 text-[1.15em]">Software Developer</span></span>
-            </div>
+            {/* Interactive Availability Status Pill */}
+            <a 
+              href="#contact"
+              className={`inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full text-xs font-semibold mb-3.5 border transition-all duration-300 hover:scale-[1.02] active:scale-95 group/status cursor-pointer ${
+                isDark 
+                  ? 'bg-zinc-900/90 hover:bg-zinc-800/90 border-zinc-800 hover:border-emerald-500/40 text-zinc-300 shadow-sm' 
+                  : 'bg-white/95 hover:bg-emerald-50/60 border-slate-200 hover:border-emerald-300 text-slate-800 shadow-xs'
+              }`}
+            >
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+              </span>
+              <span>
+                Available for <span className="font-serif-italic font-normal tracking-normal text-indigo-400 text-[1.15em]">Opportunities</span>
+                <span className="opacity-40 mx-1.5">•</span>
+                <span className={`text-[11px] font-mono font-medium ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>Graduating 2026</span>
+              </span>
+              <ArrowRight className="w-3 h-3 opacity-40 group-hover/status:opacity-100 group-hover/status:translate-x-0.5 transition-all" />
+            </a>
 
             <h1 className={`text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 leading-tight ${
               isDark ? 'text-white' : 'text-slate-900'
@@ -1534,13 +1614,18 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto">
           
-          <div className="mb-6 sm:mb-8 reveal-on-scroll">
+          <div className="relative mb-6 sm:mb-8 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+            }`}>
+              01
+            </span>
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
               GET TO KNOW ME
             </span>
-            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight relative z-10 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               About <span className="font-serif-italic font-normal text-indigo-400">Me</span>
@@ -1550,9 +1635,12 @@ export default function App() {
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8 items-start">
             
             {/* Bio Paragraphs */}
-            <div className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 backdrop-blur-md transition-all duration-300 hover:shadow-xl reveal-on-scroll ${
-              isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-indigo-500/30 text-zinc-300' : 'bg-white/95 border-slate-200/90 hover:border-indigo-300 text-slate-800 shadow-sm'
-            }`}>
+            <div 
+              onMouseMove={handleCardMouseMove}
+              className={`md:col-span-6 lg:col-span-6 p-6 sm:p-7 rounded-2xl border text-sm sm:text-base leading-relaxed space-y-4 backdrop-blur-md transition-all duration-300 hover:shadow-xl reveal-on-scroll spotlight-card ${
+                isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-indigo-500/30 text-zinc-300' : 'bg-white/95 border-slate-200/90 hover:border-indigo-300 text-slate-800 shadow-sm'
+              }`}
+            >
               <p>
                 I am a 4th-year <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Information Technology</span> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
               </p>
@@ -1599,7 +1687,12 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
+          <div className="relative flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+            }`}>
+              02
+            </span>
             <div>
               <div className="flex items-center gap-2 mb-1">
                 <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block ${
@@ -1976,7 +2069,12 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
+          <div className="relative flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+            }`}>
+              03
+            </span>
             <div>
               <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
                 isDark ? 'text-indigo-400' : 'text-indigo-600'
@@ -2080,26 +2178,34 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto">
           
-          <div className="mb-6 reveal-on-scroll">
+          <div className="relative mb-6 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+            }`}>
+              04
+            </span>
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-emerald-400' : 'text-emerald-600'
             }`}>
               OPEN SOURCE
             </span>
-            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight relative z-10 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               GitHub <span className="font-serif-italic font-normal text-emerald-400">Activity</span>
             </h2>
-            <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+            <p className={`text-xs sm:text-sm mt-1 relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
               Verified live commit activity and <span className="font-serif-italic font-normal text-emerald-400 text-[1.1em]">open-source</span> contributions from @{GITHUB_USERNAME}.
             </p>
           </div>
 
           {/* GitHub Card Frame */}
-          <div className={`rounded-2xl border p-5 sm:p-7 overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-xl reveal-on-scroll ${
-            isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-emerald-500/30' : 'bg-white/95 border-slate-200/90 hover:border-emerald-300 shadow-sm'
-          }`}>
+          <div 
+            onMouseMove={handleCardMouseMove}
+            className={`rounded-2xl border p-5 sm:p-7 overflow-hidden backdrop-blur-md transition-all duration-300 hover:shadow-xl reveal-on-scroll spotlight-card ${
+              isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-emerald-500/30' : 'bg-white/95 border-slate-200/90 hover:border-emerald-300 shadow-sm'
+            }`}
+          >
             <div className={`flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5 pb-4 border-b ${
               isDark ? 'border-zinc-800/80' : 'border-slate-200'
             }`}>
@@ -2182,13 +2288,18 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto">
           
-          <div className="mb-6 reveal-on-scroll">
+          <div className="relative mb-6 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+            }`}>
+              05
+            </span>
             <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
               isDark ? 'text-indigo-400' : 'text-indigo-600'
             }`}>
               ACADEMIC JOURNEY
             </span>
-            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight relative z-10 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
               Education & <span className="font-serif-italic font-normal text-indigo-400">Experience</span>
@@ -2207,7 +2318,8 @@ export default function App() {
                 }`} />
 
                 <div 
-                  className={`p-5 sm:p-7 rounded-2xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl ${
+                  onMouseMove={handleCardMouseMove}
+                  className={`p-5 sm:p-7 rounded-2xl border transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl spotlight-card ${
                     idx % 2 === 0 ? 'slide-in-from-left' : 'slide-in-from-right'
                   } ${
                     isDark 
@@ -2318,7 +2430,12 @@ export default function App() {
       }`}>
         <div className="max-w-7xl mx-auto">
           
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4 border-b pb-4 reveal-on-scroll">
+          <div className="relative flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4 border-b pb-4 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+            }`}>
+              06
+            </span>
             <div>
               <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
                 isDark ? 'text-pink-400' : 'text-pink-600'
@@ -2549,18 +2666,23 @@ export default function App() {
             
             {/* Left Column: Direct Info & Availability */}
             <div className="lg:col-span-5 space-y-6 reveal-on-scroll">
-              <div>
+              <div className="relative">
+                <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+                  isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+                }`}>
+                  07
+                </span>
                 <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
                   isDark ? 'text-indigo-400' : 'text-indigo-600'
                 }`}>
                   CONNECT
                 </span>
-                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 ${
+                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 relative z-10 ${
                   isDark ? 'text-white' : 'text-slate-900'
                 }`}>
                   Let's <span className="font-serif-italic font-normal text-indigo-400">Connect</span> & Collaborate
                 </h2>
-                <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                <p className={`text-xs sm:text-sm leading-relaxed relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
                   Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
                 </p>
               </div>
@@ -2642,9 +2764,12 @@ export default function App() {
 
             {/* Right Column: Contact Form */}
             <div className="lg:col-span-7 reveal-on-scroll">
-              <div className={`rounded-2xl border p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-xl ${
-                isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-zinc-700' : 'bg-white/95 border-slate-200/90 hover:border-indigo-200 shadow-sm'
-              }`}>
+              <div 
+                onMouseMove={handleCardMouseMove}
+                className={`rounded-2xl border p-6 sm:p-8 backdrop-blur-md transition-all duration-300 hover:shadow-xl spotlight-card ${
+                  isDark ? 'bg-zinc-900/60 border-zinc-800/90 hover:border-zinc-700' : 'bg-white/95 border-slate-200/90 hover:border-indigo-200 shadow-sm'
+                }`}
+              >
                 <h3 className={`text-lg font-bold mb-4 ${isDark ? 'text-white' : 'text-slate-900'}`}>
                   Send a Direct Message
                 </h3>
