@@ -456,6 +456,7 @@ interface Project {
   githubUrl?: string;
   liveUrl?: string;
   highlight?: boolean;
+  award?: string;
 }
 
 function ProjectCard({ 
@@ -525,14 +526,14 @@ function ProjectCard({
               }`}>
                 {proj.category}
               </span>
-              {proj.highlight && (
+              {proj.award && (
                 <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border font-bold flex items-center gap-1 shadow-2xs ${
                   isDark
                     ? 'bg-amber-500/15 text-amber-300 border-amber-500/30'
                     : 'bg-amber-50 text-amber-800 border-amber-200'
                 }`}>
                   <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
-                  Finalist
+                  {proj.award}
                 </span>
               )}
             </div>
@@ -932,7 +933,8 @@ export default function App() {
       tags: ['React 19', 'Vite', 'Tailwind CSS', 'AI / OCR', 'GovTech APIs'],
       image: projEscholar,
       githubUrl: 'https://github.com/Prince-Rim/eScholar',
-      highlight: true
+      highlight: true,
+      award: 'Top 30 Finalist'
     },
     {
       title: 'LeKatsuMNL',
@@ -1241,7 +1243,7 @@ export default function App() {
             <h1 className={`text-lg sm:text-xl font-extrabold tracking-tight mb-1 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              Justin Allen <span className="font-serif-italic font-normal text-indigo-400">Azucena</span>
+              Justin Allen <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Azucena</span>
             </h1>
             <p className={`text-[11px] font-mono uppercase tracking-widest mb-6 ${
               isDark ? 'text-zinc-400' : 'text-slate-500'
@@ -1299,7 +1301,7 @@ export default function App() {
             <span className={`text-xs sm:text-sm font-bold tracking-tight transition-colors ${
               isDark ? 'text-zinc-100 group-hover:text-white' : 'text-slate-900 group-hover:text-black'
             }`}>
-              Justin Allen <span className="font-serif-italic font-normal text-indigo-400">Azucena</span>
+              Justin Allen <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Azucena</span>
             </span>
           </a>
 
@@ -1513,7 +1515,7 @@ export default function App() {
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
               </span>
               <span>
-                Available for <span className="font-serif-italic font-normal tracking-normal text-indigo-400 text-[1.15em]">Opportunities</span>
+                Available for <span className={`font-serif-italic font-normal tracking-normal text-[1.15em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Opportunities</span>
                 <span className="opacity-40 mx-1.5">•</span>
                 <span className={`text-[11px] font-mono font-medium ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>Graduating 2026</span>
               </span>
@@ -1523,13 +1525,13 @@ export default function App() {
             <h1 className={`text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-3 leading-tight ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              Justin Allen <span className="font-serif-italic font-normal text-indigo-400">Azucena</span>
+              Justin Allen <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Azucena</span>
             </h1>
 
             <p className={`text-xs sm:text-base lg:text-lg leading-relaxed mb-6 font-normal max-w-3xl ${
               isDark ? 'text-zinc-300' : 'text-slate-700'
             }`}>
-              Information Technology student & developer specializing in <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">scalable full-stack</span> web platforms, enterprise .NET backends, and desktop database architectures. <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Top 30 Finalist</span> in the nationwide eGov PH Hackathon 2026.
+              Information Technology student & developer specializing in <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>scalable full-stack</span> web platforms, enterprise .NET backends, and desktop database architectures. <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Top 30 Finalist</span> in the nationwide eGov PH Hackathon 2026.
             </p>
 
             {/* Quick Metadata */}
@@ -1616,7 +1618,7 @@ export default function App() {
           
           <div className="relative mb-6 sm:mb-8 reveal-on-scroll">
             <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
             }`}>
               01
             </span>
@@ -1628,7 +1630,7 @@ export default function App() {
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight relative z-10 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              About <span className="font-serif-italic font-normal text-indigo-400">Me</span>
+              About <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Me</span>
             </h2>
           </div>
 
@@ -1642,13 +1644,13 @@ export default function App() {
               }`}
             >
               <p>
-                I am a 4th-year <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Information Technology</span> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
+                I am a 4th-year <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Information Technology</span> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
               </p>
               <p>
-                My work focuses on developing <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">AI-integrated</span> full-stack web platforms, <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">enterprise .NET</span> backend solutions, and desktop database applications. Recognized as a <span className="font-serif-italic font-normal text-indigo-400 text-[1.12em]">Top 30 Finalist</span> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
+                My work focuses on developing <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>AI-integrated</span> full-stack web platforms, <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>enterprise .NET</span> backend solutions, and desktop database applications. Recognized as a <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Top 30 Finalist</span> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
               </p>
               <p>
-                Graduated Junior High School and Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <span className="font-serif-italic font-normal text-amber-400 text-[1.12em]">High Honors</span>, completing industry work immersion at Centrive Technology and authoring the automated QR Code Attendance Management System for the research congress.
+                Graduated Junior High School and Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>High Honors</span>, completing industry work immersion at Centrive Technology and authoring the automated QR Code Attendance Management System for the research congress.
               </p>
             </div>
 
@@ -1689,7 +1691,7 @@ export default function App() {
           
           <div className="relative flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
             <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
             }`}>
               02
             </span>
@@ -1709,10 +1711,10 @@ export default function App() {
               <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Technologies & <span className="font-serif-italic font-normal text-indigo-400">Tools</span>
+                Technologies & <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Tools</span>
               </h2>
               <p className={`text-xs sm:text-sm mt-1 max-w-2xl ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Languages, frameworks, databases, and enterprise platforms I <span className="font-serif-italic font-normal text-indigo-400 text-[1.1em]">actively engineer</span> with.
+                Languages, frameworks, databases, and enterprise platforms I <span className={`font-serif-italic font-normal text-[1.1em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>actively engineer</span> with.
               </p>
             </div>
 
@@ -2071,7 +2073,7 @@ export default function App() {
           
           <div className="relative flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 gap-4 border-b pb-5 reveal-on-scroll">
             <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
             }`}>
               03
             </span>
@@ -2084,10 +2086,10 @@ export default function App() {
               <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Projects <span className="font-serif-italic font-normal text-indigo-400">Showcase</span>
+                Projects <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Showcase</span>
               </h2>
               <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Scroll or swipe horizontally to explore <span className="font-serif-italic font-normal text-indigo-400 text-[1.1em]">featured architectures</span> & live deployments.
+                Scroll or swipe horizontally to explore <span className={`font-serif-italic font-normal text-[1.1em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>featured architectures</span> & live deployments.
               </p>
             </div>
 
@@ -2180,7 +2182,7 @@ export default function App() {
           
           <div className="relative mb-6 reveal-on-scroll">
             <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
             }`}>
               04
             </span>
@@ -2192,10 +2194,10 @@ export default function App() {
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight relative z-10 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              GitHub <span className="font-serif-italic font-normal text-emerald-400">Activity</span>
+              GitHub <span className={`font-serif-italic font-normal ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>Activity</span>
             </h2>
             <p className={`text-xs sm:text-sm mt-1 relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-              Verified live commit activity and <span className="font-serif-italic font-normal text-emerald-400 text-[1.1em]">open-source</span> contributions from @{GITHUB_USERNAME}.
+              Verified live commit activity and <span className={`font-serif-italic font-normal text-[1.1em] ${isDark ? 'text-emerald-400' : 'text-emerald-600'}`}>open-source</span> contributions from @{GITHUB_USERNAME}.
             </p>
           </div>
 
@@ -2290,7 +2292,7 @@ export default function App() {
           
           <div className="relative mb-6 reveal-on-scroll">
             <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
             }`}>
               05
             </span>
@@ -2302,7 +2304,7 @@ export default function App() {
             <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight relative z-10 ${
               isDark ? 'text-white' : 'text-slate-900'
             }`}>
-              Education & <span className="font-serif-italic font-normal text-indigo-400">Experience</span>
+              Education & <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Experience</span>
             </h2>
           </div>
 
@@ -2432,7 +2434,7 @@ export default function App() {
           
           <div className="relative flex flex-col sm:flex-row sm:items-end justify-between mb-6 gap-4 border-b pb-4 reveal-on-scroll">
             <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-              isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
             }`}>
               06
             </span>
@@ -2445,10 +2447,10 @@ export default function App() {
               <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight ${
                 isDark ? 'text-white' : 'text-slate-900'
               }`}>
-                Certificates & <span className="font-serif-italic font-normal text-pink-400">Honors</span>
+                Certificates & <span className={`font-serif-italic font-normal ${isDark ? 'text-pink-400' : 'text-pink-600'}`}>Honors</span>
               </h2>
               <p className={`text-xs sm:text-sm mt-1 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                Scroll or swipe to view credentials. Click any card to inspect <span className="font-serif-italic font-normal text-pink-400 text-[1.1em]">official documentation</span>.
+                Scroll or swipe to view credentials. Click any card to inspect <span className={`font-serif-italic font-normal text-[1.1em] ${isDark ? 'text-pink-400' : 'text-pink-600'}`}>official documentation</span>.
               </p>
             </div>
 
@@ -2668,7 +2670,7 @@ export default function App() {
             <div className="lg:col-span-5 space-y-6 reveal-on-scroll">
               <div className="relative">
                 <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-                  isDark ? 'text-white/[0.04]' : 'text-slate-900/[0.04]'
+                  isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
                 }`}>
                   07
                 </span>
@@ -2680,7 +2682,7 @@ export default function App() {
                 <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 relative z-10 ${
                   isDark ? 'text-white' : 'text-slate-900'
                 }`}>
-                  Let's <span className="font-serif-italic font-normal text-indigo-400">Connect</span> & Collaborate
+                  Let's <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Connect</span> & Collaborate
                 </h2>
                 <p className={`text-xs sm:text-sm leading-relaxed relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
                   Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
