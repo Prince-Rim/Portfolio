@@ -2664,31 +2664,32 @@ export default function App() {
         isDark ? 'border-zinc-800/80' : 'border-slate-200'
       }`}>
         <div className="max-w-7xl mx-auto">
+          
+          <div className="relative mb-6 sm:mb-8 reveal-on-scroll">
+            <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
+              isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
+            }`}>
+              07
+            </span>
+            <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
+              isDark ? 'text-indigo-400' : 'text-indigo-600'
+            }`}>
+              CONNECT
+            </span>
+            <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 relative z-10 ${
+              isDark ? 'text-white' : 'text-slate-900'
+            }`}>
+              Let's <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Connect</span> & Collaborate
+            </h2>
+            <p className={`text-xs sm:text-sm leading-relaxed relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+              Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
+            </p>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
             {/* Left Column: Direct Info & Availability */}
-            <div className="lg:col-span-5 space-y-6 reveal-on-scroll">
-              <div className="relative">
-                <span className={`font-serif-italic select-none pointer-events-none absolute -top-4 sm:-top-8 right-0 text-6xl sm:text-7xl lg:text-8xl font-normal leading-none tracking-tighter transition-colors ${
-                  isDark ? 'text-white/[0.05]' : 'text-slate-900/10'
-                }`}>
-                  07
-                </span>
-                <span className={`text-[11px] font-mono uppercase tracking-wider font-bold block mb-1 ${
-                  isDark ? 'text-indigo-400' : 'text-indigo-600'
-                }`}>
-                  CONNECT
-                </span>
-                <h2 className={`text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight mb-2 relative z-10 ${
-                  isDark ? 'text-white' : 'text-slate-900'
-                }`}>
-                  Let's <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Connect</span> & Collaborate
-                </h2>
-                <p className={`text-xs sm:text-sm leading-relaxed relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
-                  Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
-                </p>
-              </div>
-
+            <div className="lg:col-span-5 space-y-4 reveal-on-scroll">
               {/* Direct Communication Channels */}
               <div className="space-y-3">
                 <a 
@@ -2708,9 +2709,11 @@ export default function App() {
                   </div>
                 </a>
 
-                <div 
-                  onClick={copyDiscord}
-                  className={`p-3.5 rounded-xl border flex items-center justify-between cursor-pointer transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+                <a 
+                  href={GITHUB_URL}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`p-3.5 rounded-xl border flex items-center justify-between transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
                     isDark 
                       ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 text-zinc-300 hover:text-white' 
                       : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
@@ -2718,19 +2721,15 @@ export default function App() {
                 >
                   <div className="flex items-center gap-3.5">
                     <div className={`p-2 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-indigo-50 text-indigo-600'}`}>
-                      <DiscordIcon className="w-4 h-4" />
+                      <GithubIcon className="w-4 h-4" />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono uppercase tracking-wider block font-medium opacity-60">Discord</span>
-                      <span className="text-xs sm:text-sm font-bold">spieler02.</span>
+                      <span className="text-[10px] font-mono uppercase tracking-wider block font-medium opacity-60">GitHub</span>
+                      <span className="text-xs sm:text-sm font-bold">@{GITHUB_USERNAME}</span>
                     </div>
                   </div>
-                  <span className={`text-[10px] font-mono px-2 py-0.5 rounded font-bold ${
-                    discordCopied ? 'bg-emerald-500 text-white' : isDark ? 'bg-zinc-800 text-zinc-400' : 'bg-slate-100 text-slate-600'
-                  }`}>
-                    {discordCopied ? 'Copied' : 'Copy'}
-                  </span>
-                </div>
+                  <ExternalLink className="w-3.5 h-3.5 opacity-60" />
+                </a>
 
                 <a 
                   href={LINKEDIN_URL}
