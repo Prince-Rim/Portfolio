@@ -286,5 +286,31 @@ html.theme-transitioning *::after {
   opacity: 1;
 }
 
+/* ==========================================================================
+   Edge-Fade Gradient Masks for Horizontal Carousels
+   ========================================================================== */
+.scroll-mask-edges {
+  mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, black 2.5%, black 97.5%, transparent 100%);
+}
+
+@media (max-width: 640px) {
+  .scroll-mask-edges {
+    mask-image: linear-gradient(to right, transparent 0%, black 1.5%, black 98.5%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 1.5%, black 98.5%, transparent 100%);
+  }
+}
+
+/* ==========================================================================
+   Tactile Button Micro-Press Interaction
+   ========================================================================== */
+.btn-tactile {
+  transition: transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.btn-tactile:active {
+  transform: scale(0.97) !important;
+}
+
 
 

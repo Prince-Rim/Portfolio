@@ -706,8 +706,8 @@ function ProjectCard({
             {proj.title}
           </h3>
 
-          <p className={`text-xs leading-relaxed line-clamp-3 mb-3 font-normal ${
-            isDark ? 'text-zinc-400' : 'text-slate-600'
+          <p className={`text-xs leading-[1.65] line-clamp-3 mb-3 font-normal ${
+            isDark ? 'text-zinc-300' : 'text-slate-700'
           }`}>
             {proj.description}
           </p>
@@ -719,8 +719,8 @@ function ProjectCard({
           {proj.tags.map(t => (
             <span key={t} className={`text-[10px] px-2.5 py-0.5 rounded-md font-mono border transition-all duration-200 ${
               isDark 
-                ? 'bg-zinc-900/80 text-zinc-400 border-zinc-800 hover:border-zinc-700 hover:text-zinc-200' 
-                : 'bg-slate-50 text-slate-700 border-slate-200 font-medium hover:border-slate-300'
+                ? 'bg-zinc-900/90 text-zinc-300 border-zinc-800 hover:border-zinc-700 hover:text-white' 
+                : 'bg-slate-100 text-slate-800 border-slate-200 font-medium hover:border-slate-300 hover:bg-slate-200/60'
             }`}>
               {t}
             </span>
@@ -738,7 +738,7 @@ function ProjectCard({
                   href={link.url}
                   target="_blank"
                   rel="noreferrer"
-                  className={`group/btn inline-flex items-center gap-1 font-medium text-[11px] px-2.5 py-1 rounded-md border transition-all cursor-pointer ${
+                  className={`group/btn btn-tactile inline-flex items-center gap-1 font-medium text-[11px] px-2.5 py-1 rounded-md border transition-all cursor-pointer ${
                     isDark 
                       ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white hover:border-zinc-700' 
                       : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-2xs'
@@ -746,7 +746,7 @@ function ProjectCard({
                 >
                   <GithubIcon className="w-3 h-3" />
                   <span>{link.label}</span>
-                  <ArrowRight className="w-2.5 h-2.5 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-2.5 h-2.5 opacity-60 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                 </a>
               ))}
             </div>
@@ -756,7 +756,7 @@ function ProjectCard({
                 href={proj.githubUrl}
                 target="_blank"
                 rel="noreferrer"
-                className={`group/btn inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                className={`group/btn btn-tactile inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
                   isDark 
                     ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white hover:border-zinc-700' 
                     : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-2xs'
@@ -764,7 +764,7 @@ function ProjectCard({
               >
                 <GithubIcon className="w-3.5 h-3.5" />
                 <span>Source Code</span>
-                <ArrowRight className="w-3 h-3 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-3 h-3 opacity-60 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
               </a>
             )
           )}
@@ -773,11 +773,11 @@ function ProjectCard({
               href={proj.liveUrl}
               target="_blank"
               rel="noreferrer"
-              className={`text-xs font-semibold hover:underline flex items-center gap-1 transition-colors ${
+              className={`group/live btn-tactile inline-flex items-center gap-1 text-xs font-semibold hover:underline transition-all ${
                 isDark ? 'text-indigo-400 hover:text-indigo-300' : 'text-indigo-600 hover:text-indigo-700'
               }`}
             >
-              <ExternalLink className="w-3 h-3" />
+              <ExternalLink className="w-3 h-3 group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5 transition-transform" />
               Live Demo
             </a>
           )}
@@ -1775,10 +1775,10 @@ export default function App() {
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
               <a 
                 href="#projects" 
-                className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-semibold transition-all shadow-xs ${
+                className={`btn-tactile inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-semibold transition-all shadow-xs ${
                   isDark 
                     ? 'bg-zinc-100 text-zinc-950 hover:bg-white' 
-                    : 'bg-indigo-600 text-white hover:bg-indigo-500'
+                    : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-indigo-600/20'
                 }`}
               >
                 <FolderGit2 className="w-3.5 h-3.5" />
@@ -1787,10 +1787,10 @@ export default function App() {
               
               <a 
                 href="#github-activity" 
-                className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border text-xs font-semibold transition-all shadow-xs ${
+                className={`btn-tactile inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border text-xs font-semibold transition-all shadow-xs ${
                   isDark 
                     ? 'bg-zinc-900 border-zinc-800 text-zinc-200 hover:bg-zinc-800 hover:text-white' 
-                    : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50 hover:text-slate-950'
+                    : 'bg-white border-slate-300/90 text-slate-900 hover:bg-slate-50 hover:text-indigo-600 hover:border-slate-400'
                 }`}
               >
                 <GithubIcon className="w-3.5 h-3.5" />
@@ -1801,10 +1801,10 @@ export default function App() {
                 href="/resume.html" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border text-xs font-semibold transition-all shadow-xs ${
+                className={`btn-tactile inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl border text-xs font-semibold transition-all shadow-xs ${
                   isDark 
                     ? 'bg-zinc-900/50 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700' 
-                    : 'bg-white border-indigo-200 text-indigo-700 hover:bg-indigo-50'
+                    : 'bg-white border-indigo-300/80 text-indigo-700 hover:bg-indigo-50 font-bold'
                 }`}
               >
                 <Download className="w-3.5 h-3.5" />
@@ -2306,14 +2306,14 @@ export default function App() {
                   <button
                     key={filter}
                     onClick={() => setActiveProjectFilter(filter)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                    className={`btn-tactile px-3 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
                       activeProjectFilter === filter
                         ? isDark
-                          ? 'bg-zinc-100 text-zinc-950 font-bold'
-                          : 'bg-indigo-600 text-white font-bold'
+                          ? 'bg-zinc-100 text-zinc-950 font-bold shadow-sm'
+                          : 'bg-indigo-600 text-white font-bold shadow-sm'
                         : isDark
-                          ? 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white'
-                          : 'bg-white border border-slate-200 text-slate-700 hover:text-slate-950 shadow-xs'
+                          ? 'bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
+                          : 'bg-white border border-slate-300/80 text-slate-800 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                     }`}
                   >
                     {filter}
@@ -2325,10 +2325,10 @@ export default function App() {
               <div className="flex items-center gap-1.5 shrink-0 ml-auto sm:ml-0">
                 <button
                   onClick={() => scrollProjects('left')}
-                  className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                  className={`btn-tactile p-2 rounded-xl border transition-all cursor-pointer ${
                     isDark
                       ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
-                      : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
+                      : 'bg-white border-slate-300/80 text-slate-800 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                   }`}
                   aria-label="Previous projects"
                   title="Previous projects"
@@ -2337,10 +2337,10 @@ export default function App() {
                 </button>
                 <button
                   onClick={() => scrollProjects('right')}
-                  className={`p-2 rounded-xl border transition-all cursor-pointer active:scale-95 ${
+                  className={`btn-tactile p-2 rounded-xl border transition-all cursor-pointer ${
                     isDark
                       ? 'bg-zinc-900 border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700'
-                      : 'bg-white border-slate-200 text-slate-700 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
+                      : 'bg-white border-slate-300/80 text-slate-800 hover:text-indigo-600 hover:border-indigo-300 shadow-xs'
                   }`}
                   aria-label="Next projects"
                   title="Next projects"
@@ -2351,10 +2351,10 @@ export default function App() {
             </div>
           </div>
 
-          {/* Horizontally Scrollable Project Track */}
+          {/* Horizontally Scrollable Project Track with Soft Edge Fade */}
           <div 
             ref={projectsScrollRef}
-            className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 reveal-on-scroll"
+            className="flex gap-5 sm:gap-6 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 reveal-on-scroll scroll-mask-edges"
           >
             {filteredProjects.map((proj) => (
               <div 
@@ -2375,7 +2375,7 @@ export default function App() {
 
           {/* Track Indicator & Swipe Hint */}
           <div className={`flex items-center justify-between mt-3 text-[11px] font-mono ${
-            isDark ? 'text-zinc-500' : 'text-slate-500'
+            isDark ? 'text-zinc-400' : 'text-slate-600 font-medium'
           }`}>
             <span>Showing {filteredProjects.length} {activeProjectFilter === 'All' ? 'featured' : activeProjectFilter} project{filteredProjects.length > 1 ? 's' : ''}</span>
             <span className="hidden sm:inline-block">← Drag or use chevrons to browse →</span>
@@ -2586,7 +2586,7 @@ export default function App() {
                   </div>
 
                   <p className={`text-xs sm:text-sm leading-relaxed mb-4 font-normal ${
-                    isDark ? 'text-zinc-400' : 'text-slate-600'
+                    isDark ? 'text-zinc-300' : 'text-slate-700'
                   }`}>
                     {item.details}
                   </p>
@@ -2611,7 +2611,7 @@ export default function App() {
                               Work Immersion
                             </span>
                           </div>
-                          <p className={`text-[11px] sm:text-xs ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+                          <p className={`text-[11px] sm:text-xs ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>
                             {item.ojt.description}
                           </p>
                         </div>
@@ -2622,7 +2622,7 @@ export default function App() {
                   <div className="flex flex-wrap gap-1.5">
                     {item.skills.map(s => (
                       <span key={s} className={`text-[10px] sm:text-xs px-2.5 py-0.5 rounded font-mono border ${
-                        isDark ? 'bg-zinc-900 text-zinc-400 border-zinc-800' : 'bg-slate-100 text-slate-700 border-slate-200 font-medium'
+                        isDark ? 'bg-zinc-900 text-zinc-300 border-zinc-800' : 'bg-slate-100 text-slate-800 border-slate-200 font-medium'
                       }`}>
                         {s}
                       </span>
@@ -2693,10 +2693,10 @@ export default function App() {
             </div>
           </div>
 
-          {/* Horizontally Scrollable Certificates Track */}
+          {/* Horizontally Scrollable Certificates Track with Soft Edge Fade */}
           <div 
             ref={certsScrollRef}
-            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 reveal-on-scroll"
+            className="flex gap-4 sm:gap-5 overflow-x-auto pb-4 pt-1 snap-x snap-mandatory scrollbar-none scroll-smooth -mx-4 px-4 sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8 reveal-on-scroll scroll-mask-edges"
           >
             {certificates.map((cert, index) => (
               <div
@@ -2737,7 +2737,7 @@ export default function App() {
                       {cert.title}
                     </h3>
                     <div className={`flex items-center gap-1 text-[11px] sm:text-xs font-medium mb-2 ${
-                      isDark ? 'text-zinc-400' : 'text-slate-600'
+                      isDark ? 'text-zinc-300' : 'text-slate-700'
                     }`}>
                       <Building2 className="w-3 h-3" />
                       <span className="truncate">{cert.issuer}</span>
@@ -2745,7 +2745,7 @@ export default function App() {
                   </div>
 
                   <div className={`flex items-center justify-between pt-2 border-t text-[10px] sm:text-[11px] font-mono ${
-                    isDark ? 'border-zinc-800/80 text-zinc-400' : 'border-slate-200 text-slate-600'
+                    isDark ? 'border-zinc-800/80 text-zinc-400' : 'border-slate-200 text-slate-700 font-medium'
                   }`}>
                     <span>{cert.date}</span>
                     <span className={`inline-flex items-center gap-0.5 font-bold transition-colors ${
@@ -2762,7 +2762,7 @@ export default function App() {
 
           {/* Hint indicator below track */}
           <div className={`flex items-center justify-between mt-3 text-[11px] font-mono ${
-            isDark ? 'text-zinc-500' : 'text-slate-500'
+            isDark ? 'text-zinc-400' : 'text-slate-600 font-medium'
           }`}>
             <span>{certificates.length} Verified Credentials Available</span>
             <span className="hidden sm:inline-block">← Scroll or drag to browse records →</span>
@@ -3074,7 +3074,7 @@ export default function App() {
             }`}>
               Let's <span className={`font-serif-italic font-normal ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Connect</span> & Collaborate
             </h2>
-            <p className={`text-xs sm:text-sm leading-relaxed relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-600'}`}>
+            <p className={`text-xs sm:text-sm leading-relaxed relative z-10 ${isDark ? 'text-zinc-400' : 'text-slate-700'}`}>
               Feel free to reach out for software engineering roles, full-stack projects, or hackathon opportunities.
             </p>
           </div>
@@ -3087,17 +3087,17 @@ export default function App() {
               <div className="space-y-3">
                 <a 
                   href="mailto:azucenajustinallen@gmail.com"
-                  className={`p-3.5 rounded-xl border flex items-center gap-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+                  className={`btn-tactile p-3.5 rounded-xl border flex items-center gap-3.5 transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
                     isDark 
                       ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 text-zinc-300 hover:text-white' 
-                      : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
+                      : 'bg-white/95 backdrop-blur-md border-slate-300/80 hover:border-indigo-400 hover:shadow-sm text-slate-900 hover:text-indigo-600'
                   }`}
                 >
                   <div className={`p-2 rounded-lg ${isDark ? 'bg-zinc-800' : 'bg-indigo-50 text-indigo-600'}`}>
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="text-[10px] font-mono uppercase tracking-wider block font-medium opacity-60">Email</span>
+                    <span className="text-[10px] font-mono uppercase tracking-wider block font-semibold opacity-70">Email</span>
                     <span className="text-xs sm:text-sm font-bold">azucenajustinallen@gmail.com</span>
                   </div>
                 </a>
@@ -3106,7 +3106,7 @@ export default function App() {
                   href={GITHUB_URL}
                   target="_blank"
                   rel="noreferrer"
-                  className={`p-3.5 rounded-xl border flex items-center justify-between transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
+                  className={`btn-tactile p-3.5 rounded-xl border flex items-center justify-between transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md ${
                     isDark 
                       ? 'bg-zinc-900/60 backdrop-blur-md border-zinc-800/80 hover:border-indigo-500/40 text-zinc-300 hover:text-white' 
                       : 'bg-white/95 backdrop-blur-md border-slate-200 hover:border-indigo-300 hover:shadow-xs text-slate-800 hover:text-indigo-600'
@@ -3246,7 +3246,7 @@ export default function App() {
                   <button
                     type="submit"
                     disabled={contactStatus === 'loading'}
-                    className={`w-full py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${
+                    className={`btn-tactile w-full py-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 ${
                       isDark 
                         ? 'bg-zinc-100 text-zinc-950 hover:bg-white' 
                         : 'bg-indigo-600 text-white hover:bg-indigo-500 shadow-md shadow-indigo-600/20'
