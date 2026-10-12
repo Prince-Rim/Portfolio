@@ -23,7 +23,8 @@ import {
   ArrowRight,
   Search,
   LayoutGrid,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Maximize2
 } from 'lucide-react';
 
 import { GitHubContributionGraph } from './components/GitHubContributionGraph';
@@ -484,10 +485,12 @@ interface Project {
 
 function ProjectCard({ 
   proj, 
-  isDark 
+  isDark,
+  onOpenLightbox
 }: { 
   proj: Project; 
   isDark: boolean; 
+  onOpenLightbox?: (proj: Project, index: number) => void;
 }) {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const imageList = proj.images && proj.images.length >= 3 ? proj.images : [proj.image];
@@ -537,27 +540,42 @@ function ProjectCard({
               <span className="truncate">{proj.title.toLowerCase().replace(/[^a-z0-9]/g, '')}.app</span>
             </div>
 
-            {/* Pagination / Dots indicator */}
-            {hasMultiple ? (
-              <div className="flex items-center gap-1 z-20">
-                {imageList.map((_, i) => (
-                  <button
-                    key={i}
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setActiveIdx(i);
-                    }}
-                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                      activeIdx === i ? 'w-3.5 bg-indigo-500' : 'w-1.5 bg-zinc-400/40 hover:bg-zinc-400'
-                    }`}
-                    title={`View Screen ${i + 1}`}
-                  />
-                ))}
-              </div>
-            ) : (
-              <div className="w-6" />
-            )}
+            <div className="flex items-center gap-1.5 z-20">
+              {/* Pagination / Dots indicator */}
+              {hasMultiple && (
+                <div className="flex items-center gap-1 mr-1">
+                  {imageList.map((_, i) => (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setActiveIdx(i);
+                      }}
+                      className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                        activeIdx === i ? 'w-3.5 bg-indigo-500' : 'w-1.5 bg-zinc-400/40 hover:bg-zinc-400'
+                      }`}
+                      title={`View Screen ${i + 1}`}
+                    />
+                  ))}
+                </div>
+              )}
+
+              {/* Fullscreen Button in Titlebar */}
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenLightbox?.(proj, activeIdx);
+                }}
+                className={`p-1 rounded transition-colors cursor-pointer ${
+                  isDark ? 'text-zinc-400 hover:text-white hover:bg-zinc-800' : 'text-slate-500 hover:text-slate-900 hover:bg-slate-200'
+                }`}
+                title="Open fullscreen view"
+              >
+                <Maximize2 className="w-3 h-3" />
+              </button>
+            </div>
           </div>
 
           {hasMultiple ? (
@@ -605,7 +623,12 @@ function ProjectCard({
 
               {/* Center Active Image */}
               <div
-                className={`relative w-[70%] aspect-[16/10] rounded-xl overflow-hidden border shadow-2xl transition-all duration-500 ease-out z-20 group-hover:scale-[1.03] ${
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onOpenLightbox?.(proj, activeIdx);
+                }}
+                title="Click to view full screen"
+                className={`relative w-[70%] aspect-[16/10] rounded-xl overflow-hidden border shadow-2xl transition-all duration-500 ease-out z-20 group-hover:scale-[1.03] cursor-zoom-in group/center ${
                   isDark 
                     ? 'bg-zinc-800 border-zinc-700/90 shadow-black/60' 
                     : 'bg-white border-slate-200 shadow-slate-400/40'
@@ -616,16 +639,32 @@ function ProjectCard({
                   alt={proj.title} 
                   className="w-full h-full object-cover object-top" 
                 />
+                <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/center:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                  <span className="px-2.5 py-1 rounded-full bg-black/75 text-white text-[10px] font-mono font-medium backdrop-blur-xs flex items-center gap-1 shadow-lg border border-white/20">
+                    <Maximize2 className="w-3 h-3" />
+                    <span>View Fullscreen</span>
+                  </span>
+                </div>
               </div>
             </div>
           ) : (
             /* Single Image Standard Display */
-            <div className="w-full h-full pt-7 flex items-center justify-center overflow-hidden">
+            <div 
+              onClick={() => onOpenLightbox?.(proj, 0)}
+              title="Click to view full screen"
+              className="w-full h-full pt-7 flex items-center justify-center overflow-hidden cursor-zoom-in group/center relative"
+            >
               <img 
                 src={proj.image} 
                 alt={proj.title} 
                 className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out" 
               />
+              <div className="absolute inset-0 bg-black/35 opacity-0 group-hover/center:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <span className="px-2.5 py-1 rounded-full bg-black/75 text-white text-[10px] font-mono font-medium backdrop-blur-xs flex items-center gap-1 shadow-lg border border-white/20">
+                  <Maximize2 className="w-3 h-3" />
+                  <span>View Fullscreen</span>
+                </span>
+              </div>
             </div>
           )}
         </div>
@@ -814,6 +853,26 @@ export default function App() {
   const [activeNavSection, setActiveNavSection] = useState<string>('hero');
   const [selectedCert, setSelectedCert] = useState<Certificate | null>(null);
   const [activeCertDocIndex, setActiveCertDocIndex] = useState<number>(0);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [activeProjectImgIndex, setActiveProjectImgIndex] = useState<number>(0);
+
+  useEffect(() => {
+    if (!selectedProject) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const imgList = selectedProject.images && selectedProject.images.length > 0
+        ? selectedProject.images
+        : [selectedProject.image];
+      if (e.key === 'Escape') {
+        setSelectedProject(null);
+      } else if (e.key === 'ArrowLeft') {
+        setActiveProjectImgIndex((prev) => (prev - 1 + imgList.length) % imgList.length);
+      } else if (e.key === 'ArrowRight') {
+        setActiveProjectImgIndex((prev) => (prev + 1) % imgList.length);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedProject]);
   const [contactData, setContactData] = useState({ name: '', email: '', message: '' });
   const [contactStatus, setContactStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [contactFeedback, setContactFeedback] = useState<string>('');
@@ -2305,6 +2364,10 @@ export default function App() {
                 <ProjectCard 
                   proj={proj} 
                   isDark={isDark} 
+                  onOpenLightbox={(p, idx) => {
+                    setSelectedProject(p);
+                    setActiveProjectImgIndex(idx);
+                  }}
                 />
               </div>
             ))}
@@ -2800,6 +2863,189 @@ export default function App() {
                 <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>
                   {currentDoc.caption || selectedCert.description}
                 </p>
+              </div>
+            </div>
+          </div>
+        );
+      })()}
+
+      {/* Project Modal Lightbox */}
+      {selectedProject && (() => {
+        const imgList = selectedProject.images && selectedProject.images.length > 0 
+          ? selectedProject.images 
+          : [selectedProject.image];
+        const currentImg = imgList[activeProjectImgIndex] || imgList[0];
+
+        return (
+          <div 
+            className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/85 backdrop-blur-md animate-in fade-in duration-200"
+            onClick={() => setSelectedProject(null)}
+          >
+            <div 
+              className={`relative max-w-5xl w-full border rounded-2xl overflow-hidden p-4 sm:p-6 max-h-[94vh] flex flex-col shadow-2xl ${
+                isDark ? 'bg-zinc-900 border-zinc-800 text-white shadow-black/80' : 'bg-white border-slate-200 text-slate-900 shadow-slate-900/30'
+              }`}
+              onClick={e => e.stopPropagation()}
+            >
+              {/* Header */}
+              <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800/80 dark:border-zinc-800 border-slate-200">
+                <div className="flex items-center gap-2 pr-6 truncate">
+                  <span className={`text-[10px] sm:text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border shrink-0 ${
+                    isDark ? 'bg-indigo-500/10 text-indigo-400 border-indigo-500/30' : 'bg-indigo-50 text-indigo-700 border-indigo-200'
+                  }`}>
+                    {selectedProject.category}
+                  </span>
+                  {selectedProject.award && (
+                    <span className={`text-[9px] font-mono px-2 py-0.5 rounded-full border font-bold flex items-center gap-1 shrink-0 ${
+                      isDark ? 'bg-amber-500/15 text-amber-300 border-amber-500/30' : 'bg-amber-50 text-amber-800 border-amber-200'
+                    }`}>
+                      <Star className="w-2.5 h-2.5 fill-amber-400 text-amber-400" />
+                      {selectedProject.award}
+                    </span>
+                  )}
+                  {selectedProject.badge && (
+                    <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-semibold truncate hidden sm:inline-block ${
+                      isDark ? 'bg-zinc-800 border-zinc-700 text-zinc-300' : 'bg-slate-100 border-slate-200 text-slate-700'
+                    }`}>
+                      {selectedProject.badge}
+                    </span>
+                  )}
+                  <h3 className="text-base sm:text-lg font-bold truncate">
+                    {selectedProject.title}
+                  </h3>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="text-xs font-mono text-zinc-400">
+                    {activeProjectImgIndex + 1} / {imgList.length}
+                  </span>
+                  <button
+                    onClick={() => setSelectedProject(null)}
+                    className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                      isDark ? 'bg-zinc-800 text-zinc-300 hover:text-white hover:bg-zinc-700' : 'bg-slate-100 text-slate-700 hover:text-black hover:bg-slate-200'
+                    }`}
+                    aria-label="Close dialog"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Main Image Stage */}
+              <div className={`relative flex-1 min-h-[260px] max-h-[58vh] rounded-xl overflow-hidden flex items-center justify-center border mb-3 select-none ${
+                isDark ? 'bg-zinc-950/70 border-zinc-800' : 'bg-slate-100 border-slate-200'
+              }`}>
+                <img
+                  src={currentImg}
+                  alt={`${selectedProject.title} screenshot ${activeProjectImgIndex + 1}`}
+                  className="max-h-[56vh] max-w-full w-auto object-contain transition-all duration-300"
+                />
+
+                {/* Left / Right Nav Arrows */}
+                {imgList.length > 1 && (
+                  <>
+                    <button
+                      onClick={() => setActiveProjectImgIndex((prev) => (prev - 1 + imgList.length) % imgList.length)}
+                      className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 text-white hover:bg-black/80 backdrop-blur-sm border border-white/20 transition-all cursor-pointer shadow-lg"
+                      title="Previous screen (←)"
+                      aria-label="Previous image"
+                    >
+                      <ChevronLeft className="w-5 h-5" />
+                    </button>
+                    <button
+                      onClick={() => setActiveProjectImgIndex((prev) => (prev + 1) % imgList.length)}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 text-white hover:bg-black/80 backdrop-blur-sm border border-white/20 transition-all cursor-pointer shadow-lg"
+                      title="Next screen (→)"
+                      aria-label="Next image"
+                    >
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
+                  </>
+                )}
+              </div>
+
+              {/* Thumbnail Strip */}
+              {imgList.length > 1 && (
+                <div className="flex items-center justify-center gap-2 mb-3">
+                  {imgList.map((thumb, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveProjectImgIndex(idx)}
+                      className={`relative w-16 sm:w-20 aspect-[16/10] rounded-lg overflow-hidden border-2 transition-all cursor-pointer ${
+                        activeProjectImgIndex === idx 
+                          ? 'border-indigo-500 scale-105 shadow-md shadow-indigo-500/20' 
+                          : 'border-transparent opacity-60 hover:opacity-100'
+                      }`}
+                    >
+                      <img src={thumb} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover object-top" />
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Description & Action Links */}
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-zinc-800/80 dark:border-zinc-800 border-slate-200 overflow-y-auto">
+                <div className="flex-1">
+                  <p className={`text-xs sm:text-sm leading-relaxed ${isDark ? 'text-zinc-300' : 'text-slate-700'}`}>
+                    {selectedProject.description}
+                  </p>
+                  <div className="flex flex-wrap gap-1.5 mt-2">
+                    {selectedProject.tags.map((t) => (
+                      <span key={t} className={`text-[10px] font-mono px-2 py-0.5 rounded border ${
+                        isDark ? 'bg-zinc-800/80 text-zinc-400 border-zinc-700' : 'bg-slate-100 text-slate-700 border-slate-200'
+                      }`}>
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 shrink-0">
+                  {selectedProject.extraLinks && selectedProject.extraLinks.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {selectedProject.extraLinks.map((link) => (
+                        <a
+                          key={link.url}
+                          href={link.url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className={`inline-flex items-center gap-1 text-xs px-2.5 py-1.5 rounded-lg border font-medium ${
+                            isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-700' : 'bg-slate-900 hover:bg-slate-800 text-white border-slate-900'
+                          }`}
+                        >
+                          <GithubIcon className="w-3.5 h-3.5" />
+                          <span>{link.label}</span>
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    selectedProject.githubUrl && (
+                      <a
+                        href={selectedProject.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className={`inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-lg border font-medium ${
+                          isDark ? 'bg-zinc-800 hover:bg-zinc-700 text-white border-zinc-700' : 'bg-slate-900 hover:bg-slate-800 text-white border-slate-900'
+                        }`}
+                      >
+                        <GithubIcon className="w-3.5 h-3.5" />
+                        <span>Source Code</span>
+                      </a>
+                    )
+                  )}
+
+                  {selectedProject.liveUrl && (
+                    <a
+                      href={selectedProject.liveUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-1 text-xs px-3 py-1.5 rounded-lg font-medium bg-indigo-600 hover:bg-indigo-500 text-white transition-colors"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" />
+                      <span>Live Demo</span>
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           </div>
