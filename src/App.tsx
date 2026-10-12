@@ -518,7 +518,7 @@ function ProjectCard({
       <div>
         {/* Screenshot Frame with macOS Style Browser Window */}
         <div className={`relative aspect-[16/10.5] w-full overflow-hidden border-b select-none ${
-          isDark ? 'bg-zinc-900/90 border-zinc-800/80' : 'bg-slate-100 border-slate-200'
+          isDark ? 'bg-zinc-900/60 border-zinc-800/80' : 'bg-slate-100 border-slate-200'
         }`}>
           {/* Window Header */}
           <div className={`absolute top-0 inset-x-0 h-7 px-3 flex items-center justify-between z-30 border-b backdrop-blur-md transition-colors ${
@@ -562,7 +562,7 @@ function ProjectCard({
 
           {hasMultiple ? (
             /* 3-Image Fanned Stack Display */
-            <div className="relative w-full h-full pt-7 pb-2 px-2.5 flex items-center justify-center overflow-hidden">
+            <div className="relative w-full h-full pt-7 pb-2 px-2 flex items-center justify-center overflow-hidden">
               {/* Left Tilted Image */}
               <div
                 onClick={(e) => {
@@ -570,16 +570,16 @@ function ProjectCard({
                   setActiveIdx(leftIdx);
                 }}
                 title="Click to bring to front"
-                className={`absolute w-[84%] aspect-[16/9.5] rounded-lg overflow-hidden border shadow-xl transition-all duration-500 ease-out cursor-pointer z-10 left-1/2 -translate-x-[68%] translate-y-1 -rotate-[9deg] scale-[0.88] opacity-75 group-hover:-translate-x-[78%] group-hover:-rotate-[14deg] group-hover:opacity-95 hover:!opacity-100 hover:!scale-[0.93] hover:!z-25 flex items-center justify-center ${
+                className={`absolute w-[66%] aspect-[16/10] rounded-xl overflow-hidden border shadow-xl transition-all duration-500 ease-out cursor-pointer z-10 left-1/2 -translate-x-[92%] translate-y-1 -rotate-[11deg] scale-[0.92] opacity-100 group-hover:-translate-x-[102%] group-hover:-rotate-[16deg] group-hover:scale-[0.96] hover:!z-25 ${
                   isDark 
-                    ? 'bg-zinc-950 border-zinc-700/60 shadow-black/60' 
-                    : 'bg-white border-slate-300 shadow-slate-500/25'
+                    ? 'bg-zinc-800 border-zinc-700/80 shadow-black/40' 
+                    : 'bg-white border-slate-200 shadow-slate-400/30'
                 }`}
               >
                 <img 
                   src={imageList[leftIdx]} 
                   alt={`${proj.title} preview left`} 
-                  className="w-full h-full object-contain object-center" 
+                  className="w-full h-full object-cover object-top" 
                 />
               </div>
 
@@ -590,31 +590,31 @@ function ProjectCard({
                   setActiveIdx(rightIdx);
                 }}
                 title="Click to bring to front"
-                className={`absolute w-[84%] aspect-[16/9.5] rounded-lg overflow-hidden border shadow-xl transition-all duration-500 ease-out cursor-pointer z-10 left-1/2 -translate-x-[32%] translate-y-1 rotate-[9deg] scale-[0.88] opacity-75 group-hover:-translate-x-[22%] group-hover:rotate-[14deg] group-hover:opacity-95 hover:!opacity-100 hover:!scale-[0.93] hover:!z-25 flex items-center justify-center ${
+                className={`absolute w-[66%] aspect-[16/10] rounded-xl overflow-hidden border shadow-xl transition-all duration-500 ease-out cursor-pointer z-10 left-1/2 -translate-x-[8%] translate-y-1 rotate-[11deg] scale-[0.92] opacity-100 group-hover:-translate-x-[2%] group-hover:rotate-[16deg] group-hover:scale-[0.96] hover:!z-25 ${
                   isDark 
-                    ? 'bg-zinc-950 border-zinc-700/60 shadow-black/60' 
-                    : 'bg-white border-slate-300 shadow-slate-500/25'
+                    ? 'bg-zinc-800 border-zinc-700/80 shadow-black/40' 
+                    : 'bg-white border-slate-200 shadow-slate-400/30'
                 }`}
               >
                 <img 
                   src={imageList[rightIdx]} 
                   alt={`${proj.title} preview right`} 
-                  className="w-full h-full object-contain object-center" 
+                  className="w-full h-full object-cover object-top" 
                 />
               </div>
 
               {/* Center Active Image */}
               <div
-                className={`relative w-[90%] aspect-[16/9.5] rounded-lg overflow-hidden border shadow-2xl transition-all duration-500 ease-out z-20 group-hover:scale-[1.02] flex items-center justify-center ${
+                className={`relative w-[70%] aspect-[16/10] rounded-xl overflow-hidden border shadow-2xl transition-all duration-500 ease-out z-20 group-hover:scale-[1.03] ${
                   isDark 
-                    ? 'bg-zinc-950 border-zinc-600/70 shadow-black/80' 
-                    : 'bg-white border-slate-300/90 shadow-slate-600/30'
+                    ? 'bg-zinc-800 border-zinc-700/90 shadow-black/60' 
+                    : 'bg-white border-slate-200 shadow-slate-400/40'
                 }`}
               >
                 <img 
                   src={imageList[activeIdx]} 
                   alt={proj.title} 
-                  className="w-full h-full object-contain object-center" 
+                  className="w-full h-full object-cover object-top" 
                 />
               </div>
             </div>
@@ -624,7 +624,7 @@ function ProjectCard({
               <img 
                 src={proj.image} 
                 alt={proj.title} 
-                className="w-full h-full object-contain object-center group-hover:scale-105 transition-transform duration-500 ease-out" 
+                className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 ease-out" 
               />
             </div>
           )}
