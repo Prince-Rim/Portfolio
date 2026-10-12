@@ -35,12 +35,33 @@ import centriveLogo from './assets/centrive-logo.png';
 
 // Project Screenshots
 import projEscholar from './assets/projects/escholar.png';
+import projEscholar1 from './assets/projects/escholar1.png';
+import projEscholar2 from './assets/projects/escholar2.png';
+
 import projLekatsu from './assets/projects/lekatsu.png';
+import projLekatsu1 from './assets/projects/lekatsu1.png';
+import projLekatsu2 from './assets/projects/lekatsu2.png';
+
 import projSafepoint from './assets/projects/safepoint.png';
+import projSafepoint1 from './assets/projects/safepoint1.png';
+import projSafepoint2 from './assets/projects/safepoint2.png';
+
 import projJonbrix from './assets/projects/jonbrix.png';
+import projJonbrix1 from './assets/projects/pos1.png';
+import projJonbrix2 from './assets/projects/pos2.png';
+
 import projElibrary from './assets/projects/elibrary.png';
-import projMusicplayer from './assets/projects/musicplayer.png';
+import projElibrary1 from './assets/projects/library1.png';
+import projElibrary2 from './assets/projects/library2.png';
+
 import projEcommerce from './assets/projects/ecommerce.png';
+import projEcommerce1 from './assets/projects/ecommerce1.png';
+import projEcommerce2 from './assets/projects/ecommerce2.png';
+
+// Mini Projects (Music Player, Tic-Tac-Toe, Calculator)
+import projMusicplayer from './assets/projects/musicplayer.png';
+import projTicTacToe from './assets/projects/tictoctoe.png';
+import projCalculator from './assets/projects/calculator.png';
 
 // Certificates
 import certCtf from './assets/certificates/cert4.png';
@@ -453,10 +474,12 @@ interface Project {
   description: string;
   tags: string[];
   image: string;
+  images?: string[];
   githubUrl?: string;
   liveUrl?: string;
   highlight?: boolean;
   award?: string;
+  extraLinks?: { label: string; url: string }[];
 }
 
 function ProjectCard({ 
@@ -466,11 +489,18 @@ function ProjectCard({
   proj: Project; 
   isDark: boolean; 
 }) {
+  const [activeIdx, setActiveIdx] = useState<number>(0);
+  const imageList = proj.images && proj.images.length >= 3 ? proj.images : [proj.image];
+  const hasMultiple = imageList.length >= 3;
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
     e.currentTarget.style.setProperty('--mouse-x', `${e.clientX - rect.left}px`);
     e.currentTarget.style.setProperty('--mouse-y', `${e.clientY - rect.top}px`);
   };
+
+  const leftIdx = (activeIdx - 1 + imageList.length) % imageList.length;
+  const rightIdx = (activeIdx + 1) % imageList.length;
 
   return (
     <div
@@ -487,11 +517,11 @@ function ProjectCard({
     >
       <div>
         {/* Screenshot Frame with macOS Style Browser Window */}
-        <div className={`relative aspect-[16/10] w-full overflow-hidden border-b ${
+        <div className={`relative aspect-[16/10] w-full overflow-hidden border-b select-none ${
           isDark ? 'bg-zinc-900/90 border-zinc-800/80' : 'bg-slate-100 border-slate-200'
         }`}>
           {/* Window Header */}
-          <div className={`absolute top-0 inset-x-0 h-7 px-3 flex items-center justify-between z-10 border-b backdrop-blur-md transition-colors ${
+          <div className={`absolute top-0 inset-x-0 h-7 px-3 flex items-center justify-between z-30 border-b backdrop-blur-md transition-colors ${
             isDark ? 'bg-zinc-950/85 border-zinc-800/70' : 'bg-slate-50/90 border-slate-200'
           }`}>
             <div className="flex items-center gap-1.5">
@@ -507,14 +537,95 @@ function ProjectCard({
               <span className="truncate">{proj.title.toLowerCase().replace(/[^a-z0-9]/g, '')}.app</span>
             </div>
 
-            <div className="w-6" />
+            {/* Pagination / Dots indicator */}
+            {hasMultiple ? (
+              <div className="flex items-center gap-1 z-20">
+                {imageList.map((_, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveIdx(i);
+                    }}
+                    className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+                      activeIdx === i ? 'w-3.5 bg-indigo-500' : 'w-1.5 bg-zinc-400/40 hover:bg-zinc-400'
+                    }`}
+                    title={`View Screen ${i + 1}`}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="w-6" />
+            )}
           </div>
 
-          <img 
-            src={proj.image} 
-            alt={proj.title} 
-            className="w-full h-full object-cover object-top pt-7 group-hover:scale-105 transition-transform duration-500 ease-out" 
-          />
+          {hasMultiple ? (
+            /* 3-Image Fanned Stack Display */
+            <div className="relative w-full h-full pt-7 pb-2 px-3 flex items-center justify-center overflow-hidden">
+              {/* Left Tilted Image */}
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIdx(leftIdx);
+                }}
+                title="Click to bring to front"
+                className={`absolute w-[76%] h-[80%] rounded-lg overflow-hidden border shadow-xl transition-all duration-500 ease-out cursor-pointer z-10 left-1/2 -translate-x-[74%] translate-y-2 -rotate-[11deg] scale-[0.86] opacity-75 group-hover:-translate-x-[84%] group-hover:-rotate-[16deg] group-hover:opacity-95 hover:!opacity-100 hover:!scale-[0.92] hover:!z-25 ${
+                  isDark 
+                    ? 'bg-zinc-950 border-zinc-700/60 shadow-black/60' 
+                    : 'bg-white border-slate-300 shadow-slate-500/25'
+                }`}
+              >
+                <img 
+                  src={imageList[leftIdx]} 
+                  alt={`${proj.title} preview left`} 
+                  className="w-full h-full object-cover object-top" 
+                />
+              </div>
+
+              {/* Right Tilted Image */}
+              <div
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveIdx(rightIdx);
+                }}
+                title="Click to bring to front"
+                className={`absolute w-[76%] h-[80%] rounded-lg overflow-hidden border shadow-xl transition-all duration-500 ease-out cursor-pointer z-10 left-1/2 -translate-x-[26%] translate-y-2 rotate-[11deg] scale-[0.86] opacity-75 group-hover:-translate-x-[16%] group-hover:rotate-[16deg] group-hover:opacity-95 hover:!opacity-100 hover:!scale-[0.92] hover:!z-25 ${
+                  isDark 
+                    ? 'bg-zinc-950 border-zinc-700/60 shadow-black/60' 
+                    : 'bg-white border-slate-300 shadow-slate-500/25'
+                }`}
+              >
+                <img 
+                  src={imageList[rightIdx]} 
+                  alt={`${proj.title} preview right`} 
+                  className="w-full h-full object-cover object-top" 
+                />
+              </div>
+
+              {/* Center Active Image */}
+              <div
+                className={`relative w-[82%] h-[86%] rounded-lg overflow-hidden border shadow-2xl transition-all duration-500 ease-out z-20 group-hover:scale-[1.03] ${
+                  isDark 
+                    ? 'bg-zinc-950 border-zinc-600/70 shadow-black/80' 
+                    : 'bg-white border-slate-300/90 shadow-slate-600/30'
+                }`}
+              >
+                <img 
+                  src={imageList[activeIdx]} 
+                  alt={proj.title} 
+                  className="w-full h-full object-cover object-top" 
+                />
+              </div>
+            </div>
+          ) : (
+            /* Single Image Standard Display */
+            <img 
+              src={proj.image} 
+              alt={proj.title} 
+              className="w-full h-full object-cover object-top pt-7 group-hover:scale-105 transition-transform duration-500 ease-out" 
+            />
+          )}
         </div>
 
         {/* Content */}
@@ -575,24 +686,46 @@ function ProjectCard({
           ))}
         </div>
 
-        <div className={`pt-3 border-t flex items-center justify-between text-xs ${
+        <div className={`pt-3 border-t flex flex-wrap items-center justify-between gap-2 text-xs ${
           isDark ? 'border-zinc-800/80' : 'border-slate-200'
         }`}>
-          {proj.githubUrl && (
-            <a
-              href={proj.githubUrl}
-              target="_blank"
-              rel="noreferrer"
-              className={`group/btn inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
-                isDark 
-                  ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white hover:border-zinc-700' 
-                  : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-2xs'
-              }`}
-            >
-              <GithubIcon className="w-3.5 h-3.5" />
-              <span>Source Code</span>
-              <ArrowRight className="w-3 h-3 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
-            </a>
+          {proj.extraLinks && proj.extraLinks.length > 0 ? (
+            <div className="flex flex-wrap items-center gap-1.5">
+              {proj.extraLinks.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`group/btn inline-flex items-center gap-1 font-medium text-[11px] px-2.5 py-1 rounded-md border transition-all cursor-pointer ${
+                    isDark 
+                      ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white hover:border-zinc-700' 
+                      : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-2xs'
+                  }`}
+                >
+                  <GithubIcon className="w-3 h-3" />
+                  <span>{link.label}</span>
+                  <ArrowRight className="w-2.5 h-2.5 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
+                </a>
+              ))}
+            </div>
+          ) : (
+            proj.githubUrl && (
+              <a
+                href={proj.githubUrl}
+                target="_blank"
+                rel="noreferrer"
+                className={`group/btn inline-flex items-center gap-1.5 font-medium text-xs px-3 py-1.5 rounded-lg border transition-all cursor-pointer ${
+                  isDark 
+                    ? 'bg-zinc-900 text-zinc-200 border-zinc-800 hover:bg-zinc-800 hover:text-white hover:border-zinc-700' 
+                    : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 shadow-2xs'
+                }`}
+              >
+                <GithubIcon className="w-3.5 h-3.5" />
+                <span>Source Code</span>
+                <ArrowRight className="w-3 h-3 opacity-60 group-hover/btn:translate-x-0.5 transition-transform" />
+              </a>
+            )
           )}
           {proj.liveUrl && (
             <a
@@ -932,6 +1065,7 @@ export default function App() {
       description: 'AI-Powered Student Scholarship Finder, Eligibility Engine, & Application Management Portal built for the eGov Hackathon. Features OCR document parsing, NIDAS biometric face liveness eKYC, eGov PH SMS 2FA, and institutional reviewer workflows.',
       tags: ['React 19', 'Vite', 'Tailwind CSS', 'AI / OCR', 'GovTech APIs'],
       image: projEscholar,
+      images: [projEscholar, projEscholar1, projEscholar2],
       githubUrl: 'https://github.com/Prince-Rim/eScholar',
       highlight: true,
       award: 'Top 30 Finalist'
@@ -943,6 +1077,7 @@ export default function App() {
       description: 'Enterprise sales and inventory management web application for restaurant operations utilizing a hybrid Single-Spectrum Analysis + Long Short-Term Memory neural network for predictive food demand forecasting.',
       tags: ['ASP.NET Core', 'C#', 'Razor Pages', 'LSTM AI', 'SQL Server'],
       image: projLekatsu,
+      images: [projLekatsu, projLekatsu1, projLekatsu2],
       githubUrl: 'https://github.com/Prince-Rim/LeKatsuMNL',
       highlight: true
     },
@@ -953,6 +1088,7 @@ export default function App() {
       description: 'Real-time, interactive map-based community safety and hazard mapping platform with geotagged incident reports, emergency broadcasting, and community hazard alerts.',
       tags: ['JavaScript', 'Map API', 'Real-Time', 'Tailwind CSS'],
       image: projSafepoint,
+      images: [projSafepoint, projSafepoint1, projSafepoint2],
       githubUrl: 'https://github.com/Prince-Rim/SafePoint'
     },
     {
@@ -962,6 +1098,7 @@ export default function App() {
       description: 'Desktop point of sale and inventory management software built for JonBrix Motosupply with receipt printing, Apache POI spreadsheet export, and transactional MySQL database.',
       tags: ['Java', 'Swing / AWT', 'MySQL', 'Apache POI'],
       image: projJonbrix,
+      images: [projJonbrix, projJonbrix1, projJonbrix2],
       githubUrl: 'https://github.com/Prince-Rim/Java-Point-Of-Sales-System'
     },
     {
@@ -971,16 +1108,8 @@ export default function App() {
       description: 'Desktop cataloging platform for managing book collections, research theses, series tracking, borrower records, and transactional loan histories.',
       tags: ['Java', 'NetBeans', 'MySQL / SQL Server', 'JDBC'],
       image: projElibrary,
+      images: [projElibrary, projElibrary1, projElibrary2],
       githubUrl: 'https://github.com/Prince-Rim/Library-Management'
-    },
-    {
-      title: 'Music Player',
-      category: 'Web App',
-      badge: 'Interactive UI',
-      description: 'Responsive web audio streaming player with dynamic playlist queueing, spectrum controls, waveform visualization, and clean UI.',
-      tags: ['HTML5 Audio', 'JavaScript', 'CSS3'],
-      image: projMusicplayer,
-      githubUrl: 'https://github.com/Prince-Rim/Music-Player'
     },
     {
       title: 'Multi-Platform E-Commerce Shop',
@@ -989,7 +1118,23 @@ export default function App() {
       description: 'Dynamic e-commerce shopping platform with product catalog filtering, interactive cart state, checkout workflow, and multi-backend data architecture.',
       tags: ['JavaScript', 'PHP', 'MySQL', 'CSS3'],
       image: projEcommerce,
+      images: [projEcommerce, projEcommerce1, projEcommerce2],
       githubUrl: 'https://github.com/Prince-Rim/JavaScript_E-Commerce'
+    },
+    {
+      title: 'Mini Web Apps & Utilities',
+      category: 'Web & Desktop',
+      badge: 'Interactive Mini-Projects',
+      description: 'A showcase of foundational interactive applications highlighting audio APIs, game loop algorithms, and desktop utilities—featuring an HTML5 Music Player with dynamic playlist queueing, a win-checking Tic-Tac-Toe game, and an interactive Calculator.',
+      tags: ['HTML5 Audio', 'JavaScript', 'Java Swing', 'Algorithms', 'CSS3'],
+      image: projMusicplayer,
+      images: [projMusicplayer, projTicTacToe, projCalculator],
+      githubUrl: 'https://github.com/Prince-Rim/Music-Player',
+      extraLinks: [
+        { label: 'Music Player', url: 'https://github.com/Prince-Rim/Music-Player' },
+        { label: 'Tic-Tac-Toe', url: 'https://github.com/Prince-Rim/Simple-Tic-Toc-Toe-Game' },
+        { label: 'Calculator', url: 'https://github.com/Prince-Rim/Calculator-Java' }
+      ]
     }
   ];
 
