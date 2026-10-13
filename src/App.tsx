@@ -1850,10 +1850,10 @@ export default function App() {
               }`}
             >
               <p>
-                I am a 4th-year <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Information Technology</span> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and algorithm design.
+                I am a 4th-year <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Information Technology</span> student at <strong>STI Academic Center Novaliches (2023–Present)</strong> with a strong foundation in software engineering, database management, and responsive design.
               </p>
               <p>
-                My work focuses on developing <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>AI-integrated</span> full-stack web platforms, <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>enterprise .NET</span> backend solutions, and desktop database applications. Recognized as a <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Top 30 Finalist</span> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
+                My work focuses on developing <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>full-stack</span> web platforms, <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>enterprise .NET</span> backend solutions, and desktop database applications. Recognized as a <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Top 30 Finalist</span> nationwide in the <strong>eGov PH Hackathon 2026</strong> out of 150 teams for developing <em>eScholar</em>.
               </p>
               <p>
                 Graduated Junior High School and Senior High School TVL-ICT at <strong>Lagro High School (2017–2023)</strong> with <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-amber-400' : 'text-amber-600'}`}>High Honors</span>, completing industry work immersion at Centrive Technology and authoring the automated QR Code Attendance Management System for the research congress.
