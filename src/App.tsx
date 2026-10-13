@@ -1086,9 +1086,9 @@ export default function App() {
   const interests = [
     'Full-Stack Software Engineering',
     'Enterprise .NET & Distributed Architectures',
-    'Applied Machine Learning & Forecasting Models',
+    'Applied Machine Learning & AI-driven programming',
     'Relational Database Modeling & Optimization',
-    'GovTech & Biometric API Integrations',
+    'Cybersecurity & API Integrations',
     'Enterprise ERP Workflows (SAP S/4HANA)'
   ];
 
