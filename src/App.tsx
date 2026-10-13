@@ -1098,7 +1098,7 @@ export default function App() {
       institution: 'STI Academic Center Novaliches',
       period: '2023 – Present (Graduating 2026)',
       honors: 'SAP Certified & Capstone Lead Programmer',
-      details: 'Specializing in enterprise business systems, full-stack web architectures, demand forecasting algorithms, and government API integrations.',
+      details: 'Specializing in enterprise business systems, full-stack web architectures, AI-driven programming, and API integrations.',
       skills: ['Full-Stack Web', 'Enterprise ERP (SAP)', 'Software Architecture', 'Applied AI'],
       logo: stiLogo
     },
