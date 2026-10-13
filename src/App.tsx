@@ -1737,7 +1737,7 @@ export default function App() {
             <p className={`text-xs sm:text-base lg:text-lg leading-relaxed mb-6 font-normal max-w-3xl ${
               isDark ? 'text-zinc-300' : 'text-slate-700'
             }`}>
-              Information Technology student & developer specializing in <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>scalable full-stack</span> web platforms, enterprise .NET backends, and desktop database architectures. <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>Top 30 Finalist</span> in the nationwide eGov PH Hackathon 2026.
+              Information Technology student & developer specializing in <span className={`font-serif-italic font-normal text-[1.12em] ${isDark ? 'text-indigo-400' : 'text-indigo-600'}`}>scalable full-stack</span> web platforms, enterprise .NET backends, and desktop database architectures.
             </p>
 
             {/* Quick Metadata */}
